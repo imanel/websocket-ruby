@@ -6,7 +6,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../lib/libwebsocket')
 
 module EchoServer
   def receive_data(data)
-    @hs ||= LibWebSocket::Handshake::Server.new
+    @hs ||= LibWebSocket::OpeningHandshake::Server.new
     @frame ||= LibWebSocket::Frame.new
 
     if !@hs.done?

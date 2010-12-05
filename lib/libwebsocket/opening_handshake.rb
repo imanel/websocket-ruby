@@ -1,9 +1,9 @@
 module LibWebSocket
-  # This is a base class for LibWebSocket::Handshake::Client and LibWebSocket::Handshake::Server.
-  class Handshake
+  # This is a base class for LibWebSocket::OpeningHandshake::Client and LibWebSocket::OpeningHandshake::Server.
+  class OpeningHandshake
 
-    autoload :Client, "#{File.dirname(__FILE__)}/handshake/client"
-    autoload :Server, "#{File.dirname(__FILE__)}/handshake/server"
+    autoload :Client, "#{File.dirname(__FILE__)}/opening_handshake/client"
+    autoload :Server, "#{File.dirname(__FILE__)}/opening_handshake/server"
 
     attr_accessor :secure, :error
 

@@ -5,7 +5,7 @@ be one. It can be used in any server, event loop etc.
 
 ## Server handshake
 
-    h = LibWebSocket::Handshake::Server.new
+    h = LibWebSocket::OpeningHandshake::Server.new
 
     # Parse client request
     h.parse \<<EOF
@@ -34,7 +34,7 @@ be one. It can be used in any server, event loop etc.
 
 ## Client handshake
 
-    h = LibWebSocket::Handshake::Client.new(url => 'ws://example.com')
+    h = LibWebSocket::OpeningHandshake::Client.new(url => 'ws://example.com')
 
     # Create request
     h.to_s # GET /demo HTTP/1.1

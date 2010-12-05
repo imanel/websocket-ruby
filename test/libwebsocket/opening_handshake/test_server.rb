@@ -1,9 +1,9 @@
 require 'test_helper'
 
-class TestServerHandshake < Test::Unit::TestCase
+class TestServerOpeningHandshake < Test::Unit::TestCase
 
   def test_parse
-    h = LibWebSocket::Handshake::Server.new
+    h = LibWebSocket::OpeningHandshake::Server.new
     assert !h.done?
     assert h.parse('')
 
@@ -27,11 +27,11 @@ class TestServerHandshake < Test::Unit::TestCase
       "fQJ,fN/4F4!~K~MH";
 
     message = "GET /demo HTTP/1.1\x0d\x0a"
-    h = LibWebSocket::Handshake::Server.new
+    h = LibWebSocket::OpeningHandshake::Server.new
     assert h.parse(message)
     assert_nil h.error
 
-    h = LibWebSocket::Handshake::Server.new
+    h = LibWebSocket::OpeningHandshake::Server.new
     assert_nil h.parse("GET /demo\x0d\x0a")
     assert_equal 'Wrong request line', h.error
   end

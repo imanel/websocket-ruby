@@ -35,7 +35,7 @@ end
 
 class EchoServer
   def call(env)
-    @hs ||= LibWebSocket::Handshake::Server.new
+    @hs ||= LibWebSocket::OpeningHandshake::Server.new
     @connection = env['async.connection']
 
     if !@hs.done?

@@ -5,13 +5,13 @@ module LibWebSocket
 
   VERSION = '0.0.4' # Version of LibWebSocket
 
-  autoload :Cookie,    "#{File.dirname(__FILE__)}/libwebsocket/cookie"
-  autoload :Frame,     "#{File.dirname(__FILE__)}/libwebsocket/frame"
-  autoload :Handshake, "#{File.dirname(__FILE__)}/libwebsocket/handshake"
-  autoload :Message,   "#{File.dirname(__FILE__)}/libwebsocket/message"
-  autoload :Request,   "#{File.dirname(__FILE__)}/libwebsocket/request"
-  autoload :Response,  "#{File.dirname(__FILE__)}/libwebsocket/response"
-  autoload :Stateful,  "#{File.dirname(__FILE__)}/libwebsocket/stateful"
-  autoload :URL,       "#{File.dirname(__FILE__)}/libwebsocket/url"
+  autoload :Cookie,           "#{File.dirname(__FILE__)}/libwebsocket/cookie"
+  autoload :Frame,            "#{File.dirname(__FILE__)}/libwebsocket/frame"
+  autoload :OpeningHandshake, "#{File.dirname(__FILE__)}/libwebsocket/opening_handshake"
+  autoload :Message,          "#{File.dirname(__FILE__)}/libwebsocket/message"
+  autoload :Request,          "#{File.dirname(__FILE__)}/libwebsocket/request"
+  autoload :Response,         "#{File.dirname(__FILE__)}/libwebsocket/response"
+  autoload :Stateful,         "#{File.dirname(__FILE__)}/libwebsocket/stateful"
+  autoload :URL,              "#{File.dirname(__FILE__)}/libwebsocket/url"
 
 end

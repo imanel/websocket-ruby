@@ -1,12 +1,12 @@
 module LibWebSocket
-  class Handshake
+  class OpeningHandshake
     # Construct or parse a server WebSocket handshake. This module is written for
     # convenience, since using request and response directly requires the same code
     # again and again.
     #
     # SYNOPSIS
     #
-    #   h = LibWebSocket::Handshake::Server.new
+    #   h = LibWebSocket::OpeningHandshake::Server.new
     #
     #   # Parse client request
     #   h.parse \<<EOF
@@ -32,7 +32,7 @@ module LibWebSocket
     #          # Sec-WebSocket-Location: ws://example.com/demo
     #          #
     #          # fQJ,fN/4F4!~K~MH
-    class Server < Handshake
+    class Server < OpeningHandshake
 
       # Parse client request
       # @example

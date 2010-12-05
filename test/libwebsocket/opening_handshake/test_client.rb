@@ -1,9 +1,9 @@
 require 'test_helper'
 
-class TestServerHandshake < Test::Unit::TestCase
+class TestServerOpeningHandshake < Test::Unit::TestCase
 
   def test_to_s
-    h = LibWebSocket::Handshake::Client.new
+    h = LibWebSocket::OpeningHandshake::Client.new
     h.url = 'ws://example.com/demo'
 
     # Mocking
@@ -21,7 +21,7 @@ class TestServerHandshake < Test::Unit::TestCase
       "Content-Length: 8\x0d\x0a" +
       "\x0d\x0aTm[K T2u"
 
-    h = LibWebSocket::Handshake::Client.new(:url => 'ws://example.com')
+    h = LibWebSocket::OpeningHandshake::Client.new(:url => 'ws://example.com')
 
     # Mocking
     h.req.key1 = "18x 6]8vM;54 *(5:  {   U1]8  z [  8"
@@ -52,11 +52,11 @@ class TestServerHandshake < Test::Unit::TestCase
     assert h.done?
 
     message = "HTTP/1.1 101 WebSocket Protocol Handshake\x0d\x0a"
-    h = LibWebSocket::Handshake::Client.new(:url => 'ws://example.com')
+    h = LibWebSocket::OpeningHandshake::Client.new(:url => 'ws://example.com')
     assert h.parse(message)
     assert !h.error
 
-    h = LibWebSocket::Handshake::Client.new
+    h = LibWebSocket::OpeningHandshake::Client.new
     assert !h.parse("HTTP/1.0 foo bar\x0d\x0a")
     assert_equal 'Wrong response line', h.error
   end

@@ -4,7 +4,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../lib/libwebsocket')
 class WebSocket
 
   def initialize(url, params = {})
-    @hs ||= LibWebSocket::Handshake::Client.new(:url => url, :version => params[:version])
+    @hs ||= LibWebSocket::OpeningHandshake::Client.new(:url => url, :version => params[:version])
     @frame ||= LibWebSocket::Frame.new
 
     @socket = TCPSocket.new(@hs.url.host, @hs.url.port || 80)
