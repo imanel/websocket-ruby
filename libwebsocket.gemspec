@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{libwebsocket}
-  s.version = "0.0.4"
+  s.version = "0.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Bernard Potocki"]
@@ -26,18 +26,19 @@ Gem::Specification.new do |s|
      "lib/libwebsocket/cookie/request.rb",
      "lib/libwebsocket/cookie/response.rb",
      "lib/libwebsocket/frame.rb",
-     "lib/libwebsocket/handshake.rb",
-     "lib/libwebsocket/handshake/client.rb",
-     "lib/libwebsocket/handshake/server.rb",
      "lib/libwebsocket/message.rb",
+     "lib/libwebsocket/opening_handshake.rb",
+     "lib/libwebsocket/opening_handshake/client.rb",
+     "lib/libwebsocket/opening_handshake/server.rb",
      "lib/libwebsocket/request.rb",
      "lib/libwebsocket/response.rb",
      "lib/libwebsocket/stateful.rb",
      "lib/libwebsocket/url.rb",
+     "libwebsocket.gemspec",
      "test/libwebsocket/cookie/request.rb",
      "test/libwebsocket/cookie/response.rb",
-     "test/libwebsocket/handshake/test_client.rb",
-     "test/libwebsocket/handshake/test_server.rb",
+     "test/libwebsocket/opening_handshake/test_client.rb",
+     "test/libwebsocket/opening_handshake/test_server.rb",
      "test/libwebsocket/test_cookie.rb",
      "test/libwebsocket/test_frame.rb",
      "test/libwebsocket/test_message.rb",
@@ -58,8 +59,8 @@ Gem::Specification.new do |s|
   s.test_files = [
     "test/libwebsocket/cookie/request.rb",
      "test/libwebsocket/cookie/response.rb",
-     "test/libwebsocket/handshake/test_client.rb",
-     "test/libwebsocket/handshake/test_server.rb",
+     "test/libwebsocket/opening_handshake/test_client.rb",
+     "test/libwebsocket/opening_handshake/test_server.rb",
      "test/libwebsocket/test_cookie.rb",
      "test/libwebsocket/test_frame.rb",
      "test/libwebsocket/test_message.rb",
