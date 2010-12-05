@@ -106,19 +106,19 @@ module LibWebSocket
 
     # Construct a WebSocket request.
     #     # Constructor
-    #     my $req = Protocol::WebSocket::Request->new(
+    #     my $req = Protocol::WebSocket::Request.new(
     #         host          => 'example.com',
     #         resource_name => '/demo'
     #     );
-    #     $req->to_string; # GET /demo HTTP/1.1
-    #                      # Upgrade: WebSocket
-    #                      # Connection: Upgrade
-    #                      # Host: example.com
-    #                      # Origin: http://example.com
-    #                      # Sec-WebSocket-Key1: 32 0  3lD& 24+<    i u4  8! -6/4
-    #                      # Sec-WebSocket-Key2: 2q 4  2  54 09064
-    #                      #
-    #                      # x#####
+    #     $req.to_s # GET /demo HTTP/1.1
+    #               # Upgrade: WebSocket
+    #               # Connection: Upgrade
+    #               # Host: example.com
+    #               # Origin: http://example.com
+    #               # Sec-WebSocket-Key1: 32 0  3lD& 24+<    i u4  8! -6/4
+    #               # Sec-WebSocket-Key2: 2q 4  2  54 09064
+    #               #
+    #               # x#####
     def to_s
       string = ''
 
