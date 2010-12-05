@@ -158,7 +158,7 @@ module LibWebSocket
     protected
 
     def parse_first_line(line)
-      unless line == 'HTTP/1.1 101 WebSocket Protocol Handshake'
+      unless line =~ /\AHTTP\/1.1 101 .+/
         self.error = 'Wrong response line'
         return
       end
