@@ -26,7 +26,7 @@ class TestURL < Test::Unit::TestCase
     assert url.parse('ws://example.com/demo?foo=bar')
     assert !url.secure
     assert_equal 'example.com', url.host
-    assert_equal '/demo', url.resource_name
+    assert_equal '/demo?foo=bar', url.resource_name
   end
 
   def test_to_s
