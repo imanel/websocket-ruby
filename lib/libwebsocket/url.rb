@@ -36,9 +36,10 @@ module LibWebSocket
       self.host = host
       self.port = uri.port.to_s if uri.port
 
-      path = uri.path
-      path = '/' unless path && path != ''
-      self.resource_name = path
+      request_uri = uri.path
+      request_uri = '/' unless request_uri && request_uri != ''
+      request_uri += "?" + uri.query if uri.query
+      self.resource_name = request_uri
 
       return self
     end

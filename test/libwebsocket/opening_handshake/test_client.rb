@@ -4,14 +4,14 @@ class TestServerOpeningHandshake < Test::Unit::TestCase
 
   def test_to_s
     h = LibWebSocket::OpeningHandshake::Client.new
-    h.url = 'ws://example.com/demo'
+    h.url = 'ws://example.com/demo?param=true&another=hello'
 
     # Mocking
     h.req.key1 = "18x 6]8vM;54 *(5:  {   U1]8  z [  8"
     h.req.key2 = "1_ tx7X d  <  nw  334J702) 7]o}` 0"
     h.req.challenge = "Tm[K T2u"
 
-    assert_equal h.to_s, "GET /demo HTTP/1.1\x0d\x0a" +
+    assert_equal h.to_s, "GET /demo?param=true&another=hello HTTP/1.1\x0d\x0a" +
       "Upgrade: WebSocket\x0d\x0a" +
       "Connection: Upgrade\x0d\x0a" +
       "Host: example.com\x0d\x0a" +
