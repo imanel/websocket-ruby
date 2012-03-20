@@ -20,6 +20,7 @@ begin
     gemspec.homepage = "http://github.com/imanel/libwebsocket"
     gemspec.authors = ["Bernard Potocki"]
     gemspec.files.exclude ".gitignore"
+    gemspec.add_dependency "addressable"
   end
 rescue LoadError
   puts "Jeweler not available. Install it with: gem install jeweler"
