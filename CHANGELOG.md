@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.3 / 2012-03-21
+
+- add "addressable" gem to dependencies
+- fix some branch errors from 0.1.2
+
 ## 0.1.1 / 2011-10-24
 
 - Fixed bug that prevented query strings from being included in requests

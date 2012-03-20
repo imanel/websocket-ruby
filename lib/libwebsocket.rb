@@ -3,7 +3,7 @@
 # or clients to provide WebSocket support.
 module LibWebSocket
 
-  VERSION = '0.1.2' # Version of LibWebSocket
+  VERSION = '0.1.3' # Version of LibWebSocket
 
   autoload :Cookie,           "#{File.dirname(__FILE__)}/libwebsocket/cookie"
   autoload :Frame,            "#{File.dirname(__FILE__)}/libwebsocket/frame"
