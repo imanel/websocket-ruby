@@ -13,20 +13,43 @@ module EventMachine
       def on_ping(&blk);     @on_ping = blk;    end # Called when ping message is received from client
       def on_pong(&blk);     @on_pong = blk;    end # Called when pond message is received from client
 
-      # Close connection
-      def close
+      # Send data to client
+      # Return true if data was send, otherwise call on_error if needed.
+      def send(data, options = {})
+        type = options[:type] || :text
+        unless type == :plain
+          frame = WebSocket::Frame::Outgoing.new(:version => @handshake.version, :data => data, :type => type)
+          if !frame.supported?
+            trigger_on_error("Frame type '#{type}' is not supported in protocol version #{@handshake.version}")
+            return false
+          elsif !frame.require_sending?
+            return false
+          end
+          data = frame.to_binary
+        end
+        send_data(data)
+        true
       end
 
-      # Send data to client
-      def send(data)
+      # Close connection
+      # Return true if connection is closed immediately
+      def close
+        return false if @state == :open && send('', :type => :close)
+        @state = :closed
+        close_connection
+        true
       end
 
       # Send ping message to client
+      # Return false if protocol version is not supporting ping requests
       def ping(data = '')
+        send(data, :type => :ping)
       end
 
       # Send pong message to client
+      # Return false if protocol version is not supporting pong requests.
       def pong(data = '')
+        send(data, :type => :pong)
       end
 
       ############################
@@ -51,11 +74,15 @@ module EventMachine
         when :connecting then handle_connecting(data)
         when :open then handle_open(data)
         when :closing then handle_closing(data)
-        when :closed then handle_closed(data)
         end
       end
 
       def unbind
+        unless @state == :closed
+          @state = :closed
+          close
+          trigger_on_close
+        end
       end
 
       #######################
@@ -82,13 +109,13 @@ module EventMachine
         @handshake << data
         return unless @handshake.finished?
         if @handshake.valid?
-          send(@handshake.response.to_s)
+          send(@handshake.response.to_s, :type => :plain)
           @frame = WebSocket::Frame::Incoming.new(:version => @handshake.version)
           @state = :open
           trigger_on_open
         else
           trigger_on_error(@handshake.error)
-          close_connection
+          close
         end
       end
 
@@ -97,6 +124,7 @@ module EventMachine
         while frame = @frame.next
           case frame.type
           when :close
+            @state = :closing
             close
             trigger_on_close
           when :ping
@@ -113,9 +141,9 @@ module EventMachine
       end
 
       def handle_closing(data)
-      end
-
-      def handle_closed(data)
+        @state = :closed
+        close
+        trigger_on_close
       end
 
     end
