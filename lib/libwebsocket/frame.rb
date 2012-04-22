@@ -30,7 +30,7 @@ module LibWebSocket
     def append(string = nil)
       return unless string.is_a?(String)
 
-      @buffer += string
+      @buffer << string.force_encoding("ASCII-8BIT")
 
       return self
     end
