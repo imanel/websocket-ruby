@@ -6,12 +6,12 @@ module EventMachine
       ### API ###
       ###########
 
-      def on_open(&blk);     @on_open = blk;    end # Called when connection is opened
-      def on_close(&blk);    @on_close = blk;   end # Called when connection is closed
-      def on_error(&blk);    @on_error = blk;   end # Called when error occurs
-      def on_message(&blk);  @on_message = blk; end # Called when message is received from client
-      def on_ping(&blk);     @on_ping = blk;    end # Called when ping message is received from client
-      def on_pong(&blk);     @on_pong = blk;    end # Called when pond message is received from client
+      def onopen(&blk);     @onopen = blk;    end # Called when connection is opened
+      def onclose(&blk);    @onclose = blk;   end # Called when connection is closed
+      def onerror(&blk);    @onerror = blk;   end # Called when error occurs
+      def onmessage(&blk);  @onmessage = blk; end # Called when message is received from client
+      def onping(&blk);     @onping = blk;    end # Called when ping message is received from client
+      def onpong(&blk);     @onpong = blk;    end # Called when pond message is received from client
 
       # Send data to client
       # Return true if data was send, otherwise call on_error if needed.
@@ -20,7 +20,7 @@ module EventMachine
         unless type == :plain
           frame = WebSocket::Frame::Outgoing.new(:version => @handshake.version, :data => data, :type => type)
           if !frame.supported?
-            trigger_on_error("Frame type '#{type}' is not supported in protocol version #{@handshake.version}")
+            trigger_onerror("Frame type '#{type}' is not supported in protocol version #{@handshake.version}")
             return false
           elsif !frame.require_sending?
             return false
@@ -81,7 +81,7 @@ module EventMachine
         unless @state == :closed
           @state = :closed
           close
-          trigger_on_close
+          trigger_onclose
         end
       end
 
@@ -91,14 +91,14 @@ module EventMachine
 
       private
 
-      ['on_open', 'on_close'].each do |m|
+      ['onopen', 'onclose'].each do |m|
         define_method "trigger_#{m}" do
           callback = instance_variable_get("@#{m}")
           callback.call if callback
         end
       end
 
-      ['on_error', 'on_message', 'on_ping', 'on_pong'].each do |m|
+      ['onerror', 'onmessage', 'onping', 'onpong'].each do |m|
         define_method "trigger_#{m}" do |data|
           callback = instance_variable_get("@#{m}")
           callback.call(data) if callback
@@ -112,9 +112,9 @@ module EventMachine
           send(@handshake.response.to_s, :type => :plain)
           @frame = WebSocket::Frame::Incoming.new(:version => @handshake.version)
           @state = :open
-          trigger_on_open
+          trigger_onopen
         else
-          trigger_on_error(@handshake.error)
+          trigger_onerror(@handshake.error)
           close
         end
       end
@@ -126,16 +126,16 @@ module EventMachine
           when :close
             @state = :closing
             close
-            trigger_on_close
+            trigger_onclose
           when :ping
             pong(frame.to_s)
-            trigger_on_ping(frame.to_s)
+            trigger_onping(frame.to_s)
           when :pong
-            trigger_on_pong(frame.to_s)
+            trigger_onpong(frame.to_s)
           when :text
-            trigger_on_message(frame.to_s)
+            trigger_onmessage(frame.to_s)
           when :binary
-            trigger_on_message(frame.to_binary)
+            trigger_onmessage(frame.to_binary)
           end
         end
       end
@@ -143,7 +143,7 @@ module EventMachine
       def handle_closing(data)
         @state = :closed
         close
-        trigger_on_close
+        trigger_onclose
       end
 
     end
