@@ -1,5 +1,29 @@
-module EventMachine
-  module WebSocket
+# Example WebSocket Server (using EventMachine)
+module WebSocket
+  module Server
+
+    # Start server
+    # Usage:
+    #   WebSocket::Server.start(:host => "0.0.0.0", :port => 8080) do |ws|
+    #     ws.onopen    { ws.send "Hello Client!"}
+    #     ws.onmessage { |msg| ws.send "Pong: #{msg}" }
+    #     ws.onclose   { puts "WebSocket closed" }
+    #     ws.onerror   { |e| puts "Error: #{e}" }
+    #   end
+    def self.start(options, &block)
+      EM.epoll
+      EM.run do
+
+        trap("TERM") { stop }
+        trap("INT")  { stop }
+
+        EventMachine::start_server(options[:host], options[:port],
+          WebSocket::Server::Connection, options) do |c|
+          blk.call(c)
+        end
+      end
+    end
+
     class Connection < EventMachine::Connection
 
       ###########
