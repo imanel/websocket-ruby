@@ -37,7 +37,7 @@ module WebSocket
 
       def include_version
         case @version
-          when 13 then include Handler::Handler13
+          when 13 then extend Handler::Handler13
           else set_error('Unknown version') and return false
         end
         return true
@@ -46,7 +46,7 @@ module WebSocket
       HEADER = /^([^:]+):\s*(.+)$/
 
       def parse_data
-        header, @leftovers = data.split("\r\n\r\n", 2)
+        header, @leftovers = @data.split("\r\n\r\n", 2)
         return unless @leftovers # The whole header has not been received yet.
 
         lines = header.split("\r\n")
