@@ -37,7 +37,7 @@ module WebSocket
 
       def post_init
         @state = :connecting
-        @handshake = WebSocket::Handshake::Server.new
+        @handshake = WebSocket::Handshake::Server.new(:secure => @secure)
         start_tls(@tls_options) if @secure
       end
 

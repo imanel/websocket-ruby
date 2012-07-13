@@ -7,6 +7,10 @@ module WebSocket
 
         private
 
+        def header_line
+          "HTTP/1.1 101 Web Socket Protocol Handshake"
+        end
+
         def handshake_keys
           [
             ["Upgrade", "WebSocket"],
@@ -14,13 +18,6 @@ module WebSocket
             ["WebSocket-Origin", @headers['origin']],
             ["WebSocket-Location", handshake_location]
           ]
-        end
-
-        def handshake_location
-          location = @host.to_s
-          location << ":#{@port}" if @port
-          location << @path
-          location << "?#{@query}" if @query
         end
 
       end

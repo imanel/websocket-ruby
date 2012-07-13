@@ -4,7 +4,7 @@ require 'base64'
 module WebSocket
   module Handshake
     module Handler
-      module Server04
+      module Server06
 
         include Server
 

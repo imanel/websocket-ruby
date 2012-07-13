@@ -9,12 +9,16 @@ module WebSocket
 
         private
 
+        def header_line
+          "HTTP/1.1 101 WebSocket Protocol Handshake"
+        end
+
         def handshake_keys
           [
             ["Upgrade", "WebSocket"],
             ["Connection", "Upgrade"],
-            ["Sec-WebSocket-Location", handshake_location],
-            ["Sec-WebSocket-Origin", @headers['origin']]
+            ["Sec-WebSocket-Origin", @headers['origin']],
+            ["Sec-WebSocket-Location", handshake_location]
           ]
         end
 
@@ -32,7 +36,7 @@ module WebSocket
           # Refer to 5.2 4-9 of the draft 76
           first = @headers['sec-websocket-key1']
           second = @headers['sec-websocket-key2']
-          third = @leftovers
+          third = @leftovers.strip
 
           sum = [numbers_over_spaces(first)].pack("N*") +
                 [numbers_over_spaces(second)].pack("N*") +
