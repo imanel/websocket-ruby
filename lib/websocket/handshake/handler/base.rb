@@ -1,6 +1,6 @@
 module WebSocket
-  module Handler
-    module Handshake
+  module Handshake
+    module Handler
       module Base
 
         def to_s

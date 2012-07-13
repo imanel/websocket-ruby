@@ -2,8 +2,8 @@ require 'digest/sha1'
 require 'base64'
 
 module WebSocket
-  module Handler
-    module Handshake
+  module Handshake
+    module Handler
       module Server04
 
         include Server

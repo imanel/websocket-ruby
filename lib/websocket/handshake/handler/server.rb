@@ -1,6 +1,6 @@
 module WebSocket
-  module Handler
-    module Handshake
+  module Handshake
+    module Handler
       module Server
 
         include Base

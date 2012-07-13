@@ -35,14 +35,6 @@ module WebSocket
         @error = message
       end
 
-      def include_version
-        case @version
-          when 13 then extend Handler::Handler13
-          else set_error('Unknown version') and return false
-        end
-        return true
-      end
-
       HEADER = /^([^:]+):\s*(.+)$/
 
       def parse_data

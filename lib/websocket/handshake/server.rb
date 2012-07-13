@@ -21,6 +21,14 @@ module WebSocket
         include_version
       end
 
+      def include_version
+        case @version
+          when (4..13) then extend Handler::Server04
+          else set_error('Unknown version') and return false
+        end
+        return true
+      end
+
       PATH = /^(\w+) (\/[^\s]*) HTTP\/1\.1$/
 
       def parse_first_line(line)
