@@ -1,6 +1,6 @@
 module WebSocket
   module Handshake
-    class Client
+    class Client < Base
 
     end
   end

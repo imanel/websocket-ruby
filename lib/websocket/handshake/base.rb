@@ -1,6 +1,6 @@
 module WebSocket
   module Handshake
-    class Server < Base
+    class Base
 
     end
   end

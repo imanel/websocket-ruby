@@ -1,6 +1,6 @@
 module WebSocket
   module Frame
-    class Outgoing < Base
+    class Base
 
     end
   end

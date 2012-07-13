@@ -1,6 +1,6 @@
 module WebSocket
   module Frame
-    class Incoming
+    class Incoming < Base
 
     end
   end
