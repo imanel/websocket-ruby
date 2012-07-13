@@ -1,4 +1,6 @@
+require 'rubygems'
 require 'eventmachine'
+require "#{File.expand_path(File.dirname(__FILE__))}/../lib/websocket"
 
 module WebSocket
   module EventMachine

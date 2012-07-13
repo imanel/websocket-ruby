@@ -1,4 +1,4 @@
-require './base'
+require "#{File.expand_path(File.dirname(__FILE__))}/base"
 
 # Example WebSocket Client (using EventMachine)
 # @example Usage
@@ -16,7 +16,7 @@ module WebSocket
       # @option args [Integer] :version Version of protocol to use(default = 13)
       def self.connect(args = {})
         args[:port] ||= 80
-        EventMachine.connect args[:host], args[:port], self, args
+        ::EventMachine.connect args[:host], args[:port], self, args
       end
 
       # Initialize connection

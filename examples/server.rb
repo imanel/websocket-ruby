@@ -1,8 +1,8 @@
-require './base'
+require "#{File.expand_path(File.dirname(__FILE__))}/base"
 
 # Example WebSocket Server (using EventMachine)
 # @example Usage
-#   WebSocket::Example::Server.start(:host => "0.0.0.0", :port => 8080) do |ws|
+#   WebSocket::EventMachine::Server.start(:host => "0.0.0.0", :port => 8080) do |ws|
 #     ws.onopen    { ws.send "Hello Client!"}
 #     ws.onmessage { |msg| ws.send "Pong: #{msg}" }
 #     ws.onclose   { puts "WebSocket closed" }
@@ -17,8 +17,8 @@ module WebSocket
       # @option args [String] :host The host IP/DNS name
       # @option args [Integer] :port The port to connect too(default = 80)
       def self.start(options, &block)
-        EventMachine::start_server(options[:host], options[:port], self, options) do |c|
-          blk.call(c)
+        ::EventMachine::start_server(options[:host], options[:port], self, options) do |c|
+          block.call(c)
         end
       end
 
