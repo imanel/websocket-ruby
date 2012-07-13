@@ -15,17 +15,6 @@ module WebSocket
 
         private
 
-        def handshake_keys
-          handshake_base_keys + handshake_specific_keys
-        end
-
-        def handshake_base_keys
-          [
-            ["Upgrade", "websocket"],
-            ["Connection", "Upgrade"]
-          ]
-        end
-
         def finishing_line
           ""
         end

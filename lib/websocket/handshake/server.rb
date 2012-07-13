@@ -23,7 +23,9 @@ module WebSocket
 
       def include_version
         case @version
-          when (4..13) then extend Handler::Server04
+          when 75 then extend Handler::Server75
+          when 76, 0..3 then extend Handler::Server76
+          when 4..13 then extend Handler::Server04
           else set_error('Unknown version') and return false
         end
         return true

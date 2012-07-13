@@ -10,8 +10,10 @@ module WebSocket
 
         private
 
-        def handshake_specific_keys
+        def handshake_keys
           [
+            ["Upgrade", "websocket"],
+            ["Connection", "Upgrade"],
             ["Sec-WebSocket-Accept", signature]
           ]
         end
