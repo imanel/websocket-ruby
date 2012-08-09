@@ -31,8 +31,7 @@ module WebSocket
         case @version
           when 75 then extend Handler::Server75
           when 76, 0..3 then extend Handler::Server76
-          when 4..5 then extend Handler::Server04
-          when 6..13 then extend Handler::Server06
+          when 4..13 then extend Handler::Server04
           else set_error('Unknown version') and return false
         end
         return true

@@ -8,7 +8,6 @@ module WebSocket
 
       autoload :Server,   "#{::WebSocket::ROOT}/websocket/handshake/handler/server"
       autoload :Server04, "#{::WebSocket::ROOT}/websocket/handshake/handler/server04"
-      autoload :Server06, "#{::WebSocket::ROOT}/websocket/handshake/handler/server06"
       autoload :Server75, "#{::WebSocket::ROOT}/websocket/handshake/handler/server75"
       autoload :Server76, "#{::WebSocket::ROOT}/websocket/handshake/handler/server76"
 

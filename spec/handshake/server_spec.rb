@@ -19,18 +19,10 @@ describe 'Server handshake' do
     it_should_behave_like 'all drafts'
   end
 
-  # context "draft 04" do
-  #   let(:version) { 06 }
-  #   let(:client_request) { client_handshake_04(@request_params || {}) }
-  #   let(:server_response) { server_handshake_04(@request_params || {}) }
-
-  #   it_should_behave_like 'all drafts'
-  # end
-
-  context "draft 06" do
-    let(:version) { 06 }
-    let(:client_request) { client_handshake_06(@request_params || {}) }
-    let(:server_response) { server_handshake_06(@request_params || {}) }
+  context "draft 04" do
+    let(:version) { 04 }
+    let(:client_request) { client_handshake_04(@request_params || {}) }
+    let(:server_response) { server_handshake_04(@request_params || {}) }
 
     it_should_behave_like 'all drafts'
   end
