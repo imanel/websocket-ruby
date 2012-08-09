@@ -1,4 +1,13 @@
 shared_examples_for 'all drafts' do
+  def validate_request
+    handshake << client_request
+
+    handshake.error.should be_nil
+    handshake.should be_finished
+    handshake.should be_valid
+    handshake.to_s.should eql(server_response)
+  end
+
   it "should be valid" do
     handshake << client_request
 
