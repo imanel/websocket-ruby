@@ -25,9 +25,9 @@ def client_handshake_76(args = {})
 GET #{args[:path] || "/demo"} HTTP/1.1\r
 Host: #{args[:host] || "example.com"}#{":#{args[:port]}" if args[:port]}\r
 Connection: Upgrade\r
-Sec-WebSocket-Key2: 12998 5 Y3 1  .P00\r
+Sec-WebSocket-Key2: #{args[:key2] || "12998 5 Y3 1  .P00"}\r
 Upgrade: WebSocket\r
-Sec-WebSocket-Key1: 4 @1  46546xW%0l 1 5\r
+Sec-WebSocket-Key1: #{args[:key1] || "4 @1  46546xW%0l 1 5"}\r
 Origin: http://example.com\r
 \r
 ^n:ds[4U

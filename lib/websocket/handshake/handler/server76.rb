@@ -34,12 +34,12 @@ module WebSocket
 
         def challenge_response
           # Refer to 5.2 4-9 of the draft 76
-          first = @headers['sec-websocket-key1']
-          second = @headers['sec-websocket-key2']
+          first = numbers_over_spaces(@headers['sec-websocket-key1']) || return
+          second = numbers_over_spaces(@headers['sec-websocket-key2']) || return
           third = @leftovers.strip
 
-          sum = [numbers_over_spaces(first)].pack("N*") +
-                [numbers_over_spaces(second)].pack("N*") +
+          sum = [first].pack("N*") +
+                [second].pack("N*") +
                 third
           Digest::MD5.digest(sum)
         end
@@ -49,14 +49,14 @@ module WebSocket
 
           spaces = string.scan(/ /).size
           # As per 5.2.5, abort the connection if spaces are zero.
-          set_error("Websocket Key1 or Key2 does not contain spaces - this is a symptom of a cross-protocol attack") and return 0 if spaces == 0
+          set_error("Websocket Key1 or Key2 does not contain spaces - this is a symptom of a cross-protocol attack") and return if spaces == 0
 
           # As per 5.2.6, abort if numbers is not an integral multiple of spaces
-          set_error("Invalid Key #{string.inspect}") and return 0 if numbers % spaces != 0
+          set_error("Invalid Key #{string.inspect}") and return if numbers % spaces != 0
 
           quotient = numbers / spaces
 
-          set_error("Challenge computation out of range for key #{string.inspect}") and return 0 if quotient > 2**32-1
+          set_error("Challenge computation out of range for key") and return if quotient > 2**32-1
 
           return quotient
         end

@@ -17,7 +17,7 @@ module WebSocket
       end
 
       def finished?
-        @state == :finished
+        @state == :finished || @state == :error
       end
 
       def valid?

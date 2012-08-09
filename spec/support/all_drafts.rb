@@ -59,4 +59,19 @@ shared_examples_for 'all drafts' do
     @request_params = { :port => 123 }
     validate_request
   end
+
+  it "should recognize unfinished requests" do
+    handshake << client_request[0..-10]
+
+    handshake.should_not be_finished
+    handshake.should_not be_valid
+  end
+
+  it "should disallow requests with invalid request method" do
+    handshake << client_request.gsub('GET', 'POST')
+
+    handshake.should be_finished
+    handshake.should_not be_valid
+    handshake.error.should eql('Must be GET request')
+  end
 end
