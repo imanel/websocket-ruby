@@ -8,6 +8,12 @@ module WebSocket
         support_type?
       end
 
+      # Should current frame be sent? Exclude empty frames etc.
+      # @return [Boolean] true if frame should be sent
+      def require_sending?
+        raise NotImplementedError
+      end
+
       # Return raw frame formatted for sending.
       def to_s
         encode_frame

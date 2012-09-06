@@ -23,12 +23,6 @@ module WebSocket
         !!@error
       end
 
-      # Should current frame be sent? Exclude empty frames etc.
-      # @return [Boolean] true if frame should be sent
-      def require_sending?
-        raise NotImplementedError
-      end
-
       private
 
       def set_handler
