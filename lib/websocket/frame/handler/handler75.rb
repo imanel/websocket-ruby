@@ -37,7 +37,7 @@ module WebSocket
               break unless (b & 0x80) == 0x80
             end
 
-            set_error("Frame length too long (#{@data.size} bytes)") and return if length > MAX_FRAME_SIZE
+            set_error(:frame_too_long) and return if length > MAX_FRAME_SIZE
 
             unless getbyte(@data, pointer+length-1) == nil
               # Straight from spec - I'm sure this isn't crazy...
@@ -53,10 +53,10 @@ module WebSocket
           else
             # If the high-order bit of the /frame type/ byte is _not_ set
 
-            set_error("Invalid frame received") and return if getbyte(@data, 0) != 0x00
+            set_error(:invalid_frame) and return if getbyte(@data, 0) != 0x00
 
             # Addition to the spec to protect against malicious requests
-            set_error("Frame length too long (#{@data.size} bytes)") and return if @data.size > MAX_FRAME_SIZE
+            set_error(:frame_too_long) and return if @data.size > MAX_FRAME_SIZE
 
             msg = @data.slice!(/\A\x00[^\xff]*\xff/)
             if msg
