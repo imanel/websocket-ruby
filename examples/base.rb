@@ -32,7 +32,7 @@ module WebSocket
           elsif !frame.require_sending?
             return false
           end
-          data = frame.to_binary
+          data = frame.to_s
         end
         send_data(data)
         true
@@ -129,7 +129,7 @@ module WebSocket
           when :text
             trigger_onmessage(frame.to_s)
           when :binary
-            trigger_onmessage(frame.to_binary)
+            trigger_onmessage(frame.to_s)
           end
         end
       end
