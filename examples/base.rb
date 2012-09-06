@@ -103,7 +103,7 @@ module WebSocket
         @handshake << data
         return unless @handshake.finished?
         if @handshake.valid?
-          send(@handshake.to_s, :type => :plain) unless @handshake.should_respond?
+          send(@handshake.to_s, :type => :plain) if @handshake.should_respond?
           @frame = WebSocket::Frame::Incoming.new(:version => @handshake.version)
           @state = :open
           trigger_onopen

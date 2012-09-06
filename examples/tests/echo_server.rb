@@ -10,7 +10,6 @@ EM.run do
 
     ws.onopen do
       puts "Client connected"
-      ws.send "Hello Client!"
     end
 
     ws.onmessage do |msg|
