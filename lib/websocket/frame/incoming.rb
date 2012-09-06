@@ -4,6 +4,7 @@ module WebSocket
 
       def initialize(args = {})
         @decoded = args[:decoded] || false
+        super
       end
 
       # If data is still encoded after receiving then this is false. After calling "next" you will receive
@@ -22,9 +23,10 @@ module WebSocket
 
       # Return next complete frame.
       # This function will merge together splitted frames and return as combined content.
+      # Check #error if nil received to check for eventual parsing errors
       # @return [WebSocket::Frame::Incoming] Single incoming frame or nil if no complete frame is available.
       def next
-        handler.decode_frame(@data) unless decoded?
+        decode_frame unless decoded?
       end
 
       # If decoded then this will return frame content. Otherwise it will return raw frame.

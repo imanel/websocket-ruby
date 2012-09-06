@@ -3,7 +3,7 @@ module WebSocket
     class Base
       DEFAULT_VERSION = 13
 
-      attr_reader :data, :type, :version
+      attr_reader :data, :type, :version, :error
 
       # Initialize frame
       # @param args [Hash] Arguments for frame
@@ -11,9 +11,16 @@ module WebSocket
       # @option args [String] :type Type of frame - available types are "text", "binary", "ping", "pong" and "close"(support depends on draft version)
       # @option args [String] :data default data for frame
       def initialize(args = {})
-        @version = args[:version] || DEFAULT_VERSION
         @type = args[:type]
         @data = args[:data] || ""
+        @version = args[:version] || DEFAULT_VERSION
+        set_handler
+      end
+
+      # Check if some errors occured
+      # @return [Boolean] True if error is set
+      def error?
+        !!@error
       end
 
       # Should current frame be sent? Exclude empty frames etc.
@@ -24,8 +31,8 @@ module WebSocket
 
       private
 
-      def handler
-        @handler ||= case @version
+      def set_handler
+        case @version
           when 75..76 then extend Handler::Handler75
           when 0..2 then extend Handler::Handler75
           # Not implemented yet
@@ -33,8 +40,12 @@ module WebSocket
           # when 4 then extend Handler::Handler04
           # when 5 then extend Handler::Handler05
           # when 7 then extend Handler::Handler07
-          else set_error('Unknown version') and return false
+          else set_error('Unknown version') and return
         end
+      end
+
+      def set_error(message)
+        @error = message
       end
 
     end

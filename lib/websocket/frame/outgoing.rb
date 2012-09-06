@@ -5,12 +5,12 @@ module WebSocket
       # Is selected type supported by current draft version?
       # @return [Boolean] true if frame type is supported
       def supported?
-        handler.support?(@type)
+        support_type?
       end
 
       # Return raw frame formatted for sending.
       def to_s
-        handler.encode_frame(@data, :type => @type)
+        encode_frame
       end
 
     end
