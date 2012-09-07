@@ -11,7 +11,9 @@ shared_examples_for 'valid_incoming_frame' do
 
   it "should have specified number of returned frames" do
     decoded_text_array.each_with_index do |da, index|
-      subject.next.should_not be_nil, "Should return frame for #{da}, #{frame_type_array[index]}"
+      n = subject.next
+      n.should_not be_nil, "Should return frame for #{da}, #{frame_type_array[index]}"
+      n.class.should eql(WebSocket::Frame::Incoming), "Should be WebSocket::Frame::Incoming, #{n} received instead"
     end
     subject.next.should be_nil
     subject.error.should eql(error)
