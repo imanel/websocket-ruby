@@ -7,6 +7,12 @@ module WebSocket
 
         include Base
 
+        def supported_frames
+          [:text, :binary, :close, :ping, :pong]
+        end
+
+        private
+
         def encode_frame
           frame = ''
 
@@ -33,14 +39,8 @@ module WebSocket
         def decode_frame
         end
 
-        private
-
         # This allows flipping the more bit to fin for draft 04
         def fin; false; end
-
-        def supported_frames
-          [:text, :binary, :close, :ping, :pong]
-        end
 
         FRAME_TYPES = {
           :continuation => 0,

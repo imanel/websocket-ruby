@@ -7,6 +7,12 @@ module WebSocket
 
         include Base
 
+        def supported_frames
+          [:text, :close]
+        end
+
+        private
+
         def encode_frame
           case @type
             when :close then "\xff\x00"
@@ -65,12 +71,6 @@ module WebSocket
               self.class.new(:version => version, :type => :text, :data => msg, :decoded => true)
             end
           end
-        end
-
-        private
-
-        def supported_frames
-          [:text, :close]
         end
 
       end

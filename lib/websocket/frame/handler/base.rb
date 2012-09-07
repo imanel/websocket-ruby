@@ -10,6 +10,13 @@ module WebSocket
           supported_frames.include?(@type)
         end
 
+        # Implement in submodules
+        def supported_frames
+          raise NotImplementedError
+        end
+
+        private
+
         # Convert data to raw frame ready to send to client
         def encode_frame
           raise NotImplementedError
@@ -17,13 +24,6 @@ module WebSocket
 
         # Convert raw data to decoded frame
         def decode_frame
-          raise NotImplementedError
-        end
-
-        private
-
-        # Implement in submodules
-        def supported_frames
           raise NotImplementedError
         end
 
