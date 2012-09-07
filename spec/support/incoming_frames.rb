@@ -1,5 +1,5 @@
 shared_examples_for 'valid_incoming_frame' do
-  let(:decoded_text_array) { Array(decoded_text) }
+  let(:decoded_text_array) { decoded_text == "" ? [""] : Array(decoded_text) } # Bug in Ruby 1.8 -> Array("") => [] instead of [""]
   let(:frame_type_array) { Array(frame_type) }
 
   its(:class) { should eql(WebSocket::Frame::Incoming) }
