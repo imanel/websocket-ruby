@@ -11,7 +11,7 @@ module WebSocket
       # Should current frame be sent? Exclude empty frames etc.
       # @return [Boolean] true if frame should be sent
       def require_sending?
-        !(@data.empty? && [:text, :binary].include?(@type))
+        !(error? || @data.empty? && [:text, :binary].include?(@type))
       end
 
       # Return raw frame formatted for sending.

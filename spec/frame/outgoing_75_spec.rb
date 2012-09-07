@@ -7,6 +7,7 @@ describe 'Outgoing frame draft 75' do
   let(:encoded_text) { "\x00\xFF" }
   let(:frame_type) { :text }
   let(:require_sending) { false }
+  let(:error) { nil }
   subject { frame }
 
   it_should_behave_like 'valid_outgoing_frame'

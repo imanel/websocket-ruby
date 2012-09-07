@@ -28,6 +28,9 @@ module WebSocket
 
           frame << @data
           frame
+        rescue WebSocket::Error => e
+          set_error(e.message)
+          nil
         end
 
         def decode_frame

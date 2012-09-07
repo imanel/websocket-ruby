@@ -7,6 +7,7 @@ describe 'Outgoing frame draft 04' do
   let(:encoded_text) { "\x04\x00" }
   let(:frame_type) { :text }
   let(:require_sending) { false }
+  let(:error) { nil }
   subject { frame }
 
   it_should_behave_like 'valid_outgoing_frame'
@@ -60,6 +61,15 @@ describe 'Outgoing frame draft 04' do
     let(:decoded_text) { "a" * 65536 }
     let(:encoded_text) { "\x05\x7F\x00\x00\x00\x00\x00\x01\x00\x00" + decoded_text }
     let(:require_sending) { true }
+
+    it_should_behave_like 'valid_outgoing_frame'
+  end
+
+  context "should return error for unknown frame type" do
+    let(:frame_type) { :unknown }
+    let(:decoded_text) { "Hello" }
+    let(:encoded_text) { nil }
+    let(:error) { :unknown_frame_type }
 
     it_should_behave_like 'valid_outgoing_frame'
   end
