@@ -35,7 +35,7 @@ module WebSocket
           frame << @data
           frame
         rescue WebSocket::Error => e
-          set_error(e.message) and return
+          set_error(e.message.to_sym) and return
         end
 
         def decode_frame
@@ -109,7 +109,7 @@ module WebSocket
           end
           return nil
         rescue WebSocket::Error => e
-          set_error(e.message) and return
+          set_error(e.message.to_sym) and return
         end
 
         # This allows flipping the more bit to fin for draft 04
