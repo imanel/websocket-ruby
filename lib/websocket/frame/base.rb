@@ -34,7 +34,7 @@ module WebSocket
           # Not implemented yet
           # when 5 then extend Handler::Handler05
           # when 7 then extend Handler::Handler07
-          else set_error('Unknown version') and return
+          else set_error(:unknown_protocol_version) and return
         end
       end
 
