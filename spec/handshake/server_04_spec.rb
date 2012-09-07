@@ -7,4 +7,13 @@ describe 'Server draft 04 handshake' do
   let(:server_response) { server_handshake_04(@request_params || {}) }
 
   it_should_behave_like 'all drafts'
+
+  it "should disallow request without Sec-WebSocket-Key" do
+    # puts client_request.gsub(/^Sec-WebSocket-Key:.*\n/, '')
+    handshake << client_request.gsub(/^Sec-WebSocket-Key:.*/, '')
+
+    handshake.should be_finished
+    handshake.should_not be_valid
+    handshake.error.should eql(:invalid_handshake_authentication)
+  end
 end

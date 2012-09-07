@@ -32,7 +32,7 @@ module WebSocket
           when 75 then extend Handler::Server75
           when 76, 0..3 then extend Handler::Server76
           when 4..13 then extend Handler::Server04
-          else set_error('Unknown version') and return false
+          else set_error(:unknown_protocol_version) and return false
         end
         return true
       end
@@ -42,7 +42,7 @@ module WebSocket
       def parse_first_line(line)
         line_parts = line.match(PATH)
         method = line_parts[1].strip
-        set_error("Must be GET request") and return unless method == "GET"
+        set_error(:get_request_required) and return unless method == "GET"
 
         resource_name = line_parts[2].strip
         @path, @query = resource_name.split('?', 2)

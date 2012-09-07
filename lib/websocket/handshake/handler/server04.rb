@@ -8,6 +8,10 @@ module WebSocket
 
         include Server
 
+        def valid?
+          super && (@headers['sec-websocket-key'] ? true : (set_error(:invalid_handshake_authentication) and false))
+        end
+
         private
 
         def header_line
@@ -23,7 +27,7 @@ module WebSocket
         end
 
         def signature
-          set_error("Sec-WebSocket-Key header is required") and return unless key = @headers['sec-websocket-key']
+          return unless key = @headers['sec-websocket-key']
           string_to_sign = "#{key}258EAFA5-E914-47DA-95CA-C5AB0DC85B11"
           Base64.encode64(Digest::SHA1.digest(string_to_sign)).chomp
         end

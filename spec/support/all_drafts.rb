@@ -81,6 +81,6 @@ shared_examples_for 'all drafts' do
 
     handshake.should be_finished
     handshake.should_not be_valid
-    handshake.error.should eql('Must be GET request')
+    handshake.error.should eql(:get_request_required)
   end
 end

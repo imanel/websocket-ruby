@@ -49,14 +49,14 @@ module WebSocket
 
           spaces = string.scan(/ /).size
           # As per 5.2.5, abort the connection if spaces are zero.
-          set_error("Websocket Key1 or Key2 does not contain spaces - this is a symptom of a cross-protocol attack") and return if spaces == 0
+          set_error(:invalid_handshake_authentication) and return if spaces == 0
 
           # As per 5.2.6, abort if numbers is not an integral multiple of spaces
-          set_error("Invalid Key #{string.inspect}") and return if numbers % spaces != 0
+          set_error(:invalid_handshake_authentication) and return if numbers % spaces != 0
 
           quotient = numbers / spaces
 
-          set_error("Challenge computation out of range for key") and return if quotient > 2**32-1
+          set_error(:invalid_handshake_authentication) and return if quotient > 2**32-1
 
           return quotient
         end

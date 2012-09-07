@@ -14,7 +14,7 @@ describe 'Server draft 76 handshake' do
 
     handshake.should be_finished
     handshake.should_not be_valid
-    handshake.error.should eql('Websocket Key1 or Key2 does not contain spaces - this is a symptom of a cross-protocol attack')
+    handshake.error.should eql(:invalid_handshake_authentication)
   end
 
   it "should disallow request without spaces in key 2" do
@@ -23,7 +23,7 @@ describe 'Server draft 76 handshake' do
 
     handshake.should be_finished
     handshake.should_not be_valid
-    handshake.error.should eql('Websocket Key1 or Key2 does not contain spaces - this is a symptom of a cross-protocol attack')
+    handshake.error.should eql(:invalid_handshake_authentication)
   end
 
   it "should disallow request with invalid number of spaces or numbers in key 1" do
@@ -32,7 +32,7 @@ describe 'Server draft 76 handshake' do
 
     handshake.should be_finished
     handshake.should_not be_valid
-    handshake.error.should eql("Invalid Key #{@request_params[:key1].inspect}")
+    handshake.error.should eql(:invalid_handshake_authentication)
   end
 
   it "should disallow request with invalid number of spaces or numbers in key 2" do
@@ -41,6 +41,6 @@ describe 'Server draft 76 handshake' do
 
     handshake.should be_finished
     handshake.should_not be_valid
-    handshake.error.should eql("Invalid Key #{@request_params[:key2].inspect}")
+    handshake.error.should eql(:invalid_handshake_authentication)
   end
 end
