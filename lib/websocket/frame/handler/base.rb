@@ -11,12 +11,12 @@ module WebSocket
         end
 
         # Convert data to raw frame ready to send to client
-        def encode_frame(data, args = {})
+        def encode_frame
           raise NotImplementedError
         end
 
         # Convert raw data to decoded frame
-        def decode_frame(data)
+        def decode_frame
           raise NotImplementedError
         end
 

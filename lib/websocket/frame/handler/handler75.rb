@@ -7,14 +7,18 @@ module WebSocket
 
         include Base
 
-        def encode_frame(args = {})
-          case args[:type]
+        def encode_frame
+          case @type
             when :close then "\xff\x00"
             when :text then
               ary = ["\x00", @data, "\xff"]
-              ary.collect{ |s| s.force_encoding('UTF-8') if s.respond_to?(:force_encoding) }
+              ary.collect{ |s| s.encode('UTF-8', 'UTF-8', :invalid => :replace) if s.respond_to?(:encode) }
               ary.join
           end
+        end
+
+        def require_sending?
+          @type == :close || !@data.empty? # Don't send empty frames
         end
 
         def decode_frame
