@@ -28,4 +28,13 @@ describe 'Outgoing frame draft 75' do
 
     it_should_behave_like 'valid_outgoing_frame'
   end
+
+  context "should return error for unknown frame type" do
+    let(:frame_type) { :unknown }
+    let(:decoded_text) { "Hello" }
+    let(:encoded_text) { nil }
+    let(:error) { :unknown_frame_type }
+
+    it_should_behave_like 'valid_outgoing_frame'
+  end
 end

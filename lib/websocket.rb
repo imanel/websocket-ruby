@@ -4,7 +4,6 @@
 # @author Bernard "Imanel" Potocki
 # @see http://github.com/imanel/websocket-ruby main repository
 module WebSocket
-  class Error < RuntimeError; end
 
   ROOT = File.expand_path(File.dirname(__FILE__))
 

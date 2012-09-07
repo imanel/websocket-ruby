@@ -16,6 +16,7 @@ module WebSocket
 
       # Return raw frame formatted for sending.
       def to_s
+        set_error(:unknown_frame_type) and return unless supported_frames.include?(@type)
         encode_frame
       end
 

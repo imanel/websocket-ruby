@@ -28,9 +28,6 @@ module WebSocket
 
           frame << @data
           frame
-        rescue WebSocket::Error => e
-          set_error(e.message)
-          nil
         end
 
         def decode_frame
@@ -55,7 +52,7 @@ module WebSocket
         }
 
         def type_to_opcode(frame_type)
-          FRAME_TYPES[frame_type] || raise(WebSocket::Error, :unknown_frame_type)
+          FRAME_TYPES[frame_type]
         end
 
       end
