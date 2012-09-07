@@ -17,10 +17,6 @@ module WebSocket
           end
         end
 
-        def require_sending?
-          @type == :close || !@data.empty? # Don't send empty frames
-        end
-
         def decode_frame
           return if @data.size == 0
 
