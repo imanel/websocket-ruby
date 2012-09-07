@@ -4,6 +4,7 @@ module WebSocket
 
       autoload :Base,     "#{::WebSocket::ROOT}/websocket/frame/handler/base"
 
+      autoload :Handler03, "#{::WebSocket::ROOT}/websocket/frame/handler/handler03"
       autoload :Handler75, "#{::WebSocket::ROOT}/websocket/frame/handler/handler75"
 
     end

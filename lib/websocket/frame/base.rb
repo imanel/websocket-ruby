@@ -29,8 +29,8 @@ module WebSocket
         case @version
           when 75..76 then extend Handler::Handler75
           when 0..2 then extend Handler::Handler75
+          when 3 then extend Handler::Handler03
           # Not implemented yet
-          # when 3 then extend Handler::Handler03
           # when 4 then extend Handler::Handler04
           # when 5 then extend Handler::Handler05
           # when 7 then extend Handler::Handler07
