@@ -17,7 +17,7 @@ module WebSocket
           frame = ''
 
           opcode = type_to_opcode(@type)
-          byte1 = opcode + (fin ? 128 : 0) # since more, rsv1-3 are 0 and 0x80 for Draft 4
+          byte1 = opcode | (fin ? 0b10000000 : 0b00000000) # since more, rsv1-3 are 0 and 0x80 for Draft 4
           frame << byte1
 
           length = @data.size
