@@ -30,8 +30,8 @@ module WebSocket
           when 75..76 then extend Handler::Handler75
           when 0..2 then extend Handler::Handler75
           when 3 then extend Handler::Handler03
+          when 4 then extend Handler::Handler04
           # Not implemented yet
-          # when 4 then extend Handler::Handler04
           # when 5 then extend Handler::Handler05
           # when 7 then extend Handler::Handler07
           else set_error('Unknown version') and return

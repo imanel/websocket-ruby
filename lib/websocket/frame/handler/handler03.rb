@@ -35,6 +35,9 @@ module WebSocket
 
         private
 
+        # This allows flipping the more bit to fin for draft 04
+        def fin; false; end
+
         def supported_frames
           [:text, :binary, :close, :ping, :pong]
         end
