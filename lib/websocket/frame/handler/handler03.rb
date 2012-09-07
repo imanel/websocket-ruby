@@ -77,7 +77,7 @@ module WebSocket
             raise(WebSocket::Error, :frame_too_long) if payload_length > MAX_FRAME_SIZE
 
             # Check buffer size
-            return if @data.getbyte(pointer+payload_length-1) == nil # Buffer incomplete
+            return if getbyte(@data, pointer+payload_length-1) == nil # Buffer incomplete
 
             # Throw away data up to pointer
             @data.slice!(0...pointer)
