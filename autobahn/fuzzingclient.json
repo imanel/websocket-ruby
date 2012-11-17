@@ -4,7 +4,7 @@
 
    "servers": [{"agent": "WebSocket-Ruby v0.0.1", "url": "ws://localhost:9001", "options": {"version": 18}}],
 
-   "cases": ["1.1.1"],
+   "cases": ["*"],
    "exclude-cases": [],
    "exclude-agent-cases": {}
 }
