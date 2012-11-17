@@ -42,19 +42,19 @@ module WebSocket
           while @data.size > 1
             pointer = 0
 
-            more = ((getbyte(@data, pointer) & 0b10000000) == 0b10000000) ^ fin
+            more = ((@data.getbyte(pointer) & 0b10000000) == 0b10000000) ^ fin
             # Ignoring rsv1-3 for now
-            opcode = getbyte(@data, 0) & 0b00001111
+            opcode = @data.getbyte(0) & 0b00001111
             pointer += 1
 
             # Ignoring rsv4
-            length = getbyte(@data, pointer) & 0b01111111
+            length = @data.getbyte(pointer) & 0b01111111
             pointer += 1
 
             payload_length = case length
             when 127 # Length defined by 8 bytes
               # Check buffer size
-              return if getbyte(@data, pointer+8-1) == nil # Buffer incomplete
+              return if @data.getbyte(pointer+8-1) == nil # Buffer incomplete
 
               # Only using the last 4 bytes for now, till I work out how to
               # unpack 8 bytes. I'm sure 4GB frames will do for now :)
@@ -63,7 +63,7 @@ module WebSocket
               l
             when 126 # Length defined by 2 bytes
               # Check buffer size
-              return if getbyte(@data, pointer+2-1) == nil # Buffer incomplete
+              return if @data.getbyte(pointer+2-1) == nil # Buffer incomplete
 
               l = @data[pointer..(pointer+1)].unpack('n').first
               pointer += 2
@@ -77,7 +77,7 @@ module WebSocket
             raise(WebSocket::Error, :frame_too_long) if payload_length > MAX_FRAME_SIZE
 
             # Check buffer size
-            return if getbyte(@data, pointer+payload_length-1) == nil # Buffer incomplete
+            return if @data.getbyte(pointer+payload_length-1) == nil # Buffer incomplete
 
             # Throw away data up to pointer
             @data.slice!(0...pointer)

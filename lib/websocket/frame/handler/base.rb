@@ -27,15 +27,6 @@ module WebSocket
           raise NotImplementedError
         end
 
-        # Required for support of Ruby 1.8
-        def getbyte(data, byte)
-          if data.respond_to?(:getbyte)
-            data.getbyte(byte)
-          else
-            data[byte]
-          end
-        end
-
       end
     end
   end

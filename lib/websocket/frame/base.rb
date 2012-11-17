@@ -12,7 +12,7 @@ module WebSocket
       # @option args [String] :data default data for frame
       def initialize(args = {})
         @type = args[:type]
-        @data = args[:data] || ""
+        @data = Data.new(args[:data].to_s)
         @version = args[:version] || DEFAULT_VERSION
         set_handler
       end

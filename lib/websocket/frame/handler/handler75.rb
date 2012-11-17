@@ -27,7 +27,7 @@ module WebSocket
           return if @data.size == 0
 
           pointer = 0
-          frame_type = getbyte(@data, pointer)
+          frame_type = @data.getbyte(pointer)
           pointer += 1
 
           if (frame_type & 0x80) == 0x80
@@ -35,8 +35,8 @@ module WebSocket
             length = 0
 
             loop do
-              return if !getbyte(@data, pointer)
-              b = getbyte(@data, pointer)
+              return if !@data.getbyte(pointer)
+              b = @data.getbyte(pointer)
               pointer += 1
               b_v = b & 0x7F
               length = length * 128 + b_v
@@ -45,7 +45,7 @@ module WebSocket
 
             set_error(:frame_too_long) and return if length > MAX_FRAME_SIZE
 
-            unless getbyte(@data, pointer+length-1) == nil
+            unless @data.getbyte(pointer+length-1) == nil
               # Straight from spec - I'm sure this isn't crazy...
               # 6. Read /length/ bytes.
               # 7. Discard the read bytes.
@@ -59,7 +59,7 @@ module WebSocket
           else
             # If the high-order bit of the /frame type/ byte is _not_ set
 
-            set_error(:invalid_frame) and return if getbyte(@data, 0) != 0x00
+            set_error(:invalid_frame) and return if @data.getbyte(0) != 0x00
 
             # Addition to the spec to protect against malicious requests
             set_error(:frame_too_long) and return if @data.size > MAX_FRAME_SIZE
