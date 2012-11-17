@@ -27,6 +27,14 @@ module WebSocket
           raise NotImplementedError
         end
 
+        def control_frame?(frame_type)
+          ![:text, :binary, :continuation].include?(frame_type)
+        end
+
+        def data_frame?(frame_type)
+          [:text, :binary].include?(frame_type)
+        end
+
       end
     end
   end

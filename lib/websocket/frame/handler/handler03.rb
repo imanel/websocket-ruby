@@ -50,10 +50,13 @@ module WebSocket
             frame_type = opcode_to_type(opcode)
             pointer += 1
 
+            raise(WebSocket::Error, :fragmented_control_frame) if more && control_frame?(frame_type)
+            raise(WebSocket::Error, :data_frame_instead_continuation) if data_frame?(frame_type) && !@application_data_buffer.nil?
+
             mask = masking? && (@data.getbyte(pointer) & 0b10000000) == 0b10000000
             length = @data.getbyte(pointer) & 0b01111111
 
-            raise(WebSocket::Error, :control_frame_payload_too_long) if length > 125 && ![:text, :binary].include?(frame_type)
+            raise(WebSocket::Error, :control_frame_payload_too_long) if length > 125 && control_frame?(frame_type)
 
             pointer += 1
 
@@ -112,7 +115,7 @@ module WebSocket
               if frame_type == :continuation
                 @application_data_buffer << application_data
                 message = self.class.new(:version => version, :type => @frame_type, :data => @application_data_buffer, :decoded => true)
-                @application_data_buffer = ''
+                @application_data_buffer = nil
                 @frame_type = nil
                 return message
               else
