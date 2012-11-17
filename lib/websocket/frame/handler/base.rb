@@ -3,7 +3,7 @@ module WebSocket
     module Handler
       module Base
 
-        MAX_FRAME_SIZE = 10 * 1024 * 1024 # 10MB
+        MAX_FRAME_SIZE = 20 * 1024 * 1024 # 20MB
 
         # Is selected type supported for selected handler?
         def support_type?
