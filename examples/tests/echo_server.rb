@@ -6,7 +6,7 @@ EM.run do
   trap("TERM") { stop }
   trap("INT")  { stop }
 
-  WebSocket::EventMachine::Server.start(:host => "0.0.0.0", :port => 8080) do |ws|
+  WebSocket::EventMachine::Server.start(:host => "0.0.0.0", :port => 9001) do |ws|
 
     ws.onopen do
       puts "Client connected"
@@ -35,7 +35,7 @@ EM.run do
 
   end
 
-  puts "Server started at port 8080"
+  puts "Server started at port 9001"
 
   def stop
     puts "Terminating WebSocket Server"
