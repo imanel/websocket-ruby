@@ -34,6 +34,7 @@ module WebSocket
           end
           data = frame.to_s
         end
+        puts "Sending data: #{data.bytes.to_a.collect{|d| '\x' + d.to_s(16)}.join}"
         send_data(data)
         true
       end
@@ -41,9 +42,15 @@ module WebSocket
       # Close connection
       # @return [Boolean] true if connection is closed immediately, false if waiting for server to close connection
       def close
-        return false if @state == :open && send('', :type => :close)
-        @state = :closed
-        close_connection
+        puts @state.inspect
+        if @state == :open
+          @state = :closing
+          return false if send('', :type => :close)
+        else
+          send('', :type => :close) if @state == :closing
+          @state = :closed
+        end
+        close_connection_after_writing
         true
       end
 
@@ -64,6 +71,7 @@ module WebSocket
       ############################
 
       def receive_data(data)
+        puts "Received data: #{data.inspect}"
         case @state
         when :connecting then handle_connecting(data)
         when :open then handle_open(data)
