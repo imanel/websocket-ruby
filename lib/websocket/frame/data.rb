@@ -3,7 +3,7 @@ module WebSocket
     class Data < String
 
       # Required for support of Ruby 1.8
-      unless respond_to?(:getbyte)
+      unless new.respond_to?(:getbyte)
         def getbyte(i)
           self[i]
         end
