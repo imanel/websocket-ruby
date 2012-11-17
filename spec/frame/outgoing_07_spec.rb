@@ -6,7 +6,7 @@ describe 'Outgoing frame draft 07' do
   let(:decoded_text) { "" }
   let(:encoded_text) { "\x81\x00" }
   let(:frame_type) { :text }
-  let(:require_sending) { false }
+  let(:require_sending) { true }
   let(:error) { nil }
   subject { frame }
 
@@ -70,6 +70,7 @@ describe 'Outgoing frame draft 07' do
     let(:decoded_text) { "Hello" }
     let(:encoded_text) { nil }
     let(:error) { :unknown_frame_type }
+    let(:require_sending) { false }
 
     it_should_behave_like 'valid_outgoing_frame'
   end
