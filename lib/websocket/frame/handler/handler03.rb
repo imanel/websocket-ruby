@@ -43,7 +43,9 @@ module WebSocket
             pointer = 0
 
             more = ((@data.getbyte(pointer) & 0b10000000) == 0b10000000) ^ fin
-            # Ignoring rsv1-3 for now
+
+            raise(WebSocket::Error, :reserved_bit_used) if @data.getbyte(pointer) & 0b01110000 != 0b00000000
+
             opcode = @data.getbyte(pointer) & 0b00001111
             frame_type = opcode_to_type(opcode)
             pointer += 1
