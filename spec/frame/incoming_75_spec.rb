@@ -53,7 +53,7 @@ describe 'Incoming frame draft 75' do
     let(:encoded_text) { "\x00" + "a" * WebSocket::Frame::Handler::Base::MAX_FRAME_SIZE + "\xFF" }
     let(:error) { :frame_too_long }
 
-    it_should_behave_like 'valid_incoming_frame'
+    it_should_behave_like('valid_incoming_frame') unless RUBY_PLATFORM == "java"
   end
 
 end
