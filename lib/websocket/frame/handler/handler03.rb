@@ -45,10 +45,13 @@ module WebSocket
             more = ((@data.getbyte(pointer) & 0b10000000) == 0b10000000) ^ fin
             # Ignoring rsv1-3 for now
             opcode = @data.getbyte(pointer) & 0b00001111
+            frame_type = opcode_to_type(opcode)
             pointer += 1
 
             mask = masking? && (@data.getbyte(pointer) & 0b10000000) == 0b10000000
             length = @data.getbyte(pointer) & 0b01111111
+
+            raise(WebSocket::Error, :control_frame_payload_too_long) if length > 125 && ![:text, :binary].include?(frame_type)
 
             pointer += 1
 
@@ -95,8 +98,6 @@ module WebSocket
 
             # Throw away data up to pointer
             @data.slice!(0...pointer)
-
-            frame_type = opcode_to_type(opcode)
 
             raise(WebSocket::Error, :unexpected_continuation_frame) if frame_type == :continuation && !@frame_type
 

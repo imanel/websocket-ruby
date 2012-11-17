@@ -143,6 +143,7 @@ module WebSocket
             trigger_onmessage(frame.to_s, :binary)
           end
         end
+        close if @frame.error?
       end
 
       def handle_closing(data)
