@@ -42,7 +42,6 @@ module WebSocket
       # Close connection
       # @return [Boolean] true if connection is closed immediately, false if waiting for server to close connection
       def close
-        puts @state.inspect
         if @state == :open
           @state = :closing
           return false if send('', :type => :close)
@@ -71,7 +70,7 @@ module WebSocket
       ############################
 
       def receive_data(data)
-        puts "Received data: #{data.inspect}"
+        puts "Received data: #{data.bytes.to_a.collect{|d| '\x' + d.to_s(16)}.join}"
         case @state
         when :connecting then handle_connecting(data)
         when :open then handle_open(data)
@@ -100,11 +99,15 @@ module WebSocket
         end
       end
 
-      ['onerror', 'onmessage', 'onping', 'onpong'].each do |m|
+      ['onerror', 'onping', 'onpong'].each do |m|
         define_method "trigger_#{m}" do |data|
           callback = instance_variable_get("@#{m}")
           callback.call(data) if callback
         end
+      end
+
+      def trigger_onmessage(data, type)
+        @onmessage.call(data, type) if @onmessage
       end
 
       def handle_connecting(data)
@@ -135,9 +138,9 @@ module WebSocket
           when :pong
             trigger_onpong(frame.to_s)
           when :text
-            trigger_onmessage(frame.to_s)
+            trigger_onmessage(frame.to_s, :text)
           when :binary
-            trigger_onmessage(frame.to_s)
+            trigger_onmessage(frame.to_s, :binary)
           end
         end
       end

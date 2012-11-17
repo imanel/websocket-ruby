@@ -12,9 +12,9 @@ EM.run do
       puts "Client connected"
     end
 
-    ws.onmessage do |msg|
+    ws.onmessage do |msg, type|
       puts "Received message: #{msg}"
-      ws.send msg
+      ws.send msg, :type => type
     end
 
     ws.onclose do
