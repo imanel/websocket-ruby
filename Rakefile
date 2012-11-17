@@ -13,6 +13,6 @@ task :default => :spec
 namespace :autobahn do
   desc "Run autobahn tests for server"
   task :server do
-    system('wstest --mode=fuzzingclient --spec=fuzzingclient.json')
+    system('wstest --mode=fuzzingclient --spec=autobahn/fuzzingclient.json')
   end
 end
