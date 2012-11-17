@@ -34,7 +34,6 @@ module WebSocket
           end
           data = frame.to_s
         end
-        puts "Sending data: #{data.bytes.to_a.collect{|d| '\x' + d.to_s(16)}.join}"
         send_data(data)
         true
       end
@@ -70,7 +69,6 @@ module WebSocket
       ############################
 
       def receive_data(data)
-        puts "Received data: #{data.bytes.to_a.collect{|d| '\x' + d.to_s(16)}.join}"
         case @state
         when :connecting then handle_connecting(data)
         when :open then handle_open(data)
@@ -143,7 +141,7 @@ module WebSocket
             trigger_onmessage(frame.to_s, :binary)
           end
         end
-        close if @frame.error?
+        unbind if @frame.error?
       end
 
       def handle_closing(data)

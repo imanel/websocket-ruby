@@ -1,10 +1,10 @@
 {
    "options": {"failByDrop": false},
-   "outdir": "./autobahn/reports/clients",
+   "outdir": "./autobahn/server",
 
    "servers": [{"agent": "WebSocket-Ruby v1.0.0", "url": "ws://localhost:9001", "options": {"version": 18}}],
 
    "cases": ["*"],
-   "exclude-cases": ["9.*"],
+   "exclude-cases": [],
    "exclude-agent-cases": {}
 }

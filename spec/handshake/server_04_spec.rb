@@ -9,7 +9,6 @@ describe 'Server draft 04 handshake' do
   it_should_behave_like 'all drafts'
 
   it "should disallow request without Sec-WebSocket-Key" do
-    # puts client_request.gsub(/^Sec-WebSocket-Key:.*\n/, '')
     handshake << client_request.gsub(/^Sec-WebSocket-Key:.*/, '')
 
     handshake.should be_finished
