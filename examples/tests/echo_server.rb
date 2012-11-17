@@ -13,8 +13,8 @@ EM.run do
     end
 
     ws.onmessage do |msg|
-      puts "Received message #{msg}"
-      puts.send "Pong: #{msg}"
+      puts "Received message: #{msg}"
+      ws.send msg
     end
 
     ws.onclose do
@@ -25,6 +25,21 @@ EM.run do
       puts "Error: #{e}"
     end
 
+    ws.onping do |msg|
+      puts "Receied ping: #{msg}"
+    end
+
+    ws.onpong do |msg|
+      puts "Received pong: #{msg}"
+    end
+
+  end
+
+  puts "Server started at port 8080"
+
+  def stop
+    puts "Terminating WebSocket Server"
+    EventMachine.stop
   end
 
 end
