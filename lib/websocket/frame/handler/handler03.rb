@@ -47,13 +47,8 @@ module WebSocket
             opcode = @data.getbyte(pointer) & 0b00001111
             pointer += 1
 
-            # Ignoring rsv4
+            mask = masking? && (@data.getbyte(pointer) & 0b10000000) == 0b10000000
             length = @data.getbyte(pointer) & 0b01111111
-
-            if masking? && (@data.getbyte(pointer) & 0b10000000) == 0b10000000
-              @data.set_mask
-              pointer += 4
-            end
 
             pointer += 1
 
@@ -78,19 +73,27 @@ module WebSocket
               length
             end
 
-            return unless payload_length
+            # Compute the expected frame length
+            frame_length = pointer + payload_length
+            frame_length += 4 if mask
 
-            raise(WebSocket::Error, :frame_too_long) if payload_length > MAX_FRAME_SIZE
+            raise(WebSocket::Error, :frame_too_long) if frame_length > MAX_FRAME_SIZE
 
             # Check buffer size
-            return if @data.getbyte(pointer+payload_length-1) == nil # Buffer incomplete
+            return if @data.getbyte(frame_length-1) == nil # Buffer incomplete
 
-            # Read application data
+            # Remove frame header
+            @data.slice!(0...pointer)
+            pointer = 0
+
+            # Read application data (unmasked if required)
+            @data.set_mask if mask
+            pointer += 4 if mask
             application_data = @data.getbytes(pointer, payload_length)
             pointer += payload_length
+            @data.unset_mask if mask
 
             # Throw away data up to pointer
-            @data.unset_mask if masking?
             @data.slice!(0...pointer)
 
             frame_type = opcode_to_type(opcode)

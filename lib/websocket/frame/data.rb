@@ -12,7 +12,7 @@ module WebSocket
 
       def set_mask
         raise "Too short" if bytesize < 4 # TODO - change
-        @masking_key = Data.new(self[2..5])
+        @masking_key = Data.new(self[0..3])
       end
 
       def unset_mask
@@ -38,7 +38,7 @@ module WebSocket
       def getbyte_with_masking(index)
         if @masking_key
           masked_char = getbyte_without_masking(index)
-          masked_char ? masked_char ^ @masking_key.getbyte((index + 2) % 4) : nil
+          masked_char ? masked_char ^ @masking_key.getbyte(index % 4) : nil
         else
           getbyte_without_masking(index)
         end
