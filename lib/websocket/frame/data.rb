@@ -2,10 +2,15 @@ module WebSocket
   module Frame
     class Data < String
 
+      def initialize(*args)
+        super *args.each { |arg| arg.force_encoding('ASCII-8BIT') if respond_to?(:force_encoding) }
+      end
+
+      def <<(*args)
+        super *args.each { |arg| arg.force_encoding('ASCII-8BIT') if respond_to?(:force_encoding) }
+      end
+
       def set_mask
-        if respond_to?(:encoding) && encoding.name != "ASCII-8BIT"
-          raise "MaskedString only operates on BINARY strings"
-        end
         raise "Too short" if bytesize < 4 # TODO - change
         @masking_key = Data.new(self[2..5])
       end
