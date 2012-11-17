@@ -44,11 +44,17 @@ module WebSocket
 
             more = ((@data.getbyte(pointer) & 0b10000000) == 0b10000000) ^ fin
             # Ignoring rsv1-3 for now
-            opcode = @data.getbyte(0) & 0b00001111
+            opcode = @data.getbyte(pointer) & 0b00001111
             pointer += 1
 
             # Ignoring rsv4
             length = @data.getbyte(pointer) & 0b01111111
+
+            if masking? && (@data.getbyte(pointer) & 0b10000000) == 0b10000000
+              @data.set_mask
+              pointer += 4
+            end
+
             pointer += 1
 
             payload_length = case length
@@ -58,14 +64,14 @@ module WebSocket
 
               # Only using the last 4 bytes for now, till I work out how to
               # unpack 8 bytes. I'm sure 4GB frames will do for now :)
-              l = @data[(pointer+4)..(pointer+7)].unpack('N').first
+              l = @data.getbytes(pointer+4, 4).unpack('N').first
               pointer += 8
               l
             when 126 # Length defined by 2 bytes
               # Check buffer size
               return if @data.getbyte(pointer+2-1) == nil # Buffer incomplete
 
-              l = @data[pointer..(pointer+1)].unpack('n').first
+              l = @data.getbytes(pointer, 2).unpack('n').first
               pointer += 2
               l
             else
@@ -79,11 +85,13 @@ module WebSocket
             # Check buffer size
             return if @data.getbyte(pointer+payload_length-1) == nil # Buffer incomplete
 
-            # Throw away data up to pointer
-            @data.slice!(0...pointer)
-
             # Read application data
-            application_data = @data.slice!(0...payload_length)
+            application_data = @data.getbytes(pointer, payload_length)
+            pointer += payload_length
+
+            # Throw away data up to pointer
+            @data.unset_mask if masking?
+            @data.slice!(0...pointer)
 
             frame_type = opcode_to_type(opcode)
 
@@ -92,7 +100,6 @@ module WebSocket
             if more
               @application_data_buffer ||= ''
               @application_data_buffer << application_data
-              # The message type is passed in the first frame
               @frame_type ||= frame_type
             else
               # Message is complete
@@ -114,6 +121,8 @@ module WebSocket
 
         # This allows flipping the more bit to fin for draft 04
         def fin; false; end
+
+        def masking?; false; end
 
         FRAME_TYPES = {
           :continuation => 0,

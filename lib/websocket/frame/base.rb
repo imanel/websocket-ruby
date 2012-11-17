@@ -31,9 +31,9 @@ module WebSocket
           when 0..2 then extend Handler::Handler75
           when 3 then extend Handler::Handler03
           when 4 then extend Handler::Handler04
+          when 5..6 then extend Handler::Handler05
           # Not implemented yet
-          # when 5 then extend Handler::Handler05
-          # when 7 then extend Handler::Handler07
+          # when 7..13 then extend Handler::Handler07
           else set_error(:unknown_protocol_version) and return
         end
       end
