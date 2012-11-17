@@ -98,6 +98,7 @@ module WebSocket
             @data.set_mask if mask
             pointer += 4 if mask
             application_data = @data.getbytes(pointer, payload_length)
+            application_data.force_encoding('UTF-8') if application_data.respond_to?(:force_encoding)
             pointer += payload_length
             @data.unset_mask if mask
 
@@ -114,11 +115,14 @@ module WebSocket
               # Message is complete
               if frame_type == :continuation
                 @application_data_buffer << application_data
+                # Test valid UTF-8 encoding
+                raise(WebSocket::Error, :invalid_payload_encoding) if data_frame?(@frame_type) && @application_data_buffer.respond_to?(:valid_encoding?) && !@application_data_buffer.valid_encoding?
                 message = self.class.new(:version => version, :type => @frame_type, :data => @application_data_buffer, :decoded => true)
                 @application_data_buffer = nil
                 @frame_type = nil
                 return message
               else
+                raise(WebSocket::Error, :invalid_payload_encoding) if data_frame?(frame_type) && application_data.respond_to?(:valid_encoding?) && !application_data.valid_encoding?
                 return self.class.new(:version => version, :type => frame_type, :data => application_data, :decoded => true)
               end
             end
