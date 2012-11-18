@@ -13,9 +13,11 @@ Gem::Specification.new do |s|
   s.description = %q{Universal Ruby library to handle WebSocket protocol}
 
   s.add_development_dependency 'rspec', '~> 2.11'
+  s.add_development_dependency 'rake-compiler'
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
+  s.extensions   << "ext/websocket_native/extconf.rb"
   s.require_paths = ["lib"]
 end

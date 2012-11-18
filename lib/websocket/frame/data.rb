@@ -33,6 +33,7 @@ module WebSocket
       end
 
       def mask(payload, mask)
+        return mask_native(payload, mask) if respond_to?(:mask_native)
         result = []
         payload.each_with_index do |byte, i|
           result[i] = byte ^ mask[i % 4]

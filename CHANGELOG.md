@@ -2,7 +2,7 @@
 
 ## Edge
 
-- improve performance by ~30%
+- improve performance by ~50%
 
 ## 1.0.2
 

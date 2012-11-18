@@ -25,3 +25,5 @@ module WebSocket
   end
 
 end
+
+require File.expand_path('../websocket_native', __FILE__)

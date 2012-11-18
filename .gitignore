@@ -1,3 +1,5 @@
 Gemfile.lock
 autobahn
+lib/websocket_native.bundle
 pkg/*.gem
+tmp
