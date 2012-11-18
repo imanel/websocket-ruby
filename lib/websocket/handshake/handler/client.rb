@@ -8,7 +8,9 @@ module WebSocket
         private
 
         def header_line
-          "GET #{@path} HTTP/1.1"
+          path = @path
+          path += "?" + @query if @query
+          "GET #{path} HTTP/1.1"
         end
 
       end

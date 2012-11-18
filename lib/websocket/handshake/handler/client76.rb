@@ -25,6 +25,10 @@ module WebSocket
 
         private
 
+        def reserved_leftover_lines
+          1
+        end
+
         def handshake_keys
           keys = super
           keys << ['Sec-WebSocket-Key1', key1]

@@ -34,6 +34,7 @@ module WebSocket
           end
           data = frame.to_s
         end
+        # debug "Sending raw: ", data
         send_data(data)
         true
       end
@@ -69,6 +70,7 @@ module WebSocket
       ############################
 
       def receive_data(data)
+        # debug "Received raw: ", data
         case @state
         when :connecting then handle_connecting(data)
         when :open then handle_open(data)
@@ -90,14 +92,14 @@ module WebSocket
 
       private
 
-      ['onopen', 'onclose'].each do |m|
+      ['onopen'].each do |m|
         define_method "trigger_#{m}" do
           callback = instance_variable_get("@#{m}")
           callback.call if callback
         end
       end
 
-      ['onerror', 'onping', 'onpong'].each do |m|
+      ['onerror', 'onping', 'onpong', 'onclose'].each do |m|
         define_method "trigger_#{m}" do |data|
           callback = instance_variable_get("@#{m}")
           callback.call(data) if callback
@@ -116,6 +118,7 @@ module WebSocket
           @frame = WebSocket::Frame::Incoming.new(:version => @handshake.version)
           @state = :open
           trigger_onopen
+          handle_open(@handshake.leftovers) if @handshake.leftovers
         else
           trigger_onerror(@handshake.error)
           close
@@ -129,7 +132,7 @@ module WebSocket
           when :close
             @state = :closing
             close
-            trigger_onclose
+            trigger_onclose(frame.to_s)
           when :ping
             pong(frame.to_s)
             trigger_onping(frame.to_s)
@@ -148,6 +151,10 @@ module WebSocket
         @state = :closed
         close
         trigger_onclose
+      end
+
+      def debug(description, data)
+        puts(description + data.bytes.to_a.collect{|b| '\x' + b.to_s(16).ljust(2, '0')}.join) unless @state == :connecting
       end
 
     end

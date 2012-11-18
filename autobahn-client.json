@@ -1,0 +1,11 @@
+{
+   "url": "ws://127.0.0.1:9001",
+
+   "options": {"failByDrop": false},
+   "outdir": "./autobahn/client",
+   "webport": 8080,
+
+   "cases": ["1.1.1"],
+   "exclude-cases": [],
+   "exclude-agent-cases": {}
+}

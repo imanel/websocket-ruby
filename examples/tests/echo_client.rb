@@ -6,10 +6,10 @@ EM.run do
   trap("TERM") { stop }
   trap("INT")  { stop }
 
-  ws = WebSocket::EventMachine::Client.connect(:host => "localhost", :port => 9001, :version => 13);
+  ws = WebSocket::EventMachine::Client.connect(:uri => "localhost", :port => 9001);
 
   ws.onopen do
-    puts "Client connected"
+    puts "Connected"
     ws.send "Hello"
   end
 
@@ -19,7 +19,7 @@ EM.run do
   end
 
   ws.onclose do
-    puts "Client disconnected"
+    puts "Disconnected"
   end
 
   ws.onerror do |e|
@@ -34,10 +34,8 @@ EM.run do
     puts "Received pong: #{msg}"
   end
 
-  puts "Server started at port 9001"
-
   def stop
-    puts "Terminating WebSocket Server"
+    puts "Terminating connection"
     EventMachine.stop
   end
 

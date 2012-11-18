@@ -1,4 +1,5 @@
 require "#{File.expand_path(File.dirname(__FILE__))}/base"
+require 'uri'
 
 # Example WebSocket Client (using EventMachine)
 # @example Usage
@@ -15,8 +16,18 @@ module WebSocket
       # @option args [Integer] :port The port to connect too(default = 80)
       # @option args [Integer] :version Version of protocol to use(default = 13)
       def self.connect(args = {})
-        args[:port] ||= 80
-        ::EventMachine.connect args[:host], args[:port], self, args
+        host = nil
+        port = nil
+        if args[:uri]
+          uri = URI.parse(args[:uri])
+          host = uri.host
+          port = uri.port
+        end
+        host = args[:host] if args[:host]
+        port = args[:port] if args[:port]
+        port ||= 80
+
+        ::EventMachine.connect host, port, self, args
       end
 
       # Initialize connection

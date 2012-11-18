@@ -13,6 +13,10 @@ module WebSocket
 
         private
 
+        def reserved_leftover_lines
+          1
+        end
+
         def header_line
           "HTTP/1.1 101 WebSocket Protocol Handshake"
         end

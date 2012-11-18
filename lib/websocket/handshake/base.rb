@@ -28,7 +28,15 @@ module WebSocket
         raise NotImplementedError
       end
 
+      def leftovers
+        @leftovers.split("\n", reserved_leftover_lines + 1)[reserved_leftover_lines]
+      end
+
       private
+
+      def reserved_leftover_lines
+        0
+      end
 
       def set_error(message)
         @state = :error
