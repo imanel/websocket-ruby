@@ -7,24 +7,24 @@ module WebSocket
 
         include Server
 
-        # @see WebSocket::Handshake::Base
+        # @see WebSocket::Handshake::Base#valid?
         def valid?
           super && !!finishing_line
         end
 
         private
 
-        # @see WebSocket::Handshake::Base
+        # @see WebSocket::Handshake::Base#reserved_leftover_lines
         def reserved_leftover_lines
           1
         end
 
-        # @see WebSocket::Handshake::Handler::Base
+        # @see WebSocket::Handshake::Handler::Base#header_line
         def header_line
           "HTTP/1.1 101 WebSocket Protocol Handshake"
         end
 
-        # @see WebSocket::Handshake::Handler::Base
+        # @see WebSocket::Handshake::Handler::Base#handshake_keys
         def handshake_keys
           [
             ["Upgrade", "WebSocket"],
@@ -34,7 +34,7 @@ module WebSocket
           ]
         end
 
-        # @see WebSocket::Handshake::Handler::Base
+        # @see WebSocket::Handshake::Handler::Base#finishing_line
         def finishing_line
           @finishing_line ||= challenge_response
         end

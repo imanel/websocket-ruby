@@ -9,7 +9,7 @@ module WebSocket
 
         private
 
-        # @see WebSocket::Handshake::Handler::Base
+        # @see WebSocket::Handshake::Handler::Base#handshake_keys
         def handshake_keys
           keys = super
           keys << ['Sec-WebSocket-Draft', @version]

@@ -7,19 +7,19 @@ module WebSocket
 
         include Client75
 
-        # @see WebSocket::Handshake::Base
+        # @see WebSocket::Handshake::Base#valid?
         def valid?
           super && verify_challenge
         end
 
         private
 
-        # @see WebSocket::Handshake::Base
+        # @see WebSocket::Handshake::Base#reserved_leftover_lines
         def reserved_leftover_lines
           1
         end
 
-        # @see WebSocket::Handshake::Handler::Base
+        # @see WebSocket::Handshake::Handler::Base#handshake_keys
         def handshake_keys
           keys = super
           keys << ['Sec-WebSocket-Key1', key1]
@@ -27,7 +27,7 @@ module WebSocket
           keys
         end
 
-        # @see WebSocket::Handshake::Handler::Base
+        # @see WebSocket::Handshake::Handler::Base#finishing_line
         def finishing_line
           key3
         end

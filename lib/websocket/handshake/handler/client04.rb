@@ -8,14 +8,14 @@ module WebSocket
 
         include Client
 
-        # @see WebSocket::Handshake::Base
+        # @see WebSocket::Handshake::Base#valid?
         def valid?
           super && verify_accept
         end
 
         private
 
-        # @see WebSocket::Handshake::Handler::Base
+        # @see WebSocket::Handshake::Handler::Base#handshake_keys
         def handshake_keys
           keys = [
             ["Upgrade", "websocket"],

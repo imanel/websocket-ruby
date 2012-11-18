@@ -8,19 +8,19 @@ module WebSocket
 
         include Server
 
-        # @see WebSocket::Handshake::Base
+        # @see WebSocket::Handshake::Base#valid?
         def valid?
           super && (@headers['sec-websocket-key'] ? true : (set_error(:invalid_handshake_authentication) and false))
         end
 
         private
 
-        # @see WebSocket::Handshake::Handler::Base
+        # @see WebSocket::Handshake::Handler::Base#header_line
         def header_line
           "HTTP/1.1 101 Switching Protocols"
         end
 
-        # @see WebSocket::Handshake::Handler::Base
+        # @see WebSocket::Handshake::Handler::Base#handshake_keys
         def handshake_keys
           [
             ["Upgrade", "websocket"],
