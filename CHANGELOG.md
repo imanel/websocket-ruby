@@ -1,5 +1,9 @@
 # Changelog
 
+## Edge
+
+- improve performance by ~30%
+
 ## 1.0.2
 
 - allow configuration of max frame size via WebSocket.max_frame_size option

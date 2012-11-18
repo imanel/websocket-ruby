@@ -12,7 +12,7 @@ module WebSocket
 
       def set_mask
         raise "Too short" if bytesize < 4 # TODO - change
-        @masking_key = Data.new(self[0..3])
+        @masking_key = self[0..3].bytes.to_a
       end
 
       def unset_mask
@@ -20,11 +20,8 @@ module WebSocket
       end
 
       def getbytes(start_index, count)
-        data = ''
-        data.force_encoding('ASCII-8BIT') if data.respond_to?(:force_encoding)
-        count.times do |i|
-          data << getbyte(start_index + i)
-        end
+        data = self[start_index, count]
+        data = mask(data.bytes.to_a, @masking_key).pack('C*') if @masking_key
         data
       end
 
@@ -35,17 +32,13 @@ module WebSocket
         end
       end
 
-      def getbyte_with_masking(index)
-        if @masking_key
-          masked_char = getbyte_without_masking(index)
-          masked_char ? masked_char ^ @masking_key.getbyte(index % 4) : nil
-        else
-          getbyte_without_masking(index)
+      def mask(payload, mask)
+        result = []
+        payload.each_with_index do |byte, i|
+          result[i] = byte ^ mask[i % 4]
         end
+        result
       end
-
-      alias_method :getbyte_without_masking, :getbyte
-      alias_method :getbyte, :getbyte_with_masking
 
     end
   end
