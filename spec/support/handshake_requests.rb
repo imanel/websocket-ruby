@@ -32,7 +32,7 @@ Sec-WebSocket-Key2: #{args[:key2] || "12998 5 Y3 1  .P00"}\r
 \r
 #{args[:key3] || "^n:ds[4U"}
   EOF
-  request.rstrip
+  request[0..-2]
 end
 
 def server_handshake_76(args = {})
@@ -45,7 +45,7 @@ Sec-WebSocket-Location: ws#{args[:secure] ? "s" : ""}://#{args[:host] || "exampl
 \r
 #{args[:challenge] || "8jKS'y:G*Co,Wxa-"}
   EOF
-  request.rstrip
+  request[0..-2]
 end
 
 def client_handshake_04(args = {})
