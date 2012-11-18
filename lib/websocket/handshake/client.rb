@@ -25,7 +25,7 @@ module WebSocket
         @path   = args[:path]   if args[:path]
         @query  = args[:query]  if args[:query]
 
-        @path   ||= '/'
+        @path   = '/'           if @path.nil? || @path.empty?
 
         set_error(:no_host_provided) unless @host
 
