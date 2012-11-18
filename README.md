@@ -1,5 +1,115 @@
-# WebSocket Ruby [![](http://travis-ci.org/imanel/websocket-ruby.png)](http://travis-ci.org/imanel/websocket-ruby)
+# WebSocket Ruby
 
-Abstraction layer of WebSocket protocol for both client and server(currently under development).
+- Travis CI build: [![](http://travis-ci.org/imanel/websocket-ruby.png)](http://travis-ci.org/imanel/websocket-ruby)
+- Autobahn tests: [server](http://imanel.github.com/websocket-ruby/autobahn/server/), client
 
-Autobahn results: [server](http://imanel.github.com/websocket-ruby/autobahn/server/)
+Universal Ruby library to handle WebSocket protocol. It foucses on providing abstraction layer over [WebSocket API](http://dev.w3.org/html5/websockets/) instead of providing server or client functionality.
+
+Currently WebSocket Ruby supports all existing drafts of WebSocket, which include:
+
+- [hixie-75](http://tools.ietf.org/html/draft-hixie-thewebsocketprotocol-75)
+- [hixie-76](http://tools.ietf.org/html/draft-hixie-thewebsocketprotocol-76)
+- [all hybi drafts (00-17)](http://tools.ietf.org/html/draft-ietf-hybi-thewebsocketprotocol-17)
+- [RFC 6455](http://datatracker.ietf.org/doc/rfc6455/)
+
+## Installation
+
+```
+gem install "websocket"
+```
+
+or directly in Gemfile:
+
+```
+gem "websocket"
+```
+
+## Server handshake
+
+``` ruby
+@handshake = WebSocket::Handshake::Server.new
+
+# Parse client request
+@handshake << <<EOF
+GET /demo HTTP/1.1
+Upgrade: websocket
+Connection: Upgrade
+Host: example.com
+Sec-WebSocket-Origin: http://example.com
+Sec-WebSocket-Version: 17
+Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==
+
+EOF
+
+# All data received?
+@handshake.finished?
+
+# No parsing errors?
+@handshake.valid?
+
+# Create response
+@handshake.to_s # HTTP/1.1 101 Switching Protocols
+                # Upgrade: websocket
+                # Connection: Upgrade
+                # Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=
+```
+
+## Client handshake
+
+``` ruby
+@handshake = WebSocket::Handshake::Client.new(:url => 'ws://example.com')
+
+# Create request
+@handshake.to_s # GET /demo HTTP/1.1
+                # Upgrade: websocket
+                # Connection: Upgrade
+                # Host: example.com
+                # Sec-WebSocket-Origin: http://example.com
+                # Sec-WebSocket-Version: 17
+                # Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==
+
+# Parse server response
+@handshake << <<EOF
+HTTP/1.1 101 Switching Protocols
+Upgrade: websocket
+Connection: Upgrade
+Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=
+
+EOF
+
+# All data received?
+@handshake.finished?
+
+# No parsing errors?
+@handshake.valid?
+```
+
+## Parsing and constructing frames
+
+``` ruby
+# Prepare frame for sending
+frame = WebSocket::Frame::Outgoing::Server.new(:version => @handshake.version, :data => "Hello", :type => :text)
+frame.to_s # \x81\x05Hello
+
+# Parse incoming frames
+frame = WebSocket::Frame::Incoming::Server.new(:version => @handshake.version)
+frame << "\x81\x05Hello\x81\x06world!"
+frame.next # Hello
+frame.next # world!
+```
+
+## Examples
+
+For examples on how to use WebSocket Ruby see examples directory in the repository. Provided examples are fully working servers - they are passing full autobahn compatibility suit.
+
+## License
+
+(The MIT License)
+
+Copyright © 2012 Bernard Potocki
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the ‘Software’), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED ‘AS IS’, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
