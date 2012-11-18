@@ -1,12 +1,64 @@
 module WebSocket
   module Handshake
+    # Construct or parse a server WebSocket handshake.
+    #
+    # @example Synopsis
+    #   handshake = WebSocket::Handshake::Server.new
+    #
+    #   # Parse client request
+    #   @handshake << <<EOF
+    #   GET /demo HTTP/1.1
+    #   Upgrade: websocket
+    #   Connection: Upgrade
+    #   Host: example.com
+    #   Sec-WebSocket-Origin: http://example.com
+    #   Sec-WebSocket-Version: 17
+    #   Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==
+    #
+    #   EOF
+    #
+    #   # All data received?
+    #   @handshake.finished?
+    #
+    #   # No parsing errors?
+    #   @handshake.valid?
+    #
+    #   # Create response
+    #   @handshake.to_s # HTTP/1.1 101 Switching Protocols
+    #                   # Upgrade: websocket
+    #                   # Connection: Upgrade
+    #                   # Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=
+    #
     class Server < Base
 
+      # Initialize new WebSocket Server
+      #
+      # @param [Hash] args Arguments for server
+      #
+      # @option args [Boolean] :secure If true then server will use wss:// protocol
+      #
+      # @example New client
+      #   Websocket::Handshake::Server.new(:secure => true)
       def initialize(args = {})
         super
         @secure = !!args[:secure]
       end
 
+      # Add text of request from Client. This method will parse content immediately and update version, state and error(if neccessary)
+      #
+      # @params [String] data Data to add
+      #
+      # @example Parse client request
+      #   @handshake << <<EOF
+      #   GET /demo HTTP/1.1
+      #   Upgrade: websocket
+      #   Connection: Upgrade
+      #   Host: example.com
+      #   Sec-WebSocket-Origin: http://example.com
+      #   Sec-WebSocket-Version: 13
+      #   Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==
+      #
+      #   EOF
       def <<(data)
         @data << data
         if parse_data
@@ -14,12 +66,15 @@ module WebSocket
         end
       end
 
+      # Should send content to client after finished parsing?
+      # @return [Boolean] true
       def should_respond?
         true
       end
 
       private
 
+      # Set version of protocol basing on client requets. AFter cotting method calls include_version.
       def set_version
         @version = @headers['sec-websocket-version'].to_i if @headers['sec-websocket-version']
         @version ||= @headers['sec-websocket-draft'].to_i if @headers['sec-websocket-draft']
@@ -28,6 +83,8 @@ module WebSocket
         include_version
       end
 
+      # Include set of methods for selected protocol version
+      # @return [Boolean] false if protocol number is unknown, otherwise true
       def include_version
         case @version
           when 75 then extend Handler::Server75
@@ -40,6 +97,9 @@ module WebSocket
 
       PATH = /^(\w+) (\/[^\s]*) HTTP\/1\.1$/
 
+      # Parse first line of Client response.
+      # @params [String] line Line to parse
+      # @return [Boolean] True if parsed correctly. False otherwise
       def parse_first_line(line)
         line_parts = line.match(PATH)
         set_error(:invalid_header) and return unless line_parts
