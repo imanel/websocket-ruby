@@ -51,12 +51,12 @@ end
 def client_handshake_04(args = {})
   <<-EOF
 GET #{args[:path] || "/demo"} HTTP/1.1\r
-Host: #{args[:host] || "example.com"}#{":#{args[:port]}" if args[:port]}\r
 Upgrade: websocket\r
 Connection: Upgrade\r
-Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==\r
+Host: #{args[:host] || "example.com"}#{":#{args[:port]}" if args[:port]}\r
 Sec-WebSocket-Origin: http://example.com\r
 Sec-WebSocket-Version: #{args[:version] || "4"}\r
+Sec-WebSocket-Key: #{args[:key] || "dGhlIHNhbXBsZSBub25jZQ=="}\r
 \r
   EOF
 end
@@ -66,7 +66,7 @@ def server_handshake_04(args = {})
 HTTP/1.1 101 Switching Protocols\r
 Upgrade: websocket\r
 Connection: Upgrade\r
-Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=\r
+Sec-WebSocket-Accept: #{args[:accept] || "s3pPLMBiTxaQ9kYGzzhZRbK+xOo="}\r
 \r
   EOF
 end
