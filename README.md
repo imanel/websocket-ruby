@@ -14,11 +14,13 @@ Currently WebSocket Ruby supports all existing drafts of WebSocket, which includ
 
 ## Installation
 
+WebSocket Ruby has no external dependencies, so it can be installed from source or directly from rubygems:
+
 ```
 gem install "websocket"
 ```
 
-or directly in Gemfile:
+or via Gemfile:
 
 ```
 gem "websocket"
