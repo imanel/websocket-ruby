@@ -4,7 +4,7 @@ module WebSocket
       # This module and it's descendants are included in client or server handshake in order to extend basic functionality
       module Base
 
-        # @see WebSocket::Handshake::Base
+        # @see WebSocket::Handshake::Base#to_s
         def to_s
           result = [ header_line ]
           handshake_keys.each do |key|
