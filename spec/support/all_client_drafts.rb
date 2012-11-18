@@ -41,6 +41,27 @@ shared_examples_for 'all client drafts' do
     handshake.port.should eql(123)
   end
 
+  it "should parse uri" do
+    @request_params = { :uri => "ws://test.example.org:301/test_path?query=true" }
+    handshake.host.should eql('test.example.org')
+    handshake.port.should eql(301)
+    handshake.path.should eql('/test_path')
+    handshake.query.should eql('query=true')
+  end
+
+  it "should parse url" do
+    @request_params = { :url => "ws://test.example.org:301/test_path?query=true" }
+    handshake.host.should eql('test.example.org')
+    handshake.port.should eql(301)
+    handshake.path.should eql('/test_path')
+    handshake.query.should eql('query=true')
+  end
+
+  it "should resolve correct path with root server provided" do
+    @request_params = { :url => "ws://test.example.org" }
+    handshake.path.should eql('/')
+  end
+
   it "should return valid response" do
     validate_request
   end

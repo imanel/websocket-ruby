@@ -10,8 +10,8 @@ module WebSocket
         @version = args[:version] || DEFAULT_VERSION
         @origin = args[:origin]
 
-        if args[:uri] || args[:url]
-          uri     = URI.parse(args[:uri] || args[:url])
+        if args[:url] || args[:uri]
+          uri     = URI.parse(args[:url] || args[:uri])
           @secure = (uri.scheme == 'wss')
           @host   = uri.host
           @port   = uri.port
