@@ -42,6 +42,7 @@ module WebSocket
 
       def parse_first_line(line)
         line_parts = line.match(PATH)
+        set_error(:invalid_header) and return unless line_parts
         method = line_parts[1].strip
         set_error(:get_request_required) and return unless method == "GET"
 
