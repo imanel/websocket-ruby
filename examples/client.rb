@@ -55,6 +55,16 @@ module WebSocket
         send(@handshake.to_s, :type => :plain)
       end
 
+      private
+
+      def incoming_frame
+        WebSocket::Frame::Incoming::Client
+      end
+
+      def outgoing_frame
+        WebSocket::Frame::Outgoing::Client
+      end
+
     end
   end
 end

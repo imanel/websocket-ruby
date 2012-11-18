@@ -41,6 +41,16 @@ module WebSocket
         start_tls(@tls_options) if @secure
       end
 
+      private
+
+      def incoming_frame
+        WebSocket::Frame::Incoming::Server
+      end
+
+      def outgoing_frame
+        WebSocket::Frame::Outgoing::Server
+      end
+
     end
   end
 end

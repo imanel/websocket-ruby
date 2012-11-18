@@ -25,7 +25,7 @@ module WebSocket
       def send(data, args = {})
         type = args[:type] || :text
         unless type == :plain
-          frame = WebSocket::Frame::Outgoing.new(:version => @handshake.version, :data => data, :type => type)
+          frame = outgoing_frame.new(:version => @handshake.version, :data => data, :type => type)
           if !frame.supported?
             trigger_onerror("Frame type '#{type}' is not supported in protocol version #{@handshake.version}")
             return false
@@ -82,7 +82,7 @@ module WebSocket
         unless @state == :closed
           @state = :closed
           close
-          trigger_onclose
+          trigger_onclose('')
         end
       end
 
@@ -115,7 +115,7 @@ module WebSocket
         return unless @handshake.finished?
         if @handshake.valid?
           send(@handshake.to_s, :type => :plain) if @handshake.should_respond?
-          @frame = WebSocket::Frame::Incoming.new(:version => @handshake.version)
+          @frame = incoming_frame.new(:version => @handshake.version)
           @state = :open
           trigger_onopen
           handle_open(@handshake.leftovers) if @handshake.leftovers

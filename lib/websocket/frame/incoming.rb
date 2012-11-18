@@ -2,6 +2,9 @@ module WebSocket
   module Frame
     class Incoming < Base
 
+      autoload :Client, "#{::WebSocket::ROOT}/websocket/frame/incoming/client"
+      autoload :Server, "#{::WebSocket::ROOT}/websocket/frame/incoming/server"
+
       def initialize(args = {})
         @decoded = args[:decoded] || false
         super

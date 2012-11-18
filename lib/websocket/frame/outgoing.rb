@@ -2,6 +2,9 @@ module WebSocket
   module Frame
     class Outgoing < Base
 
+      autoload :Client, "#{::WebSocket::ROOT}/websocket/frame/outgoing/client"
+      autoload :Server, "#{::WebSocket::ROOT}/websocket/frame/outgoing/server"
+
       # Is selected type supported by current draft version?
       # @return [Boolean] true if frame type is supported
       def supported?

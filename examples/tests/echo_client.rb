@@ -6,7 +6,7 @@ EM.run do
   trap("TERM") { stop }
   trap("INT")  { stop }
 
-  ws = WebSocket::EventMachine::Client.connect(:uri => "localhost", :port => 9001);
+  ws = WebSocket::EventMachine::Client.connect(:host => "localhost", :port => 9001);
 
   ws.onopen do
     puts "Connected"
