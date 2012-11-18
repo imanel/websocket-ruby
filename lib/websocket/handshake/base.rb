@@ -1,10 +1,12 @@
 module WebSocket
   module Handshake
+    # @abstract Subclass and override to implement custom handshakes
     class Base
 
       attr_reader :host, :port, :path, :query,
                   :error, :state, :version, :secure
 
+      # Initialize new WebSocket Handshake and set it's state to :new
       def initialize(args = {})
         @state = :new
 
@@ -12,32 +14,44 @@ module WebSocket
         @headers = {}
       end
 
+      # @abstract Add data to handshake
       def <<(data)
         raise NotImplementedError
       end
 
+      # Is parsing of data finished?
+      # @return [Boolena] True if request was completely parsed or error occured. False otherwise
       def finished?
         @state == :finished || @state == :error
       end
 
+      # Is parsed data valid?
+      # @return [Boolean] False if some errors occured. Reason for error could be found in error method
       def valid?
         finished? && @error == nil
       end
 
+      # @abstract Should send data after parsing is finished?
       def should_respond?
         raise NotImplementedError
       end
 
+      # Data left from parsing. Sometimes data that doesn't belong to handshake are added - use this method to retrieve them.
+      # @return [String] String if some data are available. Nil otherwise
       def leftovers
         @leftovers.split("\n", reserved_leftover_lines + 1)[reserved_leftover_lines]
       end
 
       private
 
+      # Number of lines after header that should be handled as belonging to handshake. Any data after those lines will be handled as leftovers.
+      # @return [Integer] Number of lines
       def reserved_leftover_lines
         0
       end
 
+      # Changes state to error and sets error message
+      # @param [String] message Error message to set
       def set_error(message)
         @state = :error
         @error = message
@@ -45,14 +59,16 @@ module WebSocket
 
       HEADER = /^([^:]+):\s*(.+)$/
 
+      # Parse data imported to handshake and sets state to finished if necessary.
+      # @return [Boolean] True if finished parsing. False if not all data received yet.
       def parse_data
         header, @leftovers = @data.split("\r\n\r\n", 2)
-        return unless @leftovers # The whole header has not been received yet.
+        return false unless @leftovers # The whole header has not been received yet.
 
         lines = header.split("\r\n")
 
         first_line = lines.shift
-        return unless parse_first_line(first_line)
+        return false unless parse_first_line(first_line)
 
         lines.each do |line|
           h = HEADER.match(line)
@@ -60,6 +76,7 @@ module WebSocket
         end
 
         @state = :finished
+        true
       end
 
     end
