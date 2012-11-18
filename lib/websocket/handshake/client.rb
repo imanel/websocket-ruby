@@ -1,3 +1,5 @@
+require 'URI' unless defined?(URI)
+
 module WebSocket
   module Handshake
     class Client < Base
