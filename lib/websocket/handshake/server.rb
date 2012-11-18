@@ -22,6 +22,7 @@ module WebSocket
 
       def set_version
         @version = @headers['sec-websocket-version'].to_i if @headers['sec-websocket-version']
+        @version ||= @headers['sec-websocket-draft'].to_i if @headers['sec-websocket-draft']
         @version ||= 76 if @leftovers != ""
         @version ||= 75
         include_version

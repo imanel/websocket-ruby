@@ -154,7 +154,7 @@ module WebSocket
       end
 
       def debug(description, data)
-        puts(description + data.bytes.to_a.collect{|b| '\x' + b.to_s(16).ljust(2, '0')}.join) unless @state == :connecting
+        puts(description + data.bytes.to_a.collect{|b| '\x' + b.to_s(16).rjust(2, '0')}.join) unless @state == :connecting
       end
 
     end
