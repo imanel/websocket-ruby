@@ -103,7 +103,7 @@ describe 'Incoming frame draft 03' do
     let(:decoded_text) { nil }
     let(:error) { :frame_too_long }
 
-    it_should_behave_like('valid_incoming_frame') unless RUBY_PLATFORM == "java"
+    it_should_behave_like 'valid_incoming_frame'
   end
 
   context "should raise error with continuation frame without more frame earlier" do
