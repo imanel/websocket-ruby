@@ -46,7 +46,7 @@ module WebSocket
 
       # Add text of request from Client. This method will parse content immediately and update version, state and error(if neccessary)
       #
-      # @params [String] data Data to add
+      # @param [String] data Data to add
       #
       # @example Parse client request
       #   @handshake << <<EOF
@@ -110,7 +110,7 @@ module WebSocket
       PATH = /^(\w+) (\/[^\s]*) HTTP\/1\.1$/
 
       # Parse first line of Client response.
-      # @params [String] line Line to parse
+      # @param [String] line Line to parse
       # @return [Boolean] True if parsed correctly. False otherwise
       def parse_first_line(line)
         line_parts = line.match(PATH)

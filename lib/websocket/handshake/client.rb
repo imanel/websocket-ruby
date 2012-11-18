@@ -79,7 +79,7 @@ module WebSocket
 
       # Add text of response from Server. This method will parse content immediately and update state and error(if neccessary)
       #
-      # @params [String] data Data to add
+      # @param [String] data Data to add
       #
       # @example Parse server response
       #   @handshake << <<EOF
@@ -120,7 +120,7 @@ module WebSocket
       FIRST_LINE = /^HTTP\/1\.1 (\d{3})[\w\s]*$/
 
       # Parse first line of Server response.
-      # @params [String] line Line to parse
+      # @param [String] line Line to parse
       # @return [Boolean] True if parsed correctly. False otherwise
       def parse_first_line(line)
         line_parts = line.match(FIRST_LINE)
