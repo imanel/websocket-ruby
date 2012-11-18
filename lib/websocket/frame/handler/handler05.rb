@@ -9,6 +9,7 @@ module WebSocket
 
         private
 
+        # Since handler 5 masking should be enabled by default
         def masking?; true; end
 
       end

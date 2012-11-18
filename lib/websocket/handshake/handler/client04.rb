@@ -25,7 +25,7 @@ module WebSocket
           host += ":#{@port}" if @port
           keys << ["Host", host]
           keys << ["Sec-WebSocket-Origin", @origin] if @origin
-          keys << ["Sec-WebSocket-Version", [ @version, 13 ].min ]
+          keys << ["Sec-WebSocket-Version", @version ]
           keys << ["Sec-WebSocket-Key", key]
           keys
         end

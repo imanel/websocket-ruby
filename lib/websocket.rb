@@ -14,4 +14,14 @@ module WebSocket
   autoload :Handler,   "#{ROOT}/websocket/handler"
   autoload :Handshake, "#{ROOT}/websocket/handshake"
 
+  # Limit of frame size payload in bytes
+  def self.max_frame_size
+    @max_frame_size ||= 20 * 1024 * 1024 # 20MB
+  end
+
+  # Set limit of frame size payload in bytes
+  def self.max_frame_size=(val)
+    @max_frame_size = val
+  end
+
 end

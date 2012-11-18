@@ -7,9 +7,9 @@ module WebSocket
 
       # Initialize frame
       # @param args [Hash] Arguments for frame
+      # @option args [String]  :data default data for frame
+      # @option args [String]  :type Type of frame - available types are "text", "binary", "ping", "pong" and "close"(support depends on draft version)
       # @option args [Integer] :version Version of draft. Currently supported version are 75, 76 and 00-13.
-      # @option args [String] :type Type of frame - available types are "text", "binary", "ping", "pong" and "close"(support depends on draft version)
-      # @option args [String] :data default data for frame
       def initialize(args = {})
         @type = args[:type]
         @data = Data.new(args[:data].to_s)
@@ -21,6 +21,16 @@ module WebSocket
       # @return [Boolean] True if error is set
       def error?
         !!@error
+      end
+
+      # Is selected type supported for selected handler?
+      def support_type?
+        supported_frames.include?(@type)
+      end
+
+      # Implement in submodules
+      def supported_frames
+        raise NotImplementedError
       end
 
       private

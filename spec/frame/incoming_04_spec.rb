@@ -99,7 +99,7 @@ describe 'Incoming frame draft 04' do
   end
 
   context "should raise error with too long frame" do
-    let(:encoded_text) { "\x84\x7F" + "a" * WebSocket::Frame::Handler::Base::MAX_FRAME_SIZE }
+    let(:encoded_text) { "\x84\x7F" + "a" * WebSocket.max_frame_size }
     let(:decoded_text) { nil }
     let(:error) { :frame_too_long }
 

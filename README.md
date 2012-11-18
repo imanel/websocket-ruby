@@ -9,7 +9,7 @@ Currently WebSocket Ruby supports all existing drafts of WebSocket, which includ
 
 - [hixie-75](http://tools.ietf.org/html/draft-hixie-thewebsocketprotocol-75)
 - [hixie-76](http://tools.ietf.org/html/draft-hixie-thewebsocketprotocol-76)
-- [all hybi drafts (00-17)](http://tools.ietf.org/html/draft-ietf-hybi-thewebsocketprotocol-17)
+- [all hybi drafts (00-13)](http://tools.ietf.org/html/draft-ietf-hybi-thewebsocketprotocol-17)
 - [RFC 6455](http://datatracker.ietf.org/doc/rfc6455/)
 
 ## Installation

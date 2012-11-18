@@ -7,12 +7,14 @@ module WebSocket
 
         include Base
 
+        # @see WebSocket::Frame::Base#supported_frames
         def supported_frames
           [:text, :close]
         end
 
         private
 
+        # @see WebSocket::Frame::Handler::Base#encode_frame
         def encode_frame
           case @type
             when :close then "\xff\x00"
@@ -23,6 +25,7 @@ module WebSocket
           end
         end
 
+        # @see WebSocket::Frame::Handler::Base#decode_frame
         def decode_frame
           return if @data.size == 0
 
@@ -43,7 +46,7 @@ module WebSocket
               break unless (b & 0x80) == 0x80
             end
 
-            set_error(:frame_too_long) and return if length > MAX_FRAME_SIZE
+            set_error(:frame_too_long) and return if length > ::WebSocket.max_frame_size
 
             unless @data.getbyte(pointer+length-1) == nil
               # Straight from spec - I'm sure this isn't crazy...
@@ -62,7 +65,7 @@ module WebSocket
             set_error(:invalid_frame) and return if @data.getbyte(0) != 0x00
 
             # Addition to the spec to protect against malicious requests
-            set_error(:frame_too_long) and return if @data.size > MAX_FRAME_SIZE
+            set_error(:frame_too_long) and return if @data.size > ::WebSocket.max_frame_size
 
             msg = @data.slice!(/\A\x00[^\xff]*\xff/)
             if msg

@@ -7,12 +7,14 @@ module WebSocket
 
         include Base
 
+        # @see WebSocket::Frame::Base#supported_frames
         def supported_frames
           [:text, :binary, :close, :ping, :pong]
         end
 
         private
 
+        # @see WebSocket::Frame::Handler::Base#encode_frame
         def encode_frame
           frame = ''
 
@@ -38,6 +40,7 @@ module WebSocket
           set_error(e.message.to_sym) and return
         end
 
+        # @see WebSocket::Frame::Handler::Base#decode_frame
         def decode_frame
           while @data.size > 1
             pointer = 0
@@ -85,7 +88,7 @@ module WebSocket
             frame_length = pointer + payload_length
             frame_length += 4 if mask
 
-            raise(WebSocket::Error, :frame_too_long) if frame_length > MAX_FRAME_SIZE
+            raise(WebSocket::Error, :frame_too_long) if frame_length > WebSocket.max_frame_size
 
             # Check buffer size
             return if @data.getbyte(frame_length-1) == nil # Buffer incomplete
@@ -135,8 +138,10 @@ module WebSocket
         # This allows flipping the more bit to fin for draft 04
         def fin; false; end
 
+        # Allow turning on or off masking
         def masking?; false; end
 
+        # Hash of frame names and it's opcodes
         FRAME_TYPES = {
           :continuation => 0,
           :close => 1,
@@ -146,12 +151,21 @@ module WebSocket
           :binary => 5
         }
 
+        # Hash of frame opcodes and it's names
         FRAME_TYPES_INVERSE = FRAME_TYPES.invert
 
+        # Convert frame type name to opcode
+        # @param [Symbol] frame_type Frame type name
+        # @return [Integer] opcode or nil
+        # @raise [WebSocket::Error] if frame opcode is not known
         def type_to_opcode(frame_type)
           FRAME_TYPES[frame_type] || raise(WebSocket::Error, :unknown_frame_type)
         end
 
+        # Convert frame opcode to type name
+        # @param [Integer] opcode Opcode
+        # @return [Symbol] Frame type name or nil
+        # @raise [WebSocket::Error] if frame type name is not known
         def opcode_to_type(opcode)
           FRAME_TYPES_INVERSE[opcode] || raise(WebSocket::Error, :unknown_opcode)
         end
