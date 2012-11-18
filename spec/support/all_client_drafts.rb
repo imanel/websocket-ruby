@@ -32,8 +32,8 @@ shared_examples_for 'all client drafts' do
   end
 
   it "should return valid query" do
-    @request_params = { :query => { :aaa => "bbb"} }
-    handshake.query.should eql(:aaa => "bbb")
+    @request_params = { :query => "aaa=bbb" }
+    handshake.query.should eql("aaa=bbb")
   end
 
   it "should return valid port" do
@@ -51,7 +51,7 @@ shared_examples_for 'all client drafts' do
   end
 
   it "should allow query in path" do
-    @request_params = { :query => { :test => "true" } }
+    @request_params = { :query => "test=true" }
     validate_request
   end
 

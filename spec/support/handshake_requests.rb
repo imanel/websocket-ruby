@@ -1,6 +1,6 @@
 def client_handshake_75(args = {})
   <<-EOF
-GET #{args[:path] || "/demo"} HTTP/1.1\r
+GET #{args[:path] || "/demo"}#{"?#{args[:query]}" if args[:query]} HTTP/1.1\r
 Upgrade: WebSocket\r
 Connection: Upgrade\r
 Host: #{args[:host] || "example.com"}#{":#{args[:port]}" if args[:port]}\r
@@ -22,7 +22,7 @@ end
 
 def client_handshake_76(args = {})
   request = <<-EOF
-GET #{args[:path] || "/demo"} HTTP/1.1\r
+GET #{args[:path] || "/demo"}#{"?#{args[:query]}" if args[:query]} HTTP/1.1\r
 Upgrade: WebSocket\r
 Connection: Upgrade\r
 Host: #{args[:host] || "example.com"}#{":#{args[:port]}" if args[:port]}\r
@@ -50,7 +50,7 @@ end
 
 def client_handshake_04(args = {})
   <<-EOF
-GET #{args[:path] || "/demo"} HTTP/1.1\r
+GET #{args[:path] || "/demo"}#{"?#{args[:query]}" if args[:query]} HTTP/1.1\r
 Upgrade: websocket\r
 Connection: Upgrade\r
 Host: #{args[:host] || "example.com"}#{":#{args[:port]}" if args[:port]}\r
