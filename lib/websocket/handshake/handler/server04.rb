@@ -8,16 +8,19 @@ module WebSocket
 
         include Server
 
+        # @see WebSocket::Handshake::Base
         def valid?
           super && (@headers['sec-websocket-key'] ? true : (set_error(:invalid_handshake_authentication) and false))
         end
 
         private
 
+        # @see WebSocket::Handshake::Handler::Base
         def header_line
           "HTTP/1.1 101 Switching Protocols"
         end
 
+        # @see WebSocket::Handshake::Handler::Base
         def handshake_keys
           [
             ["Upgrade", "websocket"],
@@ -26,6 +29,8 @@ module WebSocket
           ]
         end
 
+        # Signature of response, created from client request Sec-WebSocket-Key
+        # @return [String] signature
         def signature
           return unless key = @headers['sec-websocket-key']
           string_to_sign = "#{key}258EAFA5-E914-47DA-95CA-C5AB0DC85B11"

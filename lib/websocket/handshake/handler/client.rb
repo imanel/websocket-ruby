@@ -7,6 +7,7 @@ module WebSocket
 
         private
 
+        # @see WebSocket::Handshake::Handler::Base
         def header_line
           path = @path
           path += "?" + @query if @query

@@ -7,35 +7,42 @@ module WebSocket
 
         include Server
 
+        # @see WebSocket::Handshake::Base
         def valid?
           super && !!finishing_line
         end
 
         private
 
+        # @see WebSocket::Handshake::Base
         def reserved_leftover_lines
           1
         end
 
+        # @see WebSocket::Handshake::Handler::Base
         def header_line
           "HTTP/1.1 101 WebSocket Protocol Handshake"
         end
 
+        # @see WebSocket::Handshake::Handler::Base
         def handshake_keys
           [
             ["Upgrade", "WebSocket"],
             ["Connection", "Upgrade"],
             ["Sec-WebSocket-Origin", @headers['origin']],
-            ["Sec-WebSocket-Location", handshake_location]
+            ["Sec-WebSocket-Location", uri]
           ]
         end
 
+        # @see WebSocket::Handshake::Handler::Base
         def finishing_line
           @finishing_line ||= challenge_response
         end
 
         private
 
+        # Response to client challenge from request Sec-WebSocket-Key1, Sec-WebSocket-Key2 and leftovers
+        # @return [String] Challenge response or nil if error occured
         def challenge_response
           # Refer to 5.2 4-9 of the draft 76
           first = numbers_over_spaces(@headers['sec-websocket-key1']) || return
@@ -48,6 +55,9 @@ module WebSocket
           Digest::MD5.digest(sum)
         end
 
+        # Calculate numbers over spaces, according to spec 5.2
+        # @param [String] string Key to parse
+        # @return [Integer] Result of calculations or nil if error occured
         def numbers_over_spaces(string)
           numbers = string.scan(/[0-9]/).join.to_i
 

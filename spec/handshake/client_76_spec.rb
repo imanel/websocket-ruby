@@ -4,7 +4,7 @@ describe 'Client draft 76 handshake' do
   let(:handshake) { WebSocket::Handshake::Client.new({ :uri => 'ws://example.com/demo', :origin => 'http://example.com', :version => version }.merge(@request_params || {})) }
 
   let(:version) { 76 }
-  let(:client_request) { client_handshake_76({ :key1 => handshake.key1, :key2 => handshake.key2, :key3 => handshake.key3 }.merge(@request_params || {})) }
+  let(:client_request) { client_handshake_76({ :key1 => handshake.send(:key1), :key2 => handshake.send(:key2), :key3 => handshake.send(:key3) }.merge(@request_params || {})) }
   let(:server_response) { server_handshake_76({ :challenge => handshake.send(:challenge) }.merge(@request_params || {})) }
 
   it_should_behave_like 'all client drafts'

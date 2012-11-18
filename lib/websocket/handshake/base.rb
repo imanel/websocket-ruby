@@ -48,6 +48,19 @@ module WebSocket
         @leftovers.split("\n", reserved_leftover_lines + 1)[reserved_leftover_lines]
       end
 
+      # URI of request.
+      # @return [String] Full URI with protocol
+      # @example
+      #   @handshake.uri #=> "ws://example.com/path?query=true"
+      def uri
+        uri =  secure ? "wss://" : "ws://"
+        uri << host
+        uri << ":#{port}" if port
+        uri << path
+        uri << "?#{query}" if query
+        uri
+      end
+
       private
 
       # Number of lines after header that should be handled as belonging to handshake. Any data after those lines will be handled as leftovers.

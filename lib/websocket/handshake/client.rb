@@ -102,19 +102,6 @@ module WebSocket
         false
       end
 
-      # URI of request.
-      # @return [String] Full URI with protocol
-      # @example
-      #   @handshake.uri #=> "ws://example.com/path?query=true"
-      def uri
-        uri = @secure ? "wss://" : "ws://"
-        uri << @host
-        uri << ":#{@port}" if @port
-        uri << @path
-        uri << "?#{@query}" if @query
-        uri
-      end
-
       private
 
       # Include set of methods for selected protocol version

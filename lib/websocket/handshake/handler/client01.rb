@@ -7,6 +7,9 @@ module WebSocket
 
         include Client76
 
+        private
+
+        # @see WebSocket::Handshake::Handler::Base
         def handshake_keys
           keys = super
           keys << ['Sec-WebSocket-Draft', @version]

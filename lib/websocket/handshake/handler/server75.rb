@@ -7,16 +7,18 @@ module WebSocket
 
         private
 
+        # @see WebSocket::Handshake::Handler::Base
         def header_line
           "HTTP/1.1 101 Web Socket Protocol Handshake"
         end
 
+        # @see WebSocket::Handshake::Handler::Base
         def handshake_keys
           [
             ["Upgrade", "WebSocket"],
             ["Connection", "Upgrade"],
             ["WebSocket-Origin", @headers['origin']],
-            ["WebSocket-Location", handshake_location]
+            ["WebSocket-Location", uri]
           ]
         end
 

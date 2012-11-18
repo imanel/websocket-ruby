@@ -72,6 +72,18 @@ module WebSocket
         true
       end
 
+      # Host of server according to client header
+      # @return [String] host
+      def host
+        @headers["host"].to_s.split(":")[0].to_s
+      end
+
+      # Port of server according to client header
+      # @return [String] port
+      def port
+        @headers["host"].to_s.split(":")[1]
+      end
+
       private
 
       # Set version of protocol basing on client requets. AFter cotting method calls include_version.

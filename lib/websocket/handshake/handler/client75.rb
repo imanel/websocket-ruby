@@ -7,6 +7,7 @@ module WebSocket
 
         private
 
+        # @see WebSocket::Handshake::Handler::Base
         def handshake_keys
           keys = [
             ["Upgrade", "WebSocket"],
