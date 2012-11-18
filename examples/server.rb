@@ -1,7 +1,7 @@
 require "#{File.expand_path(File.dirname(__FILE__))}/base"
 
 # Example WebSocket Server (using EventMachine)
-# @example Usage
+# @example
 #   WebSocket::EventMachine::Server.start(:host => "0.0.0.0", :port => 8080) do |ws|
 #     ws.onopen    { ws.send "Hello Client!"}
 #     ws.onmessage { |msg| ws.send "Pong: #{msg}" }

@@ -2,7 +2,7 @@ module WebSocket
   module Handshake
     # Construct or parse a server WebSocket handshake.
     #
-    # @example Synopsis
+    # @example
     #   handshake = WebSocket::Handshake::Server.new
     #
     #   # Parse client request
@@ -37,7 +37,7 @@ module WebSocket
       #
       # @option args [Boolean] :secure If true then server will use wss:// protocol
       #
-      # @example New client
+      # @example
       #   Websocket::Handshake::Server.new(:secure => true)
       def initialize(args = {})
         super
@@ -48,7 +48,7 @@ module WebSocket
       #
       # @param [String] data Data to add
       #
-      # @example Parse client request
+      # @example
       #   @handshake << <<EOF
       #   GET /demo HTTP/1.1
       #   Upgrade: websocket
