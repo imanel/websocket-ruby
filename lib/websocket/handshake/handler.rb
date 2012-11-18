@@ -6,6 +6,7 @@ module WebSocket
 
       autoload :Client,   "#{::WebSocket::ROOT}/websocket/handshake/handler/client"
       autoload :Client75, "#{::WebSocket::ROOT}/websocket/handshake/handler/client75"
+      autoload :Client76, "#{::WebSocket::ROOT}/websocket/handshake/handler/client76"
 
       autoload :Server,   "#{::WebSocket::ROOT}/websocket/handshake/handler/server"
       autoload :Server04, "#{::WebSocket::ROOT}/websocket/handshake/handler/server04"

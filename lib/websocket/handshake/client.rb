@@ -55,7 +55,7 @@ module WebSocket
       def include_version
         case @version
           when 75 then extend Handler::Client75
-          # when 76, 0..3 then extend Handler::Client76
+          when 76, 0..3 then extend Handler::Client76
           # when 4..13 then extend Handler::Client04
           else set_error(:unknown_protocol_version) and return false
         end

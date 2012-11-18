@@ -61,7 +61,7 @@ shared_examples_for 'all client drafts' do
   end
 
   it "should recognize unfinished requests" do
-    handshake << server_response[0..-10]
+    handshake << server_response[0..-20]
 
     handshake.should_not be_finished
     handshake.should_not be_valid

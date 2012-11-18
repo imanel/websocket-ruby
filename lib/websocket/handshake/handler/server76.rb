@@ -7,6 +7,10 @@ module WebSocket
 
         include Server
 
+        def valid?
+          super && !!finishing_line
+        end
+
         private
 
         def header_line
@@ -24,10 +28,6 @@ module WebSocket
 
         def finishing_line
           @finishing_line ||= challenge_response
-        end
-
-        def valid?
-          super && !!finishing_line
         end
 
         private
