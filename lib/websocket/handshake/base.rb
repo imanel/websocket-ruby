@@ -19,6 +19,12 @@ module WebSocket
         raise NotImplementedError
       end
 
+      # Return textual representation of handshake request or response
+      # @return [String] text of response
+      def to_s
+        ""
+      end
+
       # Is parsing of data finished?
       # @return [Boolena] True if request was completely parsed or error occured. False otherwise
       def finished?
