@@ -3,7 +3,7 @@ module WebSocket
     class Base
 
       attr_reader :host, :port, :path, :query,
-                  :error, :state, :version
+                  :error, :state, :version, :secure
 
       def initialize(args = {})
         @state = :new

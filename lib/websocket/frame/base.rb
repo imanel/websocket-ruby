@@ -1,7 +1,6 @@
 module WebSocket
   module Frame
     class Base
-      DEFAULT_VERSION = 13
 
       attr_reader :data, :type, :version, :error
 

@@ -6,6 +6,7 @@
 module WebSocket
   class Error < RuntimeError; end
 
+  DEFAULT_VERSION = 13
   ROOT = File.expand_path(File.dirname(__FILE__))
 
   autoload :Frame,     "#{ROOT}/websocket/frame"

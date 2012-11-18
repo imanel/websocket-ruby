@@ -6,7 +6,7 @@ describe 'Server draft 76 handshake' do
   let(:client_request) { client_handshake_76(@request_params || {}) }
   let(:server_response) { server_handshake_76(@request_params || {}) }
 
-  it_should_behave_like 'all drafts'
+  it_should_behave_like 'all server drafts'
 
   it "should disallow request without spaces in key 1" do
     @request_params = { :key1 => "4@146546xW%0l15" }

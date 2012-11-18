@@ -6,7 +6,7 @@ require "#{File.expand_path(File.dirname(__FILE__))}/base"
 #   ws.onmessage { |msg| ws.send "Pong: #{msg}" }
 #   ws.send "data"
 module WebSocket
-  module EvenMachine
+  module EventMachine
     class Client < Base
 
       # Connect to websocket server
