@@ -69,6 +69,7 @@ module WebSocket
 
       def parse_first_line(line)
         line_parts = line.match(FIRST_LINE)
+        set_error(:invalid_header) and return unless line_parts
         status = line_parts[1]
         set_error(:invalid_status_code) and return unless status == '101'
 
