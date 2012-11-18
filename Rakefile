@@ -22,6 +22,11 @@ namespace :autobahn do
   end
 end
 
-require 'rake/extensiontask'
 spec = Gem::Specification.load('websocket.gemspec')
-Rake::ExtensionTask.new('websocket_native', spec)
+if RUBY_PLATFORM =~ /java/
+  require 'rake/javaextensiontask'
+  Rake::JavaExtensionTask.new('websocket_native', spec)
+else
+  require 'rake/extensiontask'
+  Rake::ExtensionTask.new('websocket_native', spec)
+end
