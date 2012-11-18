@@ -1,5 +1,6 @@
 module WebSocket
   module Frame
+    # @abstract Subclass and override to implement custom frames
     class Base
 
       attr_reader :data, :type, :version, :error
@@ -13,7 +14,7 @@ module WebSocket
         @type = args[:type]
         @data = Data.new(args[:data].to_s)
         @version = args[:version] || DEFAULT_VERSION
-        set_handler
+        include_version
       end
 
       # Check if some errors occured
@@ -24,7 +25,9 @@ module WebSocket
 
       private
 
-      def set_handler
+      # Include set of methods for selected protocol version
+      # @return [Boolean] false if protocol number is unknown, otherwise true
+      def include_version
         case @version
           when 75..76 then extend Handler::Handler75
           when 0..2 then extend Handler::Handler75
@@ -36,6 +39,8 @@ module WebSocket
         end
       end
 
+      # Changes state to error and sets error message
+      # @param [String] message Error message to set
       def set_error(message)
         @error = message
       end

@@ -3,7 +3,6 @@
 # in http servers or clients to provide WebSocket support.
 # @author Bernard "Imanel" Potocki
 # @see http://github.com/imanel/websocket-ruby main repository
-# @version 1.0.1
 module WebSocket
   class Error < RuntimeError; end
 
