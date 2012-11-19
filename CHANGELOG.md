@@ -3,6 +3,7 @@
 ## Edge
 
 - improve performance by ~50%
+- add support for native extension
 
 ## 1.0.2
 
