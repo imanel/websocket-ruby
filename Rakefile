@@ -21,12 +21,3 @@ namespace :autobahn do
     system('wstest --mode=fuzzingclient --spec=autobahn-server.json')
   end
 end
-
-spec = Gem::Specification.load('websocket.gemspec')
-if RUBY_PLATFORM =~ /java/
-  require 'rake/javaextensiontask'
-  Rake::JavaExtensionTask.new('websocket_native', spec)
-else
-  require 'rake/extensiontask'
-  Rake::ExtensionTask.new('websocket_native', spec)
-end

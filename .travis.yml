@@ -9,5 +9,3 @@ rvm:
   - rbx-18mode
   - rbx-19mode
   - ree
-before_script:
-  - rake compile
