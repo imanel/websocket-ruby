@@ -1,20 +1,20 @@
 #include <ruby.h>
 
 VALUE WebSocket = Qnil;
-VALUE WebSocketFrame = Qnil;
-VALUE WebSocketFrameData = Qnil;
+VALUE WebSocketNative = Qnil;
+VALUE WebSocketNativeData = Qnil;
 
 void Init_websocket_native();
-VALUE method_websocket_frame_data_mask_native(VALUE self, VALUE payload, VALUE mask);
+VALUE method_websocket_native_data_mask(VALUE self, VALUE payload, VALUE mask);
 
 void Init_websocket_native() {
   WebSocket = rb_define_module("WebSocket");
-  WebSocketFrame = rb_define_module_under(WebSocket, "Frame");
-  WebSocketFrameData = rb_define_class_under(WebSocketFrame, "Data", rb_cString);
-  rb_define_method(WebSocketFrameData, "mask_native", method_websocket_frame_data_mask_native, 2);
+  WebSocketNative = rb_define_module_under(WebSocket, "Native");
+  WebSocketNativeData = rb_define_class_under(WebSocketNative, "Data", rb_cObject);
+  rb_define_method(WebSocketNativeData, "mask", method_websocket_native_data_mask, 2);
 }
 
-VALUE method_websocket_frame_data_mask_native(VALUE self, VALUE payload, VALUE mask) {
+VALUE method_websocket_native_data_mask(VALUE self, VALUE payload, VALUE mask) {
   int n = RARRAY_LEN(payload), i, p, m;
   VALUE unmasked = rb_ary_new2(n);
 
