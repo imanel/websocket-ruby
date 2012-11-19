@@ -1,8 +1,8 @@
 # Changelog
 
-## Edge
+## 1.0.3
 
-- improve performance by ~50%
+- improve pure ruby implementation performance by ~30%
 - add support for native extension
 
 ## 1.0.2
