@@ -3,7 +3,10 @@
   "outdir": "./autobahn/server",
 
   "servers": [
-    {"agent": "WebSocket-Ruby<br>1.0.2", "url": "ws://localhost:9001", "options": {"version": 18}}
+    {"agent": "WebSocket-Ruby<br>(1.0.3 Pure)", "url": "ws://localhost:9001", "options": {"version": 18}},
+    {"agent": "WebSocket-Ruby<br>(1.0.3 Native)", "url": "ws://localhost:9002", "options": {"version": 18}},
+    {"agent": "Faye-WebSocket<br>(0.4.6 Thin)", "url": "ws://localhost:7000", "options": {"version": 18}},
+    {"agent": "EM-WebSocket<br>(0.3.8)", "url": "ws://localhost:8080", "options": {"version": 18}}
   ],
 
   "cases": ["*"],
