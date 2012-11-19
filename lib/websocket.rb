@@ -25,3 +25,9 @@ module WebSocket
   end
 
 end
+
+# Try loading websocket-native if available
+begin
+  require "websocket-native"
+rescue LoadError
+end

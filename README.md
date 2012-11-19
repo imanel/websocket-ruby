@@ -104,6 +104,12 @@ frame.next # "world!""
 
 For examples on how to use WebSocket Ruby see examples directory in the repository. Provided examples are fully working servers - they are passing full autobahn compatibility suit.
 
+## Native extension
+
+WebSocket gem is written in pure Ruby, without any dependencies or native extensions and still is one of the fastest implementations of WebSocket API. However, if you want to increase it's speed even further, I created additional gem with dedicated native extensions for both C and Java. Those extensions provide 20-30% increate in speed(more accurate comparision can be found in autobahn test results)
+
+In order to use native extension just install [websocket-native](http://github.com/imanel/websocket-ruby-native) gem or add it to Gemfile - WebSocket will automatically detect and load it.
+
 ## License
 
 (The MIT License)
