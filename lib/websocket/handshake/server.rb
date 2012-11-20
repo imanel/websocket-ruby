@@ -7,14 +7,14 @@ module WebSocket
     #
     #   # Parse client request
     #   @handshake << <<EOF
-    #   GET /demo HTTP/1.1
-    #   Upgrade: websocket
-    #   Connection: Upgrade
-    #   Host: example.com
-    #   Sec-WebSocket-Origin: http://example.com
-    #   Sec-WebSocket-Version: 13
-    #   Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==
-    #
+    #   GET /demo HTTP/1.1\r
+    #   Upgrade: websocket\r
+    #   Connection: Upgrade\r
+    #   Host: example.com\r
+    #   Sec-WebSocket-Origin: http://example.com\r
+    #   Sec-WebSocket-Version: 13\r
+    #   Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==\r
+    #   \r
     #   EOF
     #
     #   # All data received?

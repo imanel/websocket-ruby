@@ -18,11 +18,11 @@ module WebSocket
     #
     #   # Parse server response
     #   @handshake << <<EOF
-    #   HTTP/1.1 101 Switching Protocols
-    #   Upgrade: websocket
-    #   Connection: Upgrade
-    #   Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=
-    #
+    #   HTTP/1.1 101 Switching Protocols\r
+    #   Upgrade: websocket\r
+    #   Connection: Upgrade\r
+    #   Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=\r
+    #   \r
     #   EOF
     #
     #   # All data received?
