@@ -1,6 +1,6 @@
 # Changelog
 
-## Edge
+## 1.0.4
 
 - nicer inspect - handful during debugging
 
