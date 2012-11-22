@@ -1,5 +1,9 @@
 # Changelog
 
+## Edge
+
+- nicer inspect - handful during debugging
+
 ## 1.0.3
 
 - improve pure ruby implementation performance by ~30%

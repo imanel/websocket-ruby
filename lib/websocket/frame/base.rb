@@ -33,6 +33,13 @@ module WebSocket
         raise NotImplementedError
       end
 
+      # Recreate inspect as #to_s was overwritten
+      def inspect
+        vars = self.instance_variables.map{|v| "#{v}=#{instance_variable_get(v).inspect}"}.join(", ")
+        insp = "#{self.class}:0x%08x" % (self.__id__ * 2)
+        "<#{insp} #{vars}>"
+      end
+
       private
 
       # Include set of methods for selected protocol version
