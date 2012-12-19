@@ -202,7 +202,7 @@ pre.wirelog_tcp_closed_by_peer {color: #fff; margin: 0; background-color: #000; 
       <center><a href="http://autobahn.ws/testsuite" title="Autobahn WebSockets Testsuite"><img src="http://autobahn.ws/static/img/ws_protocol_test_report.png"          border="0" width="820" height="46" alt="Autobahn WebSockets Testsuite Report"></img></a></center>
       <center><a href="http://autobahn.ws"           title="Autobahn WebSockets">          <img src="http://autobahn.ws/static/img/ws_protocol_test_report_autobahn.png" border="0" width="300" height="68" alt="Autobahn WebSockets">                 </img></a></center>
       <br/>
-      <p class="case case_ok">EM-WebSocket<br>(0.3.8) - <span style="font-size: 1.3em;"><b>Case 6.6.6</b></span> : Pass - <span style="font-size: 0.9em;"><b>1</b> ms @ 2012-11-19T03:36:21Z</a></p>
+      <p class="case case_ok">EM-WebSocket<br>(0.3.8) - <span style="font-size: 1.3em;"><b>Case 6.6.6</b></span> : Pass - <span style="font-size: 0.9em;"><b>1</b> ms @ 2012-12-19T17:04:37Z</a></p>
       <p class="case_text_block case_desc"><b>Case Description</b><br/><br/>Send a text message with payload which is not valid UTF-8 in one fragment.<br><br>MESSAGE:<br>Œ∫·Ωπœ<br>cebae1bdb9cf</p>
       <p class="case_text_block case_expect"><b>Case Expectation</b><br/><br/>The connection is failed immediately, since the payload is not valid UTF-8.</p>
 
@@ -221,12 +221,12 @@ Upgrade: WebSocket
 Connection: Upgrade
 Pragma: no-cache
 Cache-Control: no-cache
-Sec-WebSocket-Key: SHix8uG6+nM1i9XSiOZTVw==
+Sec-WebSocket-Key: mCzx+8HrYnHIFadttLcDAQ==
 Sec-WebSocket-Version: 13</pre>
       <pre class="http_dump">HTTP/1.1 101 Switching Protocols
 Upgrade: websocket
 Connection: Upgrade
-Sec-WebSocket-Accept: kgXbHqYx+ksBTP0NbbteIEKe9KQ=</pre>
+Sec-WebSocket-Accept: eQn97zAehQhf9DRLkGnEbQV35hI=</pre>
       <br/><hr/>
       <h2>Closing Behavior</h2>
       <table>
@@ -282,22 +282,22 @@ Sec-WebSocket-Accept: kgXbHqYx+ksBTP0NbbteIEKe9KQ=</pre>
          <pre class="wirelog_tx_octets">000 TX OCTETS: 474554202f20485454502f312e310d0a557365722d4167656e743a204175746f6261686e5465737453756974652f302e352e</pre>
          <pre class="wirelog_tx_octets">               322d302e352e390d0a486f73743a206c6f63616c686f73743a383038300d0a557067726164653a20576562536f636b65740d</pre>
          <pre class="wirelog_tx_octets">               0a436f6e6e656374696f6e3a20557067726164650d0a507261676d613a206e6f2d63616368650d0a43616368652d436f6e74</pre>
-         <pre class="wirelog_tx_octets">               726f6c3a206e6f2d63616368650d0a5365632d576562536f636b65742d4b65793a2053486978387547362b6e4d3169395853</pre>
-         <pre class="wirelog_tx_octets">               694f5a5456773d3d0d0a5365632d576562536f636b65742d56657273696f6e3a2031330d0a0d0a</pre>
+         <pre class="wirelog_tx_octets">               726f6c3a206e6f2d63616368650d0a5365632d576562536f636b65742d4b65793a206d437a782b384872596e484946616474</pre>
+         <pre class="wirelog_tx_octets">               744c634441513d3d0d0a5365632d576562536f636b65742d56657273696f6e3a2031330d0a0d0a</pre>
          <pre class="wirelog_rx_octets">001 RX OCTETS: 485454502f312e312031303120537769746368696e672050726f746f636f6c730d0a557067726164653a20776562736f636b</pre>
-         <pre class="wirelog_rx_octets">               65740d0a436f6e6e656374696f6e3a20557067726164650d0a5365632d576562536f636b65742d4163636570743a206b6758</pre>
-         <pre class="wirelog_rx_octets">               62487159782b6b73425450304e6262746549454b65394b513d0d0a0d0a</pre>
-         <pre class="wirelog_tx_frame">002 TX FRAME : OPCODE=1, FIN=True, RSV=0, MASK=29612fbe, PAYLOAD-REPEAT-LEN=None, CHOPSIZE=None, SYNC=False</pre>
+         <pre class="wirelog_rx_octets">               65740d0a436f6e6e656374696f6e3a20557067726164650d0a5365632d576562536f636b65742d4163636570743a2065516e</pre>
+         <pre class="wirelog_rx_octets">               39377a4165685168663944524c6b476e45625156333568493d0d0a0d0a</pre>
+         <pre class="wirelog_tx_frame">002 TX FRAME : OPCODE=1, FIN=True, RSV=0, MASK=f4cb88d3, PAYLOAD-REPEAT-LEN=None, CHOPSIZE=None, SYNC=False</pre>
          <pre class="wirelog_tx_frame">               Œ∫·Ωπœ</pre>
-         <pre class="wirelog_tx_octets">003 TX OCTETS: 818629612fbee7dbce0390ae</pre>
+         <pre class="wirelog_tx_octets">003 TX OCTETS: 8186f4cb88d33a71696e4d04</pre>
          <pre class="wirelog_kill_after">004 FAIL CONNECTION AFTER 0.500000 sec</pre>
          <pre class="wirelog_rx_octets">005 RX OCTETS: 8106cebae1bdb9cf</pre>
          <pre class="wirelog_rx_frame">006 RX FRAME : OPCODE=1, FIN=True, RSV=0, MASKED=False, MASK=None</pre>
          <pre class="wirelog_rx_frame">               Œ∫·Ωπœ</pre>
-         <pre class="wirelog_tx_frame">007 TX FRAME : OPCODE=8, FIN=True, RSV=0, MASK=91781d4e, PAYLOAD-REPEAT-LEN=None, CHOPSIZE=None, SYNC=False</pre>
+         <pre class="wirelog_tx_frame">007 TX FRAME : OPCODE=8, FIN=True, RSV=0, MASK=0628ec55, PAYLOAD-REPEAT-LEN=None, CHOPSIZE=None, SYNC=False</pre>
          <pre class="wirelog_tx_frame">               ÔUTF-8 text message payload ended within Unicode code point at payload octet index 6</pre>
-         <pre class="wirelog_tx_octets">008 TX OCTETS: 88d591781d4e9297481ad755256ee51d653ab115783de2197a2bb1087c37fd177c2ab11d732af41c3d39f80c7527ff584820</pre>
-         <pre class="wirelog_tx_octets">               f81b722af4587e21f51d3d3efe11733ab119696ee1196422fe19796efe1b692be5587420f51d656ea7</pre>
+         <pre class="wirelog_tx_octets">008 TX OCTETS: 88d50628ec5505c7b9014005d475724d94212645892675498b3026588d2c6a478d31264d8231634ccc226f5c843c6808b93b</pre>
+         <pre class="wirelog_tx_octets">               6f4b833163088f3a624dcc2569418221264998757649953969498875694b98307208853b624d947530</pre>
          <pre class="wirelog_rx_octets">009 RX OCTETS: 8800</pre>
          <pre class="wirelog_rx_frame">010 RX FRAME : OPCODE=8, FIN=True, RSV=0, MASKED=False, MASK=None</pre>
          <pre class="wirelog_tcp_closed_by_peer">011 TCP DROPPED BY PEER</pre>

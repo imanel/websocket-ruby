@@ -202,7 +202,7 @@ pre.wirelog_tcp_closed_by_peer {color: #fff; margin: 0; background-color: #000; 
       <center><a href="http://autobahn.ws/testsuite" title="Autobahn WebSockets Testsuite"><img src="http://autobahn.ws/static/img/ws_protocol_test_report.png"          border="0" width="820" height="46" alt="Autobahn WebSockets Testsuite Report"></img></a></center>
       <center><a href="http://autobahn.ws"           title="Autobahn WebSockets">          <img src="http://autobahn.ws/static/img/ws_protocol_test_report_autobahn.png" border="0" width="300" height="68" alt="Autobahn WebSockets">                 </img></a></center>
       <br/>
-      <p class="case case_info">Faye-WebSocket<br>(0.4.6 Thin) - <span style="font-size: 1.3em;"><b>Case 7.1.6</b></span> : Informational - <span style="font-size: 0.9em;"><b>334</b> ms @ 2012-11-19T03:33:21Z</a></p>
+      <p class="case case_info">Faye-WebSocket<br>(0.4.6 Thin) - <span style="font-size: 1.3em;"><b>Case 7.1.6</b></span> : Informational - <span style="font-size: 0.9em;"><b>371</b> ms @ 2012-12-19T16:45:13Z</a></p>
       <p class="case_text_block case_desc"><b>Case Description</b><br/><br/>Send 256K message followed by close then a ping</p>
       <p class="case_text_block case_expect"><b>Case Expectation</b><br/><br/>Case outcome depends on implimentation defined close behavior. Message and close frame are sent back to back. If the close frame is processed before the text message write is complete (as can happen in asyncronous processing models) the close frame is processed first and the text message may not be recieved or may only be partially recieved.</p>
 
@@ -221,12 +221,12 @@ Upgrade: WebSocket
 Connection: Upgrade
 Pragma: no-cache
 Cache-Control: no-cache
-Sec-WebSocket-Key: gz16ie8Mfa3PYzdBWgWX8g==
+Sec-WebSocket-Key: FgoTYjp9ZKEJPl5/XsYtcQ==
 Sec-WebSocket-Version: 13</pre>
       <pre class="http_dump">HTTP/1.1 101 Switching Protocols
 Upgrade: websocket
 Connection: Upgrade
-Sec-WebSocket-Accept: 9XQa3+dpB/nPr/urAuT09yvjbi4=</pre>
+Sec-WebSocket-Accept: e57nEniQ+86MaZEkb7bzTCS2B+0=</pre>
       <br/><hr/>
       <h2>Closing Behavior</h2>
       <table>
@@ -285,27 +285,27 @@ Sec-WebSocket-Accept: 9XQa3+dpB/nPr/urAuT09yvjbi4=</pre>
          <pre class="wirelog_tx_octets">000 TX OCTETS: 474554202f20485454502f312e310d0a557365722d4167656e743a204175746f6261686e5465737453756974652f302e352e</pre>
          <pre class="wirelog_tx_octets">               322d302e352e390d0a486f73743a206c6f63616c686f73743a373030300d0a557067726164653a20576562536f636b65740d</pre>
          <pre class="wirelog_tx_octets">               0a436f6e6e656374696f6e3a20557067726164650d0a507261676d613a206e6f2d63616368650d0a43616368652d436f6e74</pre>
-         <pre class="wirelog_tx_octets">               726f6c3a206e6f2d63616368650d0a5365632d576562536f636b65742d4b65793a20677a31366965384d66613350597a6442</pre>
-         <pre class="wirelog_tx_octets">               5767575838673d3d0d0a5365632d576562536f636b65742d56657273696f6e3a2031330d0a0d0a</pre>
+         <pre class="wirelog_tx_octets">               726f6c3a206e6f2d63616368650d0a5365632d576562536f636b65742d4b65793a2046676f54596a70395a4b454a506c352f</pre>
+         <pre class="wirelog_tx_octets">               5873597463513d3d0d0a5365632d576562536f636b65742d56657273696f6e3a2031330d0a0d0a</pre>
          <pre class="wirelog_rx_octets">001 RX OCTETS: 485454502f312e312031303120537769746368696e672050726f746f636f6c730d0a557067726164653a20776562736f636b</pre>
-         <pre class="wirelog_rx_octets">               65740d0a436f6e6e656374696f6e3a20557067726164650d0a5365632d576562536f636b65742d4163636570743a20395851</pre>
-         <pre class="wirelog_rx_octets">               61332b6470422f6e50722f7572417554303979766a6269343d0d0a0d0a</pre>
-         <pre class="wirelog_tx_frame">002 TX FRAME : OPCODE=1, FIN=True, RSV=0, MASK=cd935a57, PAYLOAD-REPEAT-LEN=262144, CHOPSIZE=None, SYNC=False</pre>
+         <pre class="wirelog_rx_octets">               65740d0a436f6e6e656374696f6e3a20557067726164650d0a5365632d576562536f636b65742d4163636570743a20653537</pre>
+         <pre class="wirelog_rx_octets">               6e456e69512b38364d615a456b6237627a54435332422b303d0d0a0d0a</pre>
+         <pre class="wirelog_tx_frame">002 TX FRAME : OPCODE=1, FIN=True, RSV=0, MASK=f41829da, PAYLOAD-REPEAT-LEN=262144, CHOPSIZE=None, SYNC=False</pre>
          <pre class="wirelog_tx_frame">               BAsd7&jh23</pre>
-         <pre class="wirelog_tx_octets">003 TX OCTETS: 81ff0000000000040000cd935a578fd22933fab5303fffa01816bef76d71a7fb68648fd22933fab5303fffa01816bef76d71</pre>
-         <pre class="wirelog_tx_octets">               a7fb68648fd22933fab5303fffa01816bef76d71a7fb68648fd22933fab5303fffa01816bef76d71a7fb68648fd22933fab5</pre>
-         <pre class="wirelog_tx_octets">               303fffa01816bef76d71a7fb68648fd22933fab5303fffa01816bef76d71a7fb68648fd22933fab5303fffa01816bef76d71</pre>
-         <pre class="wirelog_tx_octets">               a7fb68648fd22933fab5303fffa01816bef76d71a7fb68648fd22933fab5303fffa01816bef76d71a7fb68648fd22933fab5</pre>
-         <pre class="wirelog_tx_octets">               303fffa01816bef76d71a7fb68648fd22933fab5303fffa01816bef76d71a7fb68648fd22933fab5303fffa01816bef76d71</pre>
-         <pre class="wirelog_tx_octets">               a7fb68648fd2 ...</pre>
-         <pre class="wirelog_tx_frame">004 TX FRAME : OPCODE=1, FIN=True, RSV=0, MASK=d34a4e79, PAYLOAD-REPEAT-LEN=None, CHOPSIZE=None, SYNC=False</pre>
+         <pre class="wirelog_tx_octets">003 TX OCTETS: 81ff0000000000040000f41829dab6595abec33e43b2c62b6b9b877c1efc9e701be9b6595abec33e43b2c62b6b9b877c1efc</pre>
+         <pre class="wirelog_tx_octets">               9e701be9b6595abec33e43b2c62b6b9b877c1efc9e701be9b6595abec33e43b2c62b6b9b877c1efc9e701be9b6595abec33e</pre>
+         <pre class="wirelog_tx_octets">               43b2c62b6b9b877c1efc9e701be9b6595abec33e43b2c62b6b9b877c1efc9e701be9b6595abec33e43b2c62b6b9b877c1efc</pre>
+         <pre class="wirelog_tx_octets">               9e701be9b6595abec33e43b2c62b6b9b877c1efc9e701be9b6595abec33e43b2c62b6b9b877c1efc9e701be9b6595abec33e</pre>
+         <pre class="wirelog_tx_octets">               43b2c62b6b9b877c1efc9e701be9b6595abec33e43b2c62b6b9b877c1efc9e701be9b6595abec33e43b2c62b6b9b877c1efc</pre>
+         <pre class="wirelog_tx_octets">               9e701be9b659 ...</pre>
+         <pre class="wirelog_tx_frame">004 TX FRAME : OPCODE=1, FIN=True, RSV=0, MASK=f42662e3, PAYLOAD-REPEAT-LEN=None, CHOPSIZE=None, SYNC=False</pre>
          <pre class="wirelog_tx_frame">               Hello World!</pre>
-         <pre class="wirelog_tx_octets">005 TX OCTETS: 818cd34a4e799b2f2215bc6a1916a1262a58</pre>
-         <pre class="wirelog_tx_frame">006 TX FRAME : OPCODE=8, FIN=True, RSV=0, MASK=f356e79f, PAYLOAD-REPEAT-LEN=None, CHOPSIZE=None, SYNC=False</pre>
+         <pre class="wirelog_tx_octets">005 TX OCTETS: 818cf42662e3bc430e8f9b06358c864a06c2</pre>
+         <pre class="wirelog_tx_frame">006 TX FRAME : OPCODE=8, FIN=True, RSV=0, MASK=b9381c70, PAYLOAD-REPEAT-LEN=None, CHOPSIZE=None, SYNC=False</pre>
          <pre class="wirelog_tx_frame">               è</pre>
-         <pre class="wirelog_tx_octets">007 TX OCTETS: 8882f356e79ff0be</pre>
-         <pre class="wirelog_tx_frame">008 TX FRAME : OPCODE=9, FIN=True, RSV=0, MASK=28088eac, PAYLOAD-REPEAT-LEN=None, CHOPSIZE=None, SYNC=False</pre>
-         <pre class="wirelog_tx_octets">009 TX OCTETS: 898028088eac</pre>
+         <pre class="wirelog_tx_octets">007 TX OCTETS: 8882b9381c70bad0</pre>
+         <pre class="wirelog_tx_frame">008 TX FRAME : OPCODE=9, FIN=True, RSV=0, MASK=15d8cb11, PAYLOAD-REPEAT-LEN=None, CHOPSIZE=None, SYNC=False</pre>
+         <pre class="wirelog_tx_octets">009 TX OCTETS: 898015d8cb11</pre>
          <pre class="wirelog_kill_after">010 FAIL CONNECTION AFTER 1.000000 sec</pre>
          <pre class="wirelog_rx_octets">011 RX OCTETS: 817f00000000000400004241736437266a6832334241736437266a6832334241736437266a6832334241736437266a683233</pre>
          <pre class="wirelog_rx_octets">               4241736437266a6832334241736437266a6832334241736437266a6832334241736437266a6832334241736437266a683233</pre>
