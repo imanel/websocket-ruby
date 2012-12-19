@@ -110,6 +110,10 @@ WebSocket gem is written in pure Ruby, without any dependencies or native extens
 
 In order to use native extension just install [websocket-native](http://github.com/imanel/websocket-ruby-native) gem or add it to Gemfile - WebSocket will automatically detect and load it.
 
+## Examples & Projects using WebSocket-Ruby
+
+- [WebSocket-EventMachine-Server](https://github.com/imanel/websocket-eventmachine-server) - server based on EventMachine (drop-in replacement for EM-WebSocket)
+
 ## License
 
 (The MIT License)
