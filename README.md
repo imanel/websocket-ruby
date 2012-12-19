@@ -3,7 +3,7 @@
 - Travis CI build: [![](https://travis-ci.org/imanel/websocket-ruby.png)](http://travis-ci.org/imanel/websocket-ruby)
 - Autobahn tests: [server](http://imanel.github.com/websocket-ruby/autobahn/server/), client
 
-Universal Ruby library to handle WebSocket protocol. It foucses on providing abstraction layer over [WebSocket API](http://dev.w3.org/html5/websockets/) instead of providing server or client functionality.
+Universal Ruby library to handle WebSocket protocol. It focuses on providing abstraction layer over [WebSocket API](http://dev.w3.org/html5/websockets/) instead of providing server or client functionality.
 
 Currently WebSocket Ruby supports all existing drafts of WebSocket, which include:
 
@@ -106,7 +106,7 @@ For examples on how to use WebSocket Ruby see examples directory in the reposito
 
 ## Native extension
 
-WebSocket gem is written in pure Ruby, without any dependencies or native extensions and still is one of the fastest implementations of WebSocket API. However, if you want to increase it's speed even further, I created additional gem with dedicated native extensions for both C and Java. Those extensions provide 20-30% increate in speed(more accurate comparision can be found in autobahn test results)
+WebSocket gem is written in pure Ruby, without any dependencies or native extensions and still is one of the fastest implementations of WebSocket API. However, if you want to increase it's speed even further, I created additional gem with dedicated native extensions for both C and Java. Those extensions provide 20-30% increase in speed(more accurate comparison can be found in autobahn test results)
 
 In order to use native extension just install [websocket-native](http://github.com/imanel/websocket-ruby-native) gem or add it to Gemfile - WebSocket will automatically detect and load it.
 
