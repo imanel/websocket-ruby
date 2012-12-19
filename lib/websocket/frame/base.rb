@@ -9,9 +9,11 @@ module WebSocket
       # @param args [Hash] Arguments for frame
       # @option args [String]  :data default data for frame
       # @option args [String]  :type Type of frame - available types are "text", "binary", "ping", "pong" and "close"(support depends on draft version)
+      # @option args [Integer] :code Code for close frame. Supported by drafts > 05.
       # @option args [Integer] :version Version of draft. Currently supported version are 75, 76 and 00-13.
       def initialize(args = {})
         @type = args[:type]
+        @code = args[:code]
         @data = Data.new(args[:data].to_s)
         @version = args[:version] || DEFAULT_VERSION
         include_version

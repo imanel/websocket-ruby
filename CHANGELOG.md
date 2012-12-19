@@ -1,5 +1,9 @@
 # Changelog
 
+## Edge
+
+- add support for close codes
+
 ## 1.0.4
 
 - nicer inspect - handful during debugging
