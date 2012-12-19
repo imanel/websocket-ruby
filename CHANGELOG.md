@@ -1,6 +1,6 @@
 # Changelog
 
-## Edge
+## 1.0.5
 
 - add support for close codes
 
