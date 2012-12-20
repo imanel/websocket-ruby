@@ -12,7 +12,7 @@ module WebSocket
       # @option args [Integer] :code Code for close frame. Supported by drafts > 05.
       # @option args [Integer] :version Version of draft. Currently supported version are 75, 76 and 00-13.
       def initialize(args = {})
-        @type = args[:type]
+        @type = args[:type].to_sym if args[:type]
         @code = args[:code]
         @data = Data.new(args[:data].to_s)
         @version = args[:version] || DEFAULT_VERSION

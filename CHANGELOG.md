@@ -1,5 +1,9 @@
 # Changelog
 
+## Edge
+
+- support text frame types instead of only symbol ones
+
 ## 1.0.5
 
 - add support for close codes
