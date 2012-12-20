@@ -3,6 +3,7 @@
 ## Edge
 
 - support text frame types instead of only symbol ones
+- support for sending masked frames
 
 ## 1.0.5
 

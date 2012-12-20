@@ -22,19 +22,28 @@ module WebSocket
           byte1 = opcode | (fin ? 0b10000000 : 0b00000000) # since more, rsv1-3 are 0 and 0x80 for Draft 4
           frame << byte1
 
+          mask = outgoing_masking? ? 0b10000000 : 0b00000000
+
           length = @data.size
           if length <= 125
             byte2 = length # since rsv4 is 0
-            frame << byte2
+            frame << (byte2 | mask)
           elsif length < 65536 # write 2 byte length
-            frame << 126
+            frame << (126 | mask)
             frame << [length].pack('n')
           else # write 8 byte length
-            frame << 127
+            frame << (127 | mask)
             frame << [length >> 32, length & 0xFFFFFFFF].pack("NN")
           end
 
-          frame << @data
+          if outgoing_masking?
+            tmp_data = Data.new([rand(256).chr, rand(256).chr, rand(256).chr, rand(256).chr, @data.to_s].join)
+            tmp_data.set_mask
+            frame << tmp_data.getbytes(0, tmp_data.size)
+          else
+            frame << @data
+          end
+
           frame
         rescue WebSocket::Error => e
           set_error(e.message.to_sym) and return
