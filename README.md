@@ -100,19 +100,16 @@ frame.next # "Hello"
 frame.next # "world!""
 ```
 
-## Examples
+## Examples & Projects using WebSocket-Ruby
 
-For examples on how to use WebSocket Ruby see examples directory in the repository. Provided examples are fully working servers - they are passing full autobahn compatibility suit.
+- [WebSocket-EventMachine-Client](https://github.com/imanel/websocket-eventmachine-client) - client based on EventMachine
+- [WebSocket-EventMachine-Server](https://github.com/imanel/websocket-eventmachine-server) - server based on EventMachine (drop-in replacement for EM-WebSocket)
 
 ## Native extension
 
 WebSocket gem is written in pure Ruby, without any dependencies or native extensions and still is one of the fastest implementations of WebSocket API. However, if you want to increase it's speed even further, I created additional gem with dedicated native extensions for both C and Java. Those extensions provide 20-30% increase in speed(more accurate comparison can be found in autobahn test results)
 
 In order to use native extension just install [websocket-native](http://github.com/imanel/websocket-ruby-native) gem or add it to Gemfile - WebSocket will automatically detect and load it.
-
-## Examples & Projects using WebSocket-Ruby
-
-- [WebSocket-EventMachine-Server](https://github.com/imanel/websocket-eventmachine-server) - server based on EventMachine (drop-in replacement for EM-WebSocket)
 
 ## License
 
