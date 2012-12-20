@@ -37,9 +37,10 @@ module WebSocket
           end
 
           if outgoing_masking?
-            tmp_data = Data.new([rand(256).chr, rand(256).chr, rand(256).chr, rand(256).chr, @data.to_s].join)
+            masking_key = [rand(256).chr, rand(256).chr, rand(256).chr, rand(256).chr].join
+            tmp_data = Data.new([masking_key, @data.to_s].join)
             tmp_data.set_mask
-            frame << tmp_data.getbytes(0, tmp_data.size)
+            frame << masking_key + tmp_data.getbytes(4, tmp_data.size)
           else
             frame << @data
           end
