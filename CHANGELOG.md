@@ -1,6 +1,6 @@
 # Changelog
 
-## Edge
+## 1.0.6
 
 - support text frame types instead of only symbol ones
 - support for sending masked frames
