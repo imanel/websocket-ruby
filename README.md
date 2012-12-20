@@ -1,7 +1,7 @@
 # WebSocket Ruby
 
 - Travis CI build: [![](https://travis-ci.org/imanel/websocket-ruby.png)](http://travis-ci.org/imanel/websocket-ruby)
-- Autobahn tests: [server](http://imanel.github.com/websocket-ruby/autobahn/server/), client
+- Autobahn tests: [server](http://imanel.github.com/websocket-ruby/autobahn/server/), [client](http://imanel.github.com/websocket-ruby/autobahn/client/)
 
 Universal Ruby library to handle WebSocket protocol. It focuses on providing abstraction layer over [WebSocket API](http://dev.w3.org/html5/websockets/) instead of providing server or client functionality.
 
