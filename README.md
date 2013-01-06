@@ -104,6 +104,7 @@ frame.next # "world!""
 
 - [WebSocket-EventMachine-Client](https://github.com/imanel/websocket-eventmachine-client) - client based on EventMachine
 - [WebSocket-EventMachine-Server](https://github.com/imanel/websocket-eventmachine-server) - server based on EventMachine (drop-in replacement for EM-WebSocket)
+- [Rubame](https://github.com/saward/Rubame) - websocket game server
 
 ## Native extension
 
