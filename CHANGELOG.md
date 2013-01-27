@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.7
+
+- fix requiring url under Ruby 1.9.1
+- support for Ruby 2.0.0
+
 ## 1.0.6
 
 - support text frame types instead of only symbol ones
