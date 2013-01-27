@@ -1,4 +1,4 @@
-require 'uri' unless defined?(URI)
+require 'uri'
 
 module WebSocket
   module Handshake
