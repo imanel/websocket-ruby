@@ -1,3 +1,4 @@
+# encoding: binary
 require 'spec_helper'
 
 describe 'Incoming common frame' do

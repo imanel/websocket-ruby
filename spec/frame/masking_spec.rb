@@ -1,3 +1,4 @@
+# encoding: binary
 require 'spec_helper'
 
 describe 'Masking frame draft 07' do
