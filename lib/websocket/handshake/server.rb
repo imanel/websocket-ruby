@@ -30,6 +30,9 @@ module WebSocket
     #                   # Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=
     #
     class Server < Base
+      attr_accessor :headers
+      attr_accessor :path
+      attr_accessor :query
 
       # Initialize new WebSocket Server
       #
@@ -84,8 +87,6 @@ module WebSocket
         @headers["host"].to_s.split(":")[1]
       end
 
-      private
-
       # Set version of protocol basing on client requets. AFter cotting method calls include_version.
       def set_version
         @version = @headers['sec-websocket-version'].to_i if @headers['sec-websocket-version']
@@ -94,6 +95,8 @@ module WebSocket
         @version ||= 75
         include_version
       end
+
+      private
 
       # Include set of methods for selected protocol version
       # @return [Boolean] false if protocol number is unknown, otherwise true
