@@ -30,10 +30,6 @@ module WebSocket
     #                   # Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=
     #
     class Server < Base
-      attr_accessor :headers
-      attr_accessor :path
-      attr_accessor :query
-
       # Initialize new WebSocket Server
       #
       # @param [Hash] args Arguments for server
@@ -67,6 +63,23 @@ module WebSocket
         if parse_data
           set_version
         end
+      end
+
+      # Parse the request from a rack environment
+      #
+      # @param env Rack Environment
+      #
+      # @example
+      #   @handshake.from_rack(env)
+      def from_rack(env)
+        @headers["sec-websocket-version"]    = env["HTTP_SEC_WEBSOCKET_VERSION"]
+        @headers["sec-websocket-draft"]      = env["HTTP_SEC_WEBSOCKET_DRAFT"]
+        @headers["sec-websocket-key"]        = env["HTTP_SEC_WEBSOCKET_KEY"]
+        @headers["sec-websocket-extensions"] = env["HTTP_SEC_WEBSOCKET_EXTENSIONS"]
+        @headers["host"]                     = env["HTTP_HOST"]
+        @path                                = env["REQUEST_PATH"]
+        @query                               = env["QUERY_STRING"]
+        set_version
       end
 
       # Should send content to client after finished parsing?
