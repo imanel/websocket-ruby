@@ -11,7 +11,7 @@ module WebSocket
   ROOT = File.expand_path(File.dirname(__FILE__))
 
   autoload :Frame,     "#{ROOT}/websocket/frame"
-  autoload :Handler,   "#{ROOT}/websocket/handler"
+  autoload :Handler,   "#{ROOT}/websocket/frame/handler"
   autoload :Handshake, "#{ROOT}/websocket/handshake"
 
   # Limit of frame size payload in bytes
