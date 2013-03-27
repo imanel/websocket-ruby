@@ -104,6 +104,7 @@ frame.next # "world!""
 
 - [WebSocket-EventMachine-Client](https://github.com/imanel/websocket-eventmachine-client) - client based on EventMachine
 - [WebSocket-EventMachine-Server](https://github.com/imanel/websocket-eventmachine-server) - server based on EventMachine (drop-in replacement for EM-WebSocket)
+- [Selenium-WebDriver](https://rubygems.org/gems/selenium-webdriver) - tool for writing automated tests of websites
 - [Rubame](https://github.com/saward/Rubame) - websocket game server
 
 ## Native extension
