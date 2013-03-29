@@ -28,6 +28,7 @@ module WebSocket
         set_error(:unknown_frame_type) and return unless supported?
         encode_frame
       end
+      rescue_method :to_s
 
     end
   end

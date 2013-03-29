@@ -39,6 +39,7 @@ module WebSocket
       def next
         decode_frame unless decoded?
       end
+      rescue_method :next
 
       # If decoded then this will return frame content. Otherwise it will return raw frame.
       # @return [String] Data of frame

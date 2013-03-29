@@ -2,9 +2,10 @@ module WebSocket
   module Handshake
     # @abstract Subclass and override to implement custom handshakes
     class Base
+      include ExceptionHandler
 
       attr_reader :host, :port, :path, :query,
-                  :error, :state, :version, :secure
+                  :state, :version, :secure
 
       # Initialize new WebSocket Handshake and set it's state to :new
       def initialize(args = {})
@@ -80,7 +81,7 @@ module WebSocket
       # @param [String] message Error message to set
       def set_error(message)
         @state = :error
-        @error = message
+        super
       end
 
       HEADER = /^([^:]+):\s*(.+)$/

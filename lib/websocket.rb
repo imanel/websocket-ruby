@@ -9,9 +9,10 @@ module WebSocket
   DEFAULT_VERSION = 13
   ROOT = File.expand_path(File.dirname(__FILE__))
 
-  autoload :Error,     "#{ROOT}/websocket/error"
-  autoload :Frame,     "#{ROOT}/websocket/frame"
-  autoload :Handshake, "#{ROOT}/websocket/handshake"
+  autoload :Error,            "#{ROOT}/websocket/error"
+  autoload :ExceptionHandler, "#{ROOT}/websocket/exception_handler"
+  autoload :Frame,            "#{ROOT}/websocket/frame"
+  autoload :Handshake,        "#{ROOT}/websocket/handshake"
 
   # Limit of frame size payload in bytes
   def self.max_frame_size

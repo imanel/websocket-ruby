@@ -46,8 +46,6 @@ module WebSocket
           end
 
           frame
-        rescue WebSocket::Error => e
-          set_error(e.message.to_sym) and return
         end
 
         # @see WebSocket::Frame::Handler::Base#decode_frame
@@ -141,8 +139,6 @@ module WebSocket
             end
           end
           return nil
-        rescue WebSocket::Error => e
-          set_error(e.message.to_sym) and return
         end
 
         # This allows flipping the more bit to fin for draft 04

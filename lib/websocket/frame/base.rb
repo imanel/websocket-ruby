@@ -2,8 +2,9 @@ module WebSocket
   module Frame
     # @abstract Subclass and override to implement custom frames
     class Base
+      include ExceptionHandler
 
-      attr_reader :data, :type, :version, :error
+      attr_reader :data, :type, :version
 
       # Initialize frame
       # @param args [Hash] Arguments for frame
@@ -56,12 +57,6 @@ module WebSocket
           when 7..13 then extend Handler::Handler07
           else set_error(:unknown_protocol_version) and return
         end
-      end
-
-      # Changes state to error and sets error message
-      # @param [String] message Error message to set
-      def set_error(message)
-        @error = message
       end
 
     end
