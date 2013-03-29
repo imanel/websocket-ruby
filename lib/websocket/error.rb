@@ -23,6 +23,10 @@ module WebSocket
         def message; :invalid_payload_encoding; end
       end
 
+      class MaskTooShort < ::WebSocket::Error::Frame
+        def message; :mask_is_too_short; end
+      end
+
       class ReservedBitUsed < ::WebSocket::Error::Frame
         def message; :reserved_bit_used; end
       end

@@ -11,7 +11,7 @@ module WebSocket
       end
 
       def set_mask
-        raise "Too short" if bytesize < 4 # TODO - change
+        raise WebSocket::Error::Frame::MaskTooShort if bytesize < 4
         @masking_key = self[0..3].bytes.to_a
       end
 
