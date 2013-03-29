@@ -19,6 +19,7 @@ module WebSocket
         @version = args[:version] || DEFAULT_VERSION
         include_version
       end
+      rescue_method :initialize
 
       # Check if some errors occured
       # @return [Boolean] True if error is set
@@ -55,7 +56,7 @@ module WebSocket
           when 4 then extend Handler::Handler04
           when 5..6 then extend Handler::Handler05
           when 7..13 then extend Handler::Handler07
-          else set_error(:unknown_protocol_version) and return
+          else raise WebSocket::Error::Frame::UnknownVersion
         end
       end
 

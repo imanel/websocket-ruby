@@ -18,9 +18,9 @@ module WebSocket
     module ClassMethods
 
       def rescue_method(method_name)
-        define_method "#{method_name}_with_rescue" do
+        define_method "#{method_name}_with_rescue" do |*args|
           begin
-            send("#{method_name}_without_rescue")
+            send("#{method_name}_without_rescue", *args)
           rescue WebSocket::Error => e
             set_error(e.message.to_sym) and return
           end
