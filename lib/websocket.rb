@@ -4,12 +4,12 @@
 # @author Bernard "Imanel" Potocki
 # @see http://github.com/imanel/websocket-ruby main repository
 module WebSocket
-  class Error < RuntimeError; end
 
   # Default WebSocket version to use
   DEFAULT_VERSION = 13
   ROOT = File.expand_path(File.dirname(__FILE__))
 
+  autoload :Error,     "#{ROOT}/websocket/error"
   autoload :Frame,     "#{ROOT}/websocket/frame"
   autoload :Handshake, "#{ROOT}/websocket/handshake"
 
