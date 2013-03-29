@@ -55,19 +55,19 @@ module WebSocket
 
             more = ((@data.getbyte(pointer) & 0b10000000) == 0b10000000) ^ fin
 
-            raise(WebSocket::Error, :reserved_bit_used) if @data.getbyte(pointer) & 0b01110000 != 0b00000000
+            raise(WebSocket::Error::Frame::ReservedBitUsed) if @data.getbyte(pointer) & 0b01110000 != 0b00000000
 
             opcode = @data.getbyte(pointer) & 0b00001111
             frame_type = opcode_to_type(opcode)
             pointer += 1
 
-            raise(WebSocket::Error, :fragmented_control_frame) if more && control_frame?(frame_type)
-            raise(WebSocket::Error, :data_frame_instead_continuation) if data_frame?(frame_type) && !@application_data_buffer.nil?
+            raise(WebSocket::Error::Frame::FragmentedControlFrame) if more && control_frame?(frame_type)
+            raise(WebSocket::Error::Frame::DataFrameInsteadContinuation) if data_frame?(frame_type) && !@application_data_buffer.nil?
 
             mask = incoming_masking? && (@data.getbyte(pointer) & 0b10000000) == 0b10000000
             length = @data.getbyte(pointer) & 0b01111111
 
-            raise(WebSocket::Error, :control_frame_payload_too_long) if length > 125 && control_frame?(frame_type)
+            raise(WebSocket::Error::Frame::ControlFramePayloadTooLong) if length > 125 && control_frame?(frame_type)
 
             pointer += 1
 
@@ -96,7 +96,7 @@ module WebSocket
             frame_length = pointer + payload_length
             frame_length += 4 if mask
 
-            raise(WebSocket::Error, :frame_too_long) if frame_length > WebSocket.max_frame_size
+            raise(WebSocket::Error::Frame::TooLong) if frame_length > WebSocket.max_frame_size
 
             # Check buffer size
             return if @data.getbyte(frame_length-1) == nil # Buffer incomplete
@@ -116,7 +116,7 @@ module WebSocket
             # Throw away data up to pointer
             @data.slice!(0...pointer)
 
-            raise(WebSocket::Error, :unexpected_continuation_frame) if frame_type == :continuation && !@frame_type
+            raise(WebSocket::Error::Frame::UnexpectedContinuationFrame) if frame_type == :continuation && !@frame_type
 
             if more
               @application_data_buffer ||= ''
@@ -127,13 +127,13 @@ module WebSocket
               if frame_type == :continuation
                 @application_data_buffer << application_data
                 # Test valid UTF-8 encoding
-                raise(WebSocket::Error, :invalid_payload_encoding) if @frame_type == :text && @application_data_buffer.respond_to?(:valid_encoding?) && !@application_data_buffer.valid_encoding?
+                raise(WebSocket::Error::Frame::InvalidPayloadEncoding) if @frame_type == :text && @application_data_buffer.respond_to?(:valid_encoding?) && !@application_data_buffer.valid_encoding?
                 message = self.class.new(:version => version, :type => @frame_type, :data => @application_data_buffer, :decoded => true)
                 @application_data_buffer = nil
                 @frame_type = nil
                 return message
               else
-                raise(WebSocket::Error, :invalid_payload_encoding) if frame_type == :text && application_data.respond_to?(:valid_encoding?) && !application_data.valid_encoding?
+                raise(WebSocket::Error::Frame::InvalidPayloadEncoding) if frame_type == :text && application_data.respond_to?(:valid_encoding?) && !application_data.valid_encoding?
                 return self.class.new(:version => version, :type => frame_type, :data => application_data, :decoded => true)
               end
             end
@@ -165,7 +165,7 @@ module WebSocket
         # @return [Integer] opcode or nil
         # @raise [WebSocket::Error] if frame opcode is not known
         def type_to_opcode(frame_type)
-          FRAME_TYPES[frame_type] || raise(WebSocket::Error, :unknown_frame_type)
+          FRAME_TYPES[frame_type] || raise(WebSocket::Error::Frame::UnknownFrameType)
         end
 
         # Convert frame opcode to type name
@@ -173,7 +173,7 @@ module WebSocket
         # @return [Symbol] Frame type name or nil
         # @raise [WebSocket::Error] if frame type name is not known
         def opcode_to_type(opcode)
-          FRAME_TYPES_INVERSE[opcode] || raise(WebSocket::Error, :unknown_opcode)
+          FRAME_TYPES_INVERSE[opcode] || raise(WebSocket::Error::Frame::UnknownOpcode)
         end
 
       end

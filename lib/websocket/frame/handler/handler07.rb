@@ -27,7 +27,7 @@ module WebSocket
         # @return [Integer] opcode or nil
         # @raise [WebSocket::Error] if frame opcode is not known
         def type_to_opcode(frame_type)
-          FRAME_TYPES[frame_type] || raise(WebSocket::Error, :unknown_frame_type)
+          FRAME_TYPES[frame_type] || raise(WebSocket::Error::Frame::UnknownFrameType)
         end
 
         # Convert frame opcode to type name
@@ -35,7 +35,7 @@ module WebSocket
         # @return [Symbol] Frame type name or nil
         # @raise [WebSocket::Error] if frame type name is not known
         def opcode_to_type(opcode)
-          FRAME_TYPES_INVERSE[opcode] || raise(WebSocket::Error, :unknown_opcode)
+          FRAME_TYPES_INVERSE[opcode] || raise(WebSocket::Error::Frame::UnknownOpcode)
         end
 
       end
