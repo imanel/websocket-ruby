@@ -96,7 +96,7 @@ module WebSocket
 
         # Generate third key
         def generate_key3
-          return [rand(0x100000000)].pack("N") + [rand(0x100000000)].pack("N")
+          [rand(0x100000000)].pack("N") + [rand(0x100000000)].pack("N")
         end
 
       end

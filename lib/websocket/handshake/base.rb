@@ -95,7 +95,7 @@ module WebSocket
         lines = header.split("\r\n")
 
         first_line = lines.shift
-        return false unless parse_first_line(first_line)
+        parse_first_line(first_line)
 
         lines.each do |line|
           h = HEADER.match(line)

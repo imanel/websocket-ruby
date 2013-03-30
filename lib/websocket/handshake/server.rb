@@ -105,7 +105,6 @@ module WebSocket
           when 4..13 then extend Handler::Server04
           else raise WebSocket::Error::Handshake::UnknownVersion
         end
-        return true
       end
 
       PATH = /^(\w+) (\/[^\s]*) HTTP\/1\.1$/
@@ -121,8 +120,6 @@ module WebSocket
 
         resource_name = line_parts[2].strip
         @path, @query = resource_name.split('?', 2)
-
-        return true
       end
 
     end

@@ -116,7 +116,6 @@ module WebSocket
           when 4..13 then extend Handler::Client04
           else raise WebSocket::Error::Handshake::UnknownVersion
         end
-        return true
       end
 
       FIRST_LINE = /^HTTP\/1\.1 (\d{3})[\w\s]*$/
@@ -129,8 +128,6 @@ module WebSocket
         raise WebSocket::Error::Handshake::InvalidHeader unless line_parts
         status = line_parts[1]
         raise WebSocket::Error::Handshake::InvalidStatusCode unless status == '101'
-
-        return true
       end
 
     end
