@@ -13,7 +13,6 @@ module WebSocket
         def valid?
           super && verify_accept
         end
-        rescue_method :valid?
 
         private
 
@@ -50,6 +49,7 @@ module WebSocket
           raise WebSocket::Error::Handshake::InvalidAuthentication unless @headers['sec-websocket-accept'] == accept
           true
         end
+        rescue_method :verify_accept
 
       end
     end

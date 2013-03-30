@@ -12,7 +12,6 @@ module WebSocket
         def valid?
           super && verify_challenge
         end
-        rescue_method :valid?
 
         private
 
@@ -70,6 +69,7 @@ module WebSocket
           raise WebSocket::Error::Handshake::InvalidAuthentication unless @leftovers == challenge
           true
         end
+        rescue_method :verify_challenge
 
         NOISE_CHARS = ("\x21".."\x2f").to_a() + ("\x3a".."\x7e").to_a()
 

@@ -12,7 +12,6 @@ module WebSocket
         def valid?
           super && !!finishing_line
         end
-        rescue_method :valid?
 
         private
 
@@ -40,6 +39,7 @@ module WebSocket
         def finishing_line
           @finishing_line ||= challenge_response
         end
+        rescue_method :finishing_line
 
         private
 

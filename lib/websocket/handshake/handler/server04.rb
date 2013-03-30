@@ -11,9 +11,8 @@ module WebSocket
 
         # @see WebSocket::Handshake::Base#valid?
         def valid?
-          super && (@headers['sec-websocket-key'] ? true : raise(WebSocket::Error::Handshake::InvalidAuthentication))
+          super && verify_key
         end
-        rescue_method :valid?
 
         private
 
@@ -38,6 +37,11 @@ module WebSocket
           string_to_sign = "#{key}258EAFA5-E914-47DA-95CA-C5AB0DC85B11"
           Base64.encode64(Digest::SHA1.digest(string_to_sign)).chomp
         end
+
+        def verify_key
+          (@headers['sec-websocket-key'] ? true : raise(WebSocket::Error::Handshake::InvalidAuthentication))
+        end
+        rescue_method :verify_key
 
       end
     end
