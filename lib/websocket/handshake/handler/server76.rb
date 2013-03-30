@@ -5,12 +5,14 @@ module WebSocket
     module Handler
       module Server76
 
+        include ExceptionHandler
         include Server
 
         # @see WebSocket::Handshake::Base#valid?
         def valid?
           super && !!finishing_line
         end
+        rescue_method :valid?
 
         private
 
@@ -63,14 +65,14 @@ module WebSocket
 
           spaces = string.scan(/ /).size
           # As per 5.2.5, abort the connection if spaces are zero.
-          set_error(:invalid_handshake_authentication) and return if spaces == 0
+          raise WebSocket::Error::Handshake::InvalidAuthentication if spaces == 0
 
           # As per 5.2.6, abort if numbers is not an integral multiple of spaces
-          set_error(:invalid_handshake_authentication) and return if numbers % spaces != 0
+          raise WebSocket::Error::Handshake::InvalidAuthentication if numbers % spaces != 0
 
           quotient = numbers / spaces
 
-          set_error(:invalid_handshake_authentication) and return if quotient > 2**32-1
+          raise WebSocket::Error::Handshake::InvalidAuthentication if quotient > 2**32-1
 
           return quotient
         end

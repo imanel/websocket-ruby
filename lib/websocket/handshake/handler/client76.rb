@@ -6,11 +6,13 @@ module WebSocket
       module Client76
 
         include Client75
+        include ExceptionHandler
 
         # @see WebSocket::Handshake::Base#valid?
         def valid?
           super && verify_challenge
         end
+        rescue_method :valid?
 
         private
 
@@ -65,7 +67,7 @@ module WebSocket
         # Verify if challenge sent by server match generated one
         # @return [Boolena] True if challenge matches, false otherwise(sets appropriate error)
         def verify_challenge
-          set_error(:invalid_challenge) and return false unless @leftovers == challenge
+          raise WebSocket::Error::Handshake::InvalidAuthentication unless @leftovers == challenge
           true
         end
 

@@ -53,5 +53,33 @@ module WebSocket
 
     end
 
+    class Handshake < ::WebSocket::Error
+
+      class GetRequestRequired < ::WebSocket::Error::Handshake
+        def message; :get_request_required; end
+      end
+
+      class InvalidAuthentication < ::WebSocket::Error::Handshake
+        def message; :invalid_handshake_authentication; end
+      end
+
+      class InvalidHeader < ::WebSocket::Error::Handshake
+        def message; :invalid_header; end
+      end
+
+      class InvalidStatusCode < ::WebSocket::Error::Handshake
+        def message; :invalid_status_code; end
+      end
+
+      class NoHostProvided < ::WebSocket::Error::Handshake
+        def message; :no_host_provided; end
+      end
+
+      class UnknownVersion < ::WebSocket::Error::Handshake
+        def message; :unknown_protocol_version; end
+      end
+
+    end
+
   end
 end

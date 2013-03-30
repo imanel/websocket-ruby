@@ -6,12 +6,14 @@ module WebSocket
     module Handler
       module Server04
 
+        include ExceptionHandler
         include Server
 
         # @see WebSocket::Handshake::Base#valid?
         def valid?
-          super && (@headers['sec-websocket-key'] ? true : (set_error(:invalid_handshake_authentication) and false))
+          super && (@headers['sec-websocket-key'] ? true : raise(WebSocket::Error::Handshake::InvalidAuthentication))
         end
+        rescue_method :valid?
 
         private
 

@@ -65,6 +65,7 @@ module WebSocket
           set_version
         end
       end
+      rescue_method :<<
 
       # Should send content to client after finished parsing?
       # @return [Boolean] true
@@ -102,7 +103,7 @@ module WebSocket
           when 75 then extend Handler::Server75
           when 76, 0..3 then extend Handler::Server76
           when 4..13 then extend Handler::Server04
-          else set_error(:unknown_protocol_version) and return false
+          else raise WebSocket::Error::Handshake::UnknownVersion
         end
         return true
       end
@@ -114,9 +115,9 @@ module WebSocket
       # @return [Boolean] True if parsed correctly. False otherwise
       def parse_first_line(line)
         line_parts = line.match(PATH)
-        set_error(:invalid_header) and return unless line_parts
+        raise WebSocket::Error::Handshake::InvalidHeader unless line_parts
         method = line_parts[1].strip
-        set_error(:get_request_required) and return unless method == "GET"
+        raise WebSocket::Error::Handshake::GetRequestRequired unless method == "GET"
 
         resource_name = line_parts[2].strip
         @path, @query = resource_name.split('?', 2)

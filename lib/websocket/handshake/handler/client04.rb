@@ -7,11 +7,13 @@ module WebSocket
       module Client04
 
         include Client
+        include ExceptionHandler
 
         # @see WebSocket::Handshake::Base#valid?
         def valid?
           super && verify_accept
         end
+        rescue_method :valid?
 
         private
 
@@ -45,7 +47,7 @@ module WebSocket
         # Verify if received header Sec-WebSocket-Accept matches generated one.
         # @return [Boolean] True if accept is matching. False otherwise(appropriate error is set)
         def verify_accept
-          set_error(:invalid_accept) and return false unless @headers['sec-websocket-accept'] == accept
+          raise WebSocket::Error::Handshake::InvalidAuthentication unless @headers['sec-websocket-accept'] == accept
           true
         end
 

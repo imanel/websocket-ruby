@@ -15,6 +15,6 @@ describe 'Client draft 76 handshake' do
 
     handshake.should be_finished
     handshake.should_not be_valid
-    handshake.error.should eql(:invalid_challenge)
+    handshake.error.should eql(:invalid_handshake_authentication)
   end
 end

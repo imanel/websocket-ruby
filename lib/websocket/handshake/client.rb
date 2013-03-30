@@ -72,10 +72,11 @@ module WebSocket
 
         @path   = '/'           if @path.nil? || @path.empty?
 
-        set_error(:no_host_provided) unless @host
+        raise WebSocket::Error::Handshake::NoHostProvided unless @host
 
         include_version
       end
+      rescue_method :initialize
 
       # Add text of response from Server. This method will parse content immediately and update state and error(if neccessary)
       #
@@ -95,6 +96,7 @@ module WebSocket
 
         end
       end
+      rescue_method :<<
 
       # Should send content to server after finished parsing?
       # @return [Boolean] false
@@ -112,7 +114,7 @@ module WebSocket
           when 76, 0 then extend Handler::Client76
           when 1..3  then extend Handler::Client01
           when 4..13 then extend Handler::Client04
-          else set_error(:unknown_protocol_version) and return false
+          else raise WebSocket::Error::Handshake::UnknownVersion
         end
         return true
       end
@@ -124,9 +126,9 @@ module WebSocket
       # @return [Boolean] True if parsed correctly. False otherwise
       def parse_first_line(line)
         line_parts = line.match(FIRST_LINE)
-        set_error(:invalid_header) and return false unless line_parts
+        raise WebSocket::Error::Handshake::InvalidHeader unless line_parts
         status = line_parts[1]
-        set_error(:invalid_status_code) and return false unless status == '101'
+        raise WebSocket::Error::Handshake::InvalidStatusCode unless status == '101'
 
         return true
       end
