@@ -73,14 +73,20 @@ module WebSocket
       # @example
       #   @handshake.from_rack(env)
       def from_rack(env)
-        @headers["sec-websocket-version"]    = env["HTTP_SEC_WEBSOCKET_VERSION"]
-        @headers["sec-websocket-draft"]      = env["HTTP_SEC_WEBSOCKET_DRAFT"]
-        @headers["sec-websocket-key"]        = env["HTTP_SEC_WEBSOCKET_KEY"]
-        @headers["sec-websocket-extensions"] = env["HTTP_SEC_WEBSOCKET_EXTENSIONS"]
-        @headers["host"]                     = env["HTTP_HOST"]
-        @path                                = env["REQUEST_PATH"]
-        @query                               = env["QUERY_STRING"]
+        @headers = env.select {|key, value|
+          key =~ /\AHTTP_/
+        }.inject({}) {|memo, tuple|
+          key, value = tuple
+          memo[key.gsub(/\AHTTP_/, '').gsub('_', '-').downcase] = value
+          memo
+        }
+
+        @path      = env["REQUEST_PATH"]
+        @query     = env["QUERY_STRING"]
+        @leftovers = env['rack.input'].read
+
         set_version
+        @state = :finished
       end
 
       # Should send content to client after finished parsing?
