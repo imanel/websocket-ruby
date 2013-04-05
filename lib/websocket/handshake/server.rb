@@ -67,6 +67,29 @@ module WebSocket
       end
       rescue_method :<<
 
+      # Parse the request from a rack environment
+      #
+      # @param env Rack Environment
+      #
+      # @example
+      #   @handshake.from_rack(env)
+      def from_rack(env)
+        @headers = env.select {|key, value|
+          key =~ /\AHTTP_/
+        }.inject({}) {|memo, tuple|
+          key, value = tuple
+          memo[key.gsub(/\AHTTP_/, '').gsub('_', '-').downcase] = value
+          memo
+        }
+
+        @path      = env["REQUEST_PATH"]
+        @query     = env["QUERY_STRING"]
+        @leftovers = env['rack.input'].read
+
+        set_version
+        @state = :finished
+      end
+
       # Should send content to client after finished parsing?
       # @return [Boolean] true
       def should_respond?
