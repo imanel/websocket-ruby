@@ -83,4 +83,15 @@ shared_examples_for 'all server drafts' do
     handshake.should_not be_valid
     handshake.error.should eql(:get_request_required)
   end
+
+  it "should parse a rack request" do
+    request = WEBrick::HTTPRequest.new( :ServerSoftware => "rspec" )
+    request.parse(StringIO.new(client_request)).should be_true
+    rest    = client_request.slice((request.to_s.length..-1))
+
+    handshake.from_rack(request.meta_vars.merge(
+      "rack.input" => StringIO.new(rest)
+    ))
+    validate_request
+  end
 end

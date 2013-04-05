@@ -1,4 +1,5 @@
 require 'rspec'
+require 'webrick'
 
 require 'websocket'
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each {|f| require f}
