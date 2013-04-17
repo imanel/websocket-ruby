@@ -110,7 +110,7 @@ describe 'Incoming frame draft 07' do
   context "should raise error with invalid opcode" do
     let(:encoded_text) { "\x85\x05Hello" }
     let(:decoded_text) { nil }
-    let(:error) { :unknown_opcode }
+    let(:error) { WebSocket::Error::Frame::UnknownOpcode }
 
     it_should_behave_like 'valid_incoming_frame'
   end
@@ -118,7 +118,7 @@ describe 'Incoming frame draft 07' do
   context "should raise error with too long frame" do
     let(:encoded_text) { "\x81\x7F" + "a" * WebSocket.max_frame_size }
     let(:decoded_text) { nil }
-    let(:error) { :frame_too_long }
+    let(:error) { WebSocket::Error::Frame::TooLong }
 
     it_should_behave_like 'valid_incoming_frame'
   end
@@ -126,7 +126,7 @@ describe 'Incoming frame draft 07' do
   context "should raise error with continuation frame without more frame earlier" do
     let(:encoded_text) { "\x80\x05Hello" }
     let(:decoded_text) { nil }
-    let(:error) { :unexpected_continuation_frame }
+    let(:error) { WebSocket::Error::Frame::UnexpectedContinuationFrame }
 
     it_should_behave_like 'valid_incoming_frame'
   end

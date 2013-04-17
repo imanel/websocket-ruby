@@ -23,7 +23,7 @@ module WebSocket
             send("#{method_name}_without_rescue", *args)
           rescue WebSocket::Error => e
             set_error(e.message.to_sym)
-            nil
+            WebSocket.should_raise ? raise : nil
           end
         end
         alias_method "#{method_name}_without_rescue", method_name

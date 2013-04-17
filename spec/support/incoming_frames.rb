@@ -16,7 +16,11 @@ shared_examples_for 'valid_incoming_frame' do
       n.class.should eql(WebSocket::Frame::Incoming), "Should be WebSocket::Frame::Incoming, #{n} received instead"
     end
     subject.next.should be_nil
-    subject.error.should eql(error)
+    if error.is_a?(Class)
+      subject.error.should eql(error.new.message)
+    else
+      subject.error.should eql(error)
+    end
   end
 
   it "should return valid decoded frame for each specified decoded texts" do
@@ -25,6 +29,27 @@ shared_examples_for 'valid_incoming_frame' do
       f.decoded?.should be_true
       f.type.should eql(frame_type_array[index])
       f.to_s.should eql(da)
+    end
+  end
+
+  context "with raising" do
+    before { WebSocket.should_raise = true }
+    after { WebSocket.should_raise = false }
+
+    it "should have specified number of returned frames" do
+      expect do
+        decoded_text_array.each_with_index do |da, index|
+          n = subject.next
+          n.should_not be_nil, "Should return frame for #{da}, #{frame_type_array[index]}"
+          n.class.should eql(WebSocket::Frame::Incoming), "Should be WebSocket::Frame::Incoming, #{n} received instead"
+        end
+        subject.next.should be_nil
+        if error.is_a?(Class)
+          subject.error.should eql(error.new.message)
+        else
+          subject.error.should eql(error)
+        end
+      end.to raise_error(error) if error
     end
   end
 end

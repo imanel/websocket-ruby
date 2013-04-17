@@ -45,14 +45,14 @@ describe 'Incoming frame draft 75' do
 
   context "with invalid frame" do
     let(:encoded_text) { "invalid" }
-    let(:error) { :invalid_frame }
+    let(:error) { WebSocket::Error::Frame::Invalid }
 
     it_should_behave_like 'valid_incoming_frame'
   end
 
   context "with too long frame" do
     let(:encoded_text) { "\x00" + "a" * WebSocket.max_frame_size + "\xFF" }
-    let(:error) { :frame_too_long }
+    let(:error) { WebSocket::Error::Frame::TooLong }
 
     it_should_behave_like 'valid_incoming_frame'
   end
