@@ -24,6 +24,17 @@ module WebSocket
     @max_frame_size = val
   end
 
+  # If set to true error will be raised instead of setting `error` method.
+  # All errors inherit from WebSocket::Error.
+  def self.should_raise
+    @should_raise ||= false
+  end
+
+  # Should protocol errors raise ruby errors? If false then `error` flag is set instead.
+  def self.should_raise=(val)
+    @should_raise = val
+  end
+
 end
 
 # Try loading websocket-native if available
