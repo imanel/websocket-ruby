@@ -5,7 +5,7 @@ module WebSocket
       include ExceptionHandler
 
       attr_reader :host, :port, :path, :query,
-                  :state, :version, :secure
+                  :state, :version, :secure, :headers
 
       # Initialize new WebSocket Handshake and set it's state to :new
       def initialize(args = {})

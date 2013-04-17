@@ -47,8 +47,8 @@ module WebSocket
         # @return [String] Challenge response or nil if error occured
         def challenge_response
           # Refer to 5.2 4-9 of the draft 76
-          first = numbers_over_spaces(@headers['sec-websocket-key1'])
-          second = numbers_over_spaces(@headers['sec-websocket-key2'])
+          first = numbers_over_spaces(@headers['sec-websocket-key1'].to_s)
+          second = numbers_over_spaces(@headers['sec-websocket-key2'].to_s)
           third = @leftovers.strip
 
           sum = [first].pack("N*") +

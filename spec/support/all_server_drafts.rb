@@ -94,4 +94,26 @@ shared_examples_for 'all server drafts' do
     ))
     validate_request
   end
+
+  it "should parse a hash request" do
+    request = WEBrick::HTTPRequest.new( :ServerSoftware => "rspec" )
+    request.parse(StringIO.new(client_request)).should be_true
+    body = client_request.slice((request.to_s.length..-1))
+
+    path = request.path
+    query = request.query_string
+    headers = request.header.inject({}) do |hash, header|
+      hash[header[0]] = header[1].first if header[0] && header[1]
+      hash
+    end
+
+    handshake.from_hash({
+      :headers => headers,
+      :path => path,
+      :query => query,
+      :body => body
+    })
+
+    validate_request
+  end
 end

@@ -68,7 +68,6 @@ module WebSocket
       rescue_method :<<
 
       # Parse the request from a rack environment
-      #
       # @param env Rack Environment
       #
       # @example
@@ -85,6 +84,25 @@ module WebSocket
         @path      = env["REQUEST_PATH"]
         @query     = env["QUERY_STRING"]
         @leftovers = env['rack.input'].read
+
+        set_version
+        @state = :finished
+      end
+
+      # Parse the request from hash
+      # @param hash Hash to import data
+      # @option hash [Hash] :headers HTTP headers of request, downcased
+      # @option hash [String] :path Path for request(without host and query string)
+      # @option hash [String] :query Query string for request
+      # @option hash [String] :body Body of request(if exists)
+      #
+      # @example
+      #   @handshake.from_hash(hash)
+      def from_hash(hash)
+        @headers = hash[:headers] || {}
+        @path = hash[:path] || "/"
+        @query = hash[:query] || ""
+        @leftovers = hash[:body]
 
         set_version
         @state = :finished

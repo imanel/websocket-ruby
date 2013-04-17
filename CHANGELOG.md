@@ -3,7 +3,9 @@
 ## Edge
 
 - allow raising ruby errors instead of setting `error` flag
+- allow access to handshake headers
 - add from_rack method
+- add from_hash method
 
 ## 1.0.7
 
