@@ -1,5 +1,10 @@
 # Changelog
 
+## Edge
+
+- allow raising ruby errors instead of setting `error` flag
+- add from_rack method
+
 ## 1.0.7
 
 - fix requiring url under Ruby 1.9.1
