@@ -33,6 +33,8 @@ module WebSocket
     #
     class Client < Base
 
+      attr_reader :origin
+
       # Initialize new WebSocket Client
       #
       # @param [Hash] args Arguments for client
@@ -109,11 +111,11 @@ module WebSocket
       # Include set of methods for selected protocol version
       # @return [Boolean] false if protocol number is unknown, otherwise true
       def include_version
-        case @version
-          when 75 then extend Handler::Client75
-          when 76, 0 then extend Handler::Client76
-          when 1..3  then extend Handler::Client01
-          when 4..13 then extend Handler::Client04
+        @handler = case @version
+          when 75 then Handler::Client75.new(self)
+          when 76, 0 then Handler::Client76.new(self)
+          when 1..3  then Handler::Client01.new(self)
+          when 4..13 then Handler::Client04.new(self)
           else raise WebSocket::Error::Handshake::UnknownVersion
         end
       end

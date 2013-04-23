@@ -4,10 +4,7 @@ require 'base64'
 module WebSocket
   module Handshake
     module Handler
-      module Server04
-
-        include ExceptionHandler
-        include Server
+      class Server04 < Server
 
         # @see WebSocket::Handshake::Base#valid?
         def valid?
@@ -33,15 +30,14 @@ module WebSocket
         # Signature of response, created from client request Sec-WebSocket-Key
         # @return [String] signature
         def signature
-          return unless key = @headers['sec-websocket-key']
+          return unless key = @handshake.headers['sec-websocket-key']
           string_to_sign = "#{key}258EAFA5-E914-47DA-95CA-C5AB0DC85B11"
           Base64.encode64(Digest::SHA1.digest(string_to_sign)).chomp
         end
 
         def verify_key
-          (@headers['sec-websocket-key'] ? true : raise(WebSocket::Error::Handshake::InvalidAuthentication))
+          (@handshake.headers['sec-websocket-key'] ? true : raise(WebSocket::Error::Handshake::InvalidAuthentication))
         end
-        rescue_method :verify_key
 
       end
     end

@@ -1,9 +1,7 @@
 module WebSocket
   module Handshake
     module Handler
-      module Server75
-
-        include Server
+      class Server75 < Server
 
         private
 
@@ -17,8 +15,8 @@ module WebSocket
           [
             ["Upgrade", "WebSocket"],
             ["Connection", "Upgrade"],
-            ["WebSocket-Origin", @headers['origin']],
-            ["WebSocket-Location", uri]
+            ["WebSocket-Origin", @handshake.headers['origin']],
+            ["WebSocket-Location", @handshake.uri]
           ]
         end
 

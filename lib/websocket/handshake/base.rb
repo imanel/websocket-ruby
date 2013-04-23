@@ -10,6 +10,7 @@ module WebSocket
       # Initialize new WebSocket Handshake and set it's state to :new
       def initialize(args = {})
         @state = :new
+        @handler = nil
 
         @data = ""
         @headers = {}
@@ -23,8 +24,9 @@ module WebSocket
       # Return textual representation of handshake request or response
       # @return [String] text of response
       def to_s
-        ""
+        @handler ? @handler.to_s : ""
       end
+      rescue_method :to_s, :return => ""
 
       # Recreate inspect as #to_s was overwritten
       def inspect
@@ -42,8 +44,9 @@ module WebSocket
       # Is parsed data valid?
       # @return [Boolean] False if some errors occured. Reason for error could be found in error method
       def valid?
-        finished? && @error == nil
+        finished? && @error == nil && @handler && @handler.valid?
       end
+      rescue_method :valid?, :return => false
 
       # @abstract Should send data after parsing is finished?
       def should_respond?

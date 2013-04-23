@@ -1,9 +1,7 @@
 module WebSocket
   module Handshake
     module Handler
-      module Client75
-
-        include Client
+      class Client75 < Client
 
         private
 
@@ -13,10 +11,10 @@ module WebSocket
             ["Upgrade", "WebSocket"],
             ["Connection", "Upgrade"]
           ]
-          host = @host
-          host += ":#{@port}" if @port
+          host = @handshake.host
+          host += ":#{@handshake.port}" if @handshake.port
           keys << ["Host", host]
-          keys << ["Origin", @origin] if @origin
+          keys << ["Origin", @handshake.origin] if @handshake.origin
           keys
         end
 

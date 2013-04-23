@@ -2,7 +2,11 @@ module WebSocket
   module Handshake
     module Handler
       # This module and it's descendants are included in client or server handshake in order to extend basic functionality
-      module Base
+      class Base
+
+        def initialize(handshake)
+          @handshake = handshake
+        end
 
         # @see WebSocket::Handshake::Base#to_s
         def to_s
@@ -13,6 +17,10 @@ module WebSocket
           result << ""
           result << finishing_line
           result.join("\r\n")
+        end
+
+        def valid?
+          true
         end
 
         private

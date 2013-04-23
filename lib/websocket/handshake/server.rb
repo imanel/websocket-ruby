@@ -140,10 +140,10 @@ module WebSocket
       # Include set of methods for selected protocol version
       # @return [Boolean] false if protocol number is unknown, otherwise true
       def include_version
-        case @version
-          when 75 then extend Handler::Server75
-          when 76, 0..3 then extend Handler::Server76
-          when 4..13 then extend Handler::Server04
+        @handler = case @version
+          when 75 then Handler::Server75.new(self)
+          when 76, 0..3 then Handler::Server76.new(self)
+          when 4..13 then Handler::Server04.new(self)
           else raise WebSocket::Error::Handshake::UnknownVersion
         end
       end

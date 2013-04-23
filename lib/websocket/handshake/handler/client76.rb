@@ -3,10 +3,7 @@ require 'digest/md5'
 module WebSocket
   module Handshake
     module Handler
-      module Client76
-
-        include Client75
-        include ExceptionHandler
+      class Client76 < Client75
 
         # @see WebSocket::Handshake::Base#valid?
         def valid?
@@ -66,10 +63,9 @@ module WebSocket
         # Verify if challenge sent by server match generated one
         # @return [Boolena] True if challenge matches, false otherwise(sets appropriate error)
         def verify_challenge
-          raise WebSocket::Error::Handshake::InvalidAuthentication unless @leftovers == challenge
+          raise WebSocket::Error::Handshake::InvalidAuthentication unless @handshake.instance_variable_get('@leftovers') == challenge
           true
         end
-        rescue_method :verify_challenge
 
         NOISE_CHARS = ("\x21".."\x2f").to_a() + ("\x3a".."\x7e").to_a()
 

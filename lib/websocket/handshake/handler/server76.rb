@@ -3,10 +3,7 @@ require 'digest/md5'
 module WebSocket
   module Handshake
     module Handler
-      module Server76
-
-        include ExceptionHandler
-        include Server
+      class Server76 < Server
 
         # @see WebSocket::Handshake::Base#valid?
         def valid?
@@ -30,8 +27,8 @@ module WebSocket
           [
             ["Upgrade", "WebSocket"],
             ["Connection", "Upgrade"],
-            ["Sec-WebSocket-Origin", @headers['origin']],
-            ["Sec-WebSocket-Location", uri]
+            ["Sec-WebSocket-Origin", @handshake.headers['origin']],
+            ["Sec-WebSocket-Location", @handshake.uri]
           ]
         end
 
@@ -39,7 +36,6 @@ module WebSocket
         def finishing_line
           @finishing_line ||= challenge_response
         end
-        rescue_method :finishing_line
 
         private
 
@@ -47,9 +43,9 @@ module WebSocket
         # @return [String] Challenge response or nil if error occured
         def challenge_response
           # Refer to 5.2 4-9 of the draft 76
-          first = numbers_over_spaces(@headers['sec-websocket-key1'].to_s)
-          second = numbers_over_spaces(@headers['sec-websocket-key2'].to_s)
-          third = @leftovers.strip
+          first = numbers_over_spaces(@handshake.headers['sec-websocket-key1'].to_s)
+          second = numbers_over_spaces(@handshake.headers['sec-websocket-key2'].to_s)
+          third = @handshake.instance_variable_get('@leftovers').strip
 
           sum = [first].pack("N*") +
                 [second].pack("N*") +

@@ -17,13 +17,13 @@ module WebSocket
 
     module ClassMethods
 
-      def rescue_method(method_name)
+      def rescue_method(method_name, options = {})
         define_method "#{method_name}_with_rescue" do |*args|
           begin
             send("#{method_name}_without_rescue", *args)
           rescue WebSocket::Error => e
             set_error(e.message.to_sym)
-            WebSocket.should_raise ? raise : nil
+            WebSocket.should_raise ? raise : options[:return]
           end
         end
         alias_method "#{method_name}_without_rescue", method_name

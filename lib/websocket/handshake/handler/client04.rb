@@ -4,10 +4,7 @@ require 'base64'
 module WebSocket
   module Handshake
     module Handler
-      module Client04
-
-        include Client
-        include ExceptionHandler
+      class Client04 < Client
 
         # @see WebSocket::Handshake::Base#valid?
         def valid?
@@ -22,11 +19,11 @@ module WebSocket
             ["Upgrade", "websocket"],
             ["Connection", "Upgrade"]
           ]
-          host = @host
-          host += ":#{@port}" if @port
+          host = @handshake.host
+          host += ":#{@handshake.port}" if @handshake.port
           keys << ["Host", host]
-          keys << ["Sec-WebSocket-Origin", @origin] if @origin
-          keys << ["Sec-WebSocket-Version", @version ]
+          keys << ["Sec-WebSocket-Origin", @handshake.origin] if @handshake.origin
+          keys << ["Sec-WebSocket-Version", @handshake.version ]
           keys << ["Sec-WebSocket-Key", key]
           keys
         end
@@ -46,10 +43,9 @@ module WebSocket
         # Verify if received header Sec-WebSocket-Accept matches generated one.
         # @return [Boolean] True if accept is matching. False otherwise(appropriate error is set)
         def verify_accept
-          raise WebSocket::Error::Handshake::InvalidAuthentication unless @headers['sec-websocket-accept'] == accept
+          raise WebSocket::Error::Handshake::InvalidAuthentication unless @handshake.headers['sec-websocket-accept'] == accept
           true
         end
-        rescue_method :verify_accept
 
       end
     end
