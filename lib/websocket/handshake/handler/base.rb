@@ -1,7 +1,7 @@
 module WebSocket
   module Handshake
     module Handler
-      # This module and it's descendants are included in client or server handshake in order to extend basic functionality
+      # This class and it's descendants are included in client or server handshake in order to extend basic functionality
       class Base
 
         def initialize(handshake)
