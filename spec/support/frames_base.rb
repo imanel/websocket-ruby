@@ -2,10 +2,8 @@ module WebSocket
   module Frame
     class Base
 
-      private
-
       def incoming_masking?
-        masking?
+        @handler.masking?
       end
 
       def outgoing_masking?

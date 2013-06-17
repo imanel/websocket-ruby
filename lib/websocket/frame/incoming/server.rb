@@ -3,10 +3,8 @@ module WebSocket
     class Incoming
       class Server < Incoming
 
-        private
-
         def incoming_masking?
-          masking?
+          @handler.masking?
         end
 
         def outgoing_masking?

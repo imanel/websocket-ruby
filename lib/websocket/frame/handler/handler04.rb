@@ -3,9 +3,7 @@
 module WebSocket
   module Frame
     module Handler
-      module Handler04
-
-        include Handler03
+      class Handler04 < Handler03
 
         private
 

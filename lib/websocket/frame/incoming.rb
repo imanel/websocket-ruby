@@ -37,7 +37,7 @@ module WebSocket
       # Check #error if nil received to check for eventual parsing errors
       # @return [WebSocket::Frame::Incoming] Single incoming frame or nil if no complete frame is available.
       def next
-        decode_frame unless decoded?
+        @handler.decode_frame unless decoded?
       end
       rescue_method :next
 

@@ -3,11 +3,7 @@
 module WebSocket
   module Frame
     module Handler
-      module Handler07
-
-        include Handler05
-
-        private
+      class Handler07 < Handler05
 
         # Hash of frame names and it's opcodes
         FRAME_TYPES = {
@@ -21,6 +17,8 @@ module WebSocket
 
         # Hash of frame opcodes and it's names
         FRAME_TYPES_INVERSE = FRAME_TYPES.invert
+
+        private
 
         # Convert frame type name to opcode
         # @param [Symbol] frame_type Frame type name

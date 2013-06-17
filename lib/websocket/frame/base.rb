@@ -17,6 +17,7 @@ module WebSocket
         @code = args[:code]
         @data = Data.new(args[:data].to_s)
         @version = args[:version] || DEFAULT_VERSION
+        @handler = nil
         include_version
       end
       rescue_method :initialize
@@ -29,7 +30,7 @@ module WebSocket
 
       # Is selected type supported for selected handler?
       def support_type?
-        supported_frames.include?(@type)
+        @handler.supported_frames.include?(@type)
       end
 
       # Implement in submodules
@@ -49,13 +50,13 @@ module WebSocket
       # Include set of methods for selected protocol version
       # @return [Boolean] false if protocol number is unknown, otherwise true
       def include_version
-        case @version
-          when 75..76 then extend Handler::Handler75
-          when 0..2 then extend Handler::Handler75
-          when 3 then extend Handler::Handler03
-          when 4 then extend Handler::Handler04
-          when 5..6 then extend Handler::Handler05
-          when 7..13 then extend Handler::Handler07
+        @handler = case @version
+          when 75..76 then Handler::Handler75.new(self)
+          when 0..2 then Handler::Handler75.new(self)
+          when 3 then Handler::Handler03.new(self)
+          when 4 then Handler::Handler04.new(self)
+          when 5..6 then Handler::Handler05.new(self)
+          when 7..13 then Handler::Handler07.new(self)
           else raise WebSocket::Error::Frame::UnknownVersion
         end
       end

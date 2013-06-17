@@ -3,15 +3,11 @@
 module WebSocket
   module Frame
     module Handler
-      module Handler05
-
-        include Handler04
-
-        private
+      class Handler05 < Handler04
 
         def encode_frame
           if @code
-            @data = Data.new([@code].pack('n') + @data.to_s)
+            @frame.data = Data.new([@code].pack('n') + @frame.data.to_s)
             @code = nil
           end
           super

@@ -1,9 +1,11 @@
 module WebSocket
   module Frame
     module Handler
-      module Base
+      class Base
 
-        private
+        def initialize(frame)
+          @frame = frame
+        end
 
         # Convert data to raw frame ready to send to client
         # @return [String] Encoded frame
@@ -16,6 +18,8 @@ module WebSocket
         def decode_frame
           raise NotImplementedError
         end
+
+        private
 
         # Check if frame is one of control frames
         # @param [Symbol] frame_type Frame type
