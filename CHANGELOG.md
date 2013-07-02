@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.1
+
+- fix handling close code for frames version 5+
+
 ## 1.1.0
 
 - allow raising ruby errors instead of setting `error` flag
