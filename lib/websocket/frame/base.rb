@@ -4,7 +4,8 @@ module WebSocket
     class Base
       include ExceptionHandler
 
-      attr_reader :data, :type, :version
+      attr_reader :type, :version
+      attr_accessor :data, :code
 
       # Initialize frame
       # @param args [Hash] Arguments for frame
