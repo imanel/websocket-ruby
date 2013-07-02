@@ -6,9 +6,9 @@ module WebSocket
       class Handler05 < Handler04
 
         def encode_frame
-          if @code
-            @frame.data = Data.new([@code].pack('n') + @frame.data.to_s)
-            @code = nil
+          if @frame.code
+            @frame.data = Data.new([@frame.code].pack('n') + @frame.data.to_s)
+            @frame.code = nil
           end
           super
         end
