@@ -83,7 +83,19 @@ module WebSocket
 
         @path      = env["REQUEST_PATH"]
         @query     = env["QUERY_STRING"]
-        @leftovers = env['rack.input'].read
+
+        # Passenger is blocking on read
+        # Unicorn doesn't support readpartial
+        # Maybe someone is providing even plain string?
+        # Better safe than sorry...
+        input = env['rack.input']
+        @leftovers =  if input.respond_to?(:readpartial)
+                        input.readpartial
+                      elsif input.respond_to?(:read)
+                        input.read
+                      else
+                        input.to_s
+                      end
 
         set_version
         @state = :finished
