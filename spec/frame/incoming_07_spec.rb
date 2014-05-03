@@ -21,6 +21,14 @@ describe 'Incoming frame draft 07' do
     it_should_behave_like 'valid_incoming_frame'
   end
 
+  context "should raise error with invalid close code" do
+    let(:encoded_text) { "\x88\x07\x03\xEDHello" }
+    let(:decoded_text) { nil }
+    let(:error) { WebSocket::Error::Frame::UnknownCloseCode }
+
+    it_should_behave_like 'valid_incoming_frame'
+  end
+
   context "should properly decode ping frame" do
     let(:encoded_text) { "\x89\x05" + decoded_text }
     let(:frame_type) { :ping }

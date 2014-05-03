@@ -47,6 +47,10 @@ module WebSocket
         def message; :unknown_opcode; end
       end
 
+      class UnknownCloseCode < ::WebSocket::Error::Frame
+        def message; :unknown_close_code; end
+      end
+
       class UnknownVersion < ::WebSocket::Error::Frame
         def message; :unknown_protocol_version; end
       end
