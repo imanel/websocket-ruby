@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.4
+
+- verify valid close codes according to spec
+- return error on invalid UTF-8 payload
+- expose error message
+
 ## 1.1.3
 
 - fix close code support
