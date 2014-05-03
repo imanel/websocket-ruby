@@ -18,7 +18,20 @@ module WebSocket
         # Hash of frame opcodes and it's names
         FRAME_TYPES_INVERSE = FRAME_TYPES.invert
 
+        def decode_frame
+          result = super
+          if has_close_code?(result)
+            code = result.data.slice!(0..1)
+            result.code = code.unpack('S').first
+          end
+          result
+        end
+
         private
+
+        def has_close_code?(frame)
+          frame && frame.type == :close && !frame.data.empty?
+        end
 
         # Convert frame type name to opcode
         # @param [Symbol] frame_type Frame type name

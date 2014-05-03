@@ -13,9 +13,10 @@ describe 'Incoming frame draft 07' do
   it_should_behave_like 'valid_incoming_frame'
 
   context "should properly decode close frame" do
-    let(:encoded_text) { "\x88\x05" + decoded_text }
+    let(:encoded_text) { "\x88\x07" + "\xE8\x03" + decoded_text }
     let(:frame_type) { :close }
     let(:decoded_text) { "Hello" }
+    let(:close_code) { 1000 }
 
     it_should_behave_like 'valid_incoming_frame'
   end

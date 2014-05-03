@@ -28,6 +28,7 @@ shared_examples_for 'valid_incoming_frame' do
       f = subject.next
       f.decoded?.should be_true
       f.type.should eql(frame_type_array[index])
+      f.code.should eql(close_code) if defined?(close_code)
       f.to_s.should eql(da)
     end
   end
