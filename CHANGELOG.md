@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.3
+
+- fix close code support
+
 ## 1.1.2
 
 - fix support for rack input that is blocking (i.e. Passenger)
