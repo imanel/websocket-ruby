@@ -19,8 +19,9 @@ module WebSocket
         FRAME_TYPES_INVERSE = FRAME_TYPES.invert
 
         def encode_frame
-          if @frame.code
-            @frame.data = Data.new([@frame.code].pack('n') + @frame.data.to_s)
+          if @frame.type == :close
+            code = @frame.code || 1000
+            @frame.data = Data.new([code].pack('n') + @frame.data.to_s)
             @frame.code = nil
           end
           super
@@ -30,7 +31,7 @@ module WebSocket
           result = super
           if has_close_code?(result)
             code = result.data.slice!(0..1)
-            result.code = code.unpack('S').first
+            result.code = code.unpack('n').first
           end
           result
         end

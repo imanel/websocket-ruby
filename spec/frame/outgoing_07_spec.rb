@@ -3,8 +3,9 @@ require 'spec_helper'
 
 describe 'Outgoing frame draft 07' do
   let(:version) { 7 }
-  let(:frame) { WebSocket::Frame::Outgoing.new(:version => version, :data => decoded_text, :type => frame_type) }
+  let(:frame) { WebSocket::Frame::Outgoing.new(:version => version, :data => decoded_text, :type => frame_type, :code => close_code) }
   let(:decoded_text) { "" }
+  let(:close_code) { nil }
   let(:encoded_text) { "\x81\x00" }
   let(:frame_type) { :text }
   let(:require_sending) { true }
@@ -13,10 +14,20 @@ describe 'Outgoing frame draft 07' do
 
   it_should_behave_like 'valid_outgoing_frame'
 
-  context "should properly encode close frame" do
+  context "should properly encode close frame without close code" do
     let(:frame_type) { :close }
     let(:decoded_text) { "Hello" }
-    let(:encoded_text) { "\x88\x05" + decoded_text }
+    let(:encoded_text) { "\x88\x07\x03\xE8" + decoded_text }
+    let(:require_sending) { true }
+
+    it_should_behave_like 'valid_outgoing_frame'
+  end
+
+  context "should properly encode close frame with close code" do
+    let(:frame_type) { :close }
+    let(:decoded_text) { "Hello" }
+    let(:close_code) { 1001 }
+    let(:encoded_text) { "\x88\x07\x03\xE9" + decoded_text }
     let(:require_sending) { true }
 
     it_should_behave_like 'valid_outgoing_frame'
