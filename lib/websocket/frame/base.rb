@@ -4,7 +4,7 @@ module WebSocket
     class Base
       include ExceptionHandler
 
-      attr_reader :type, :version
+      attr_reader :type, :version, :error
       attr_accessor :data, :code
 
       # Initialize frame
