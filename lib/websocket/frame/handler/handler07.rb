@@ -21,7 +21,7 @@ module WebSocket
         def encode_frame
           if @frame.type == :close
             code = @frame.code || 1000
-            raise WebSocket::Error::Frame::UnknownCloseCode unless valid_close_codes.include?(code)
+            raise WebSocket::Error::Frame::UnknownCloseCode unless valid_code?(code)
             @frame.data = Data.new([code].pack('n') + @frame.data.to_s)
             @frame.code = nil
           end
@@ -33,7 +33,7 @@ module WebSocket
           if has_close_code?(result)
             code = result.data.slice!(0..1)
             result.code = code.unpack('n').first
-            raise WebSocket::Error::Frame::UnknownCloseCode unless valid_close_codes.include?(result.code)
+            raise WebSocket::Error::Frame::UnknownCloseCode unless valid_code?(result.code)
             raise WebSocket::Error::Frame::InvalidPayloadEncoding unless valid_encoding?(result.data)
           end
           result
@@ -41,8 +41,8 @@ module WebSocket
 
         private
 
-        def valid_close_codes
-          [1000,1001,1002,1003,1007,1008,1009,1010,1011]
+        def valid_code?(code)
+          [1000,1001,1002,1003,1007,1008,1009,1010,1011].include?(code) || (3000..4999).include?(code)
         end
 
         def valid_encoding?(data)
