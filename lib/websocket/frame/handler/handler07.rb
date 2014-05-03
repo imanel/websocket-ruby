@@ -34,6 +34,7 @@ module WebSocket
             code = result.data.slice!(0..1)
             result.code = code.unpack('n').first
             raise WebSocket::Error::Frame::UnknownCloseCode unless valid_close_codes.include?(result.code)
+            raise WebSocket::Error::Frame::InvalidPayloadEncoding unless valid_encoding?(result.data)
           end
           result
         end
@@ -42,6 +43,14 @@ module WebSocket
 
         def valid_close_codes
           [1000,1001,1002,1003,1007,1008,1009,1010,1011]
+        end
+
+        def valid_encoding?(data)
+          return true if data.nil? || !data.respond_to?(:encode)
+          data.encode('UTF-8')
+          true
+        rescue
+          false
         end
 
         def has_close_code?(frame)
