@@ -14,7 +14,7 @@ module WebSocket
           handshake_keys.each do |key|
             result << key.join(': ')
           end
-          result << ""
+          result << ''
           result << finishing_line
           result.join("\r\n")
         end
@@ -28,7 +28,7 @@ module WebSocket
         # Set first line of text representation according to specification.
         # @return [String] First line of HTTP header
         def header_line
-          ""
+          ''
         end
 
         # Set handshake headers. Provided as array because some protocol version require specific order of fields.
@@ -40,7 +40,7 @@ module WebSocket
         # Set data to send after headers. In most cases it will be blank data.
         # @return [String] data
         def finishing_line
-          ""
+          ''
         end
 
       end

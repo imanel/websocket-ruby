@@ -16,15 +16,15 @@ module WebSocket
         # @see WebSocket::Handshake::Handler::Base#handshake_keys
         def handshake_keys
           keys = [
-            ["Upgrade", "websocket"],
-            ["Connection", "Upgrade"]
+            ['Upgrade', 'websocket'],
+            ['Connection', 'Upgrade']
           ]
           host = @handshake.host
           host += ":#{@handshake.port}" if @handshake.port
-          keys << ["Host", host]
-          keys << ["Sec-WebSocket-Origin", @handshake.origin] if @handshake.origin
-          keys << ["Sec-WebSocket-Version", @handshake.version ]
-          keys << ["Sec-WebSocket-Key", key]
+          keys << ['Host', host]
+          keys << ['Sec-WebSocket-Origin', @handshake.origin] if @handshake.origin
+          keys << ['Sec-WebSocket-Version', @handshake.version ]
+          keys << ['Sec-WebSocket-Key', key]
           keys
         end
 

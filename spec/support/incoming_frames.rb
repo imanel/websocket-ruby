@@ -1,15 +1,15 @@
 shared_examples_for 'valid_incoming_frame' do
-  let(:decoded_text_array) { decoded_text == "" ? [""] : Array(decoded_text) } # Bug in Ruby 1.8 -> Array("") => [] instead of [""]
+  let(:decoded_text_array) { decoded_text == '' ? [''] : Array(decoded_text) } # Bug in Ruby 1.8 -> Array('') => [] instead of ['']
   let(:frame_type_array) { Array(frame_type) }
 
   its(:class) { should eql(WebSocket::Frame::Incoming) }
-  its(:data) { should eql(encoded_text || "") }
+  its(:data) { should eql(encoded_text || '') }
   its(:version) { should eql(version) }
   its(:type) { should be_nil }
   its(:decoded?) { should be_false }
-  its(:to_s) { should eql(encoded_text || "") }
+  its(:to_s) { should eql(encoded_text || '') }
 
-  it "should have specified number of returned frames" do
+  it 'should have specified number of returned frames' do
     decoded_text_array.each_with_index do |da, index|
       n = subject.next
       n.should_not be_nil, "Should return frame for #{da}, #{frame_type_array[index]}"
@@ -23,7 +23,7 @@ shared_examples_for 'valid_incoming_frame' do
     end
   end
 
-  it "should return valid decoded frame for each specified decoded texts" do
+  it 'should return valid decoded frame for each specified decoded texts' do
     decoded_text_array.each_with_index do |da, index|
       f = subject.next
       f.decoded?.should be_true
@@ -33,11 +33,11 @@ shared_examples_for 'valid_incoming_frame' do
     end
   end
 
-  context "with raising" do
+  context 'with raising' do
     before { WebSocket.should_raise = true }
     after { WebSocket.should_raise = false }
 
-    it "should have specified number of returned frames" do
+    it 'should have specified number of returned frames' do
       expect do
         decoded_text_array.each_with_index do |da, index|
           n = subject.next

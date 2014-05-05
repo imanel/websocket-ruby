@@ -81,8 +81,8 @@ module WebSocket
           memo
         }
 
-        @path      = env["REQUEST_PATH"]
-        @query     = env["QUERY_STRING"]
+        @path      = env['REQUEST_PATH']
+        @query     = env['QUERY_STRING']
 
         # Passenger is blocking on read
         # Unicorn doesn't support readpartial
@@ -112,8 +112,8 @@ module WebSocket
       #   @handshake.from_hash(hash)
       def from_hash(hash)
         @headers = hash[:headers] || {}
-        @path = hash[:path] || "/"
-        @query = hash[:query] || ""
+        @path = hash[:path] || '/'
+        @query = hash[:query] || ''
         @leftovers = hash[:body]
 
         set_version
@@ -129,13 +129,13 @@ module WebSocket
       # Host of server according to client header
       # @return [String] host
       def host
-        @headers["host"].to_s.split(":")[0].to_s
+        @headers['host'].to_s.split(':')[0].to_s
       end
 
       # Port of server according to client header
       # @return [String] port
       def port
-        @headers["host"].to_s.split(":")[1]
+        @headers['host'].to_s.split(':')[1]
       end
 
       private
@@ -144,7 +144,7 @@ module WebSocket
       def set_version
         @version = @headers['sec-websocket-version'].to_i if @headers['sec-websocket-version']
         @version ||= @headers['sec-websocket-draft'].to_i if @headers['sec-websocket-draft']
-        @version ||= 76 if @leftovers != ""
+        @version ||= 76 if @leftovers != ''
         @version ||= 75
         include_version
       end
@@ -169,7 +169,7 @@ module WebSocket
         line_parts = line.match(PATH)
         raise WebSocket::Error::Handshake::InvalidHeader unless line_parts
         method = line_parts[1].strip
-        raise WebSocket::Error::Handshake::GetRequestRequired unless method == "GET"
+        raise WebSocket::Error::Handshake::GetRequestRequired unless method == 'GET'
 
         resource_name = line_parts[2].strip
         @path, @query = resource_name.split('?', 2)

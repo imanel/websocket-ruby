@@ -19,16 +19,16 @@ module WebSocket
 
         # @see WebSocket::Handshake::Handler::Base#header_line
         def header_line
-          "HTTP/1.1 101 WebSocket Protocol Handshake"
+          'HTTP/1.1 101 WebSocket Protocol Handshake'
         end
 
         # @see WebSocket::Handshake::Handler::Base#handshake_keys
         def handshake_keys
           [
-            ["Upgrade", "WebSocket"],
-            ["Connection", "Upgrade"],
-            ["Sec-WebSocket-Origin", @handshake.headers['origin']],
-            ["Sec-WebSocket-Location", @handshake.uri]
+            ['Upgrade', 'WebSocket'],
+            ['Connection', 'Upgrade'],
+            ['Sec-WebSocket-Origin', @handshake.headers['origin']],
+            ['Sec-WebSocket-Location', @handshake.uri]
           ]
         end
 
@@ -47,8 +47,8 @@ module WebSocket
           second = numbers_over_spaces(@handshake.headers['sec-websocket-key2'].to_s)
           third = @handshake.instance_variable_get('@leftovers').strip
 
-          sum = [first].pack("N*") +
-                [second].pack("N*") +
+          sum = [first].pack('N*') +
+                [second].pack('N*') +
                 third
           Digest::MD5.digest(sum)
         end

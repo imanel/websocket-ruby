@@ -15,15 +15,15 @@ module WebSocket
 
         # @see WebSocket::Handshake::Handler::Base#header_line
         def header_line
-          "HTTP/1.1 101 Switching Protocols"
+          'HTTP/1.1 101 Switching Protocols'
         end
 
         # @see WebSocket::Handshake::Handler::Base#handshake_keys
         def handshake_keys
           [
-            ["Upgrade", "websocket"],
-            ["Connection", "Upgrade"],
-            ["Sec-WebSocket-Accept", signature]
+            ['Upgrade', 'websocket'],
+            ['Connection', 'Upgrade'],
+            ['Sec-WebSocket-Accept', signature]
           ]
         end
 

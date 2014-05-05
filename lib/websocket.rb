@@ -39,6 +39,6 @@ end
 
 # Try loading websocket-native if available
 begin
-  require "websocket-native"
+  require 'websocket-native'
 rescue LoadError
 end

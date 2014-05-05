@@ -8,7 +8,7 @@ module WebSocket
         # @see WebSocket::Handshake::Handler::Base#header_line
         def header_line
           path = @handshake.path
-          path += "?" + @handshake.query if @handshake.query
+          path += '?' + @handshake.query if @handshake.query
           "GET #{path} HTTP/1.1"
         end
 

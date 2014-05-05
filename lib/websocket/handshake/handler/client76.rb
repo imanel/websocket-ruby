@@ -53,8 +53,8 @@ module WebSocket
         def challenge
           return @challenge if defined?(@challenge)
           key1 && key2
-          sum = [@key1_number].pack("N*") +
-                [@key2_number].pack("N*") +
+          sum = [@key1_number].pack('N*') +
+                [@key2_number].pack('N*') +
                 key3
 
           @challenge = Digest::MD5.digest(sum)
@@ -85,14 +85,14 @@ module WebSocket
           end
           spaces.times() do
             pos = 1 + rand(key.size - 1)
-            key[pos...pos] = " "
+            key[pos...pos] = ' '
           end
           return key
         end
 
         # Generate third key
         def generate_key3
-          [rand(0x100000000)].pack("N") + [rand(0x100000000)].pack("N")
+          [rand(0x100000000)].pack('N') + [rand(0x100000000)].pack('N')
         end
 
       end

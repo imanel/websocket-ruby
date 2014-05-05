@@ -12,7 +12,7 @@ module WebSocket
         @state = :new
         @handler = nil
 
-        @data = ""
+        @data = ''
         @headers = {}
       end
 
@@ -24,9 +24,9 @@ module WebSocket
       # Return textual representation of handshake request or response
       # @return [String] text of response
       def to_s
-        @handler ? @handler.to_s : ""
+        @handler ? @handler.to_s : ''
       end
-      rescue_method :to_s, :return => ""
+      rescue_method :to_s, :return => ''
 
       # Recreate inspect as #to_s was overwritten
       def inspect
@@ -64,7 +64,7 @@ module WebSocket
       # @example
       #   @handshake.uri #=> "ws://example.com/path?query=true"
       def uri
-        uri =  secure ? "wss://" : "ws://"
+        uri =  secure ? 'wss://' : 'ws://'
         uri << host
         uri << ":#{port}" if port
         uri << path

@@ -42,7 +42,7 @@ module WebSocket
             frame << [length].pack('n')
           else # write 8 byte length
             frame << (127 | mask)
-            frame << [length >> 32, length & 0xFFFFFFFF].pack("NN")
+            frame << [length >> 32, length & 0xFFFFFFFF].pack('NN')
           end
 
           if @frame.outgoing_masking?
