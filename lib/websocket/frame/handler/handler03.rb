@@ -37,7 +37,7 @@ module WebSocket
           if length <= 125
             byte2 = length # since rsv4 is 0
             frame << (byte2 | mask)
-          elsif length < 65536 # write 2 byte length
+          elsif length < 65_536 # write 2 byte length
             frame << (126 | mask)
             frame << [length].pack('n')
           else # write 8 byte length

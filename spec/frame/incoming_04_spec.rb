@@ -79,7 +79,7 @@ describe 'Incoming frame draft 04' do
   context 'should properly decode 64KiB binary frame' do
     let(:encoded_text) { "\x85\x7F\x00\x00\x00\x00\x00\x01\x00\x00" + decoded_text }
     let(:frame_type) { :binary }
-    let(:decoded_text) { 'a' * 65536 }
+    let(:decoded_text) { 'a' * 65_536 }
 
     it_should_behave_like 'valid_incoming_frame'
   end
