@@ -75,7 +75,7 @@ module WebSocket
       def from_rack(env)
         @headers = env.select {|key, value|
           key =~ /\AHTTP_/
-        }.inject({}) {|memo, tuple|
+        }.reduce({}) {|memo, tuple|
           key, value = tuple
           memo[key.gsub(/\AHTTP_/, '').gsub('_', '-').downcase] = value
           memo
