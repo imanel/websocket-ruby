@@ -16,7 +16,7 @@ module WebSocket
             when :close then "\xff\x00"
             when :text then
               ary = ["\x00", @frame.data, "\xff"]
-              ary.collect{ |s| s.encode('UTF-8', 'UTF-8', :invalid => :replace) if s.respond_to?(:encode) }
+              ary.map { |s| s.encode('UTF-8', 'UTF-8', :invalid => :replace) if s.respond_to?(:encode) }
               ary.join
           end
         end
