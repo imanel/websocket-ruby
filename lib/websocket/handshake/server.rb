@@ -73,13 +73,13 @@ module WebSocket
       # @example
       #   @handshake.from_rack(env)
       def from_rack(env)
-        @headers = env.select {|key, value|
+        @headers = env.select { |key, value|
           key =~ /\AHTTP_/
-        }.reduce({}) {|memo, tuple|
+        }.reduce({}) do |memo, tuple|
           key, value = tuple
           memo[key.gsub(/\AHTTP_/, '').gsub('_', '-').downcase] = value
           memo
-        }
+        end
 
         @path      = env['REQUEST_PATH']
         @query     = env['QUERY_STRING']
