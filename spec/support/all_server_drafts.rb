@@ -85,7 +85,7 @@ shared_examples_for 'all server drafts' do
   end
 
   it 'should parse a rack request' do
-    request = WEBrick::HTTPRequest.new( :ServerSoftware => 'rspec' )
+    request = WEBrick::HTTPRequest.new(:ServerSoftware => 'rspec')
     request.parse(StringIO.new(client_request)).should be_true
     rest    = client_request.slice((request.to_s.length..-1))
 
@@ -96,7 +96,7 @@ shared_examples_for 'all server drafts' do
   end
 
   it 'should parse a hash request' do
-    request = WEBrick::HTTPRequest.new( :ServerSoftware => 'rspec' )
+    request = WEBrick::HTTPRequest.new(:ServerSoftware => 'rspec')
     request.parse(StringIO.new(client_request)).should be_true
     body = client_request.slice((request.to_s.length..-1))
 
