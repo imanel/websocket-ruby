@@ -44,11 +44,11 @@ module WebSocket
 
             raise WebSocket::Error::Frame::TooLong if length > ::WebSocket.max_frame_size
 
-            unless @frame.data.getbyte(pointer+length-1) == nil
+            unless @frame.data.getbyte(pointer + length - 1) == nil
               # Straight from spec - I'm sure this isn't crazy...
               # 6. Read /length/ bytes.
               # 7. Discard the read bytes.
-              @frame.instance_variable_set '@data', @frame.data[(pointer+length)..-1]
+              @frame.instance_variable_set '@data', @frame.data[(pointer + length)..-1]
 
               # If the /frame type/ is 0xFF and the /length/ was 0, then close
               if length == 0

@@ -68,7 +68,7 @@ module WebSocket
 
           quotient = numbers / spaces
 
-          raise WebSocket::Error::Handshake::InvalidAuthentication if quotient > 2**32-1
+          raise WebSocket::Error::Handshake::InvalidAuthentication if quotient > 2**32 - 1
 
           return quotient
         end

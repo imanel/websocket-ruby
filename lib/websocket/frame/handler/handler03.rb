@@ -83,16 +83,16 @@ module WebSocket
             payload_length = case length
             when 127 # Length defined by 8 bytes
               # Check buffer size
-              return if @frame.data.getbyte(pointer+8-1) == nil # Buffer incomplete
+              return if @frame.data.getbyte(pointer + 8 - 1) == nil # Buffer incomplete
 
               # Only using the last 4 bytes for now, till I work out how to
               # unpack 8 bytes. I'm sure 4GB frames will do for now :)
-              l = @frame.data.getbytes(pointer+4, 4).unpack('N').first
+              l = @frame.data.getbytes(pointer + 4, 4).unpack('N').first
               pointer += 8
               l
             when 126 # Length defined by 2 bytes
               # Check buffer size
-              return if @frame.data.getbyte(pointer+2-1) == nil # Buffer incomplete
+              return if @frame.data.getbyte(pointer + 2 - 1) == nil # Buffer incomplete
 
               l = @frame.data.getbytes(pointer, 2).unpack('n').first
               pointer += 2
@@ -108,7 +108,7 @@ module WebSocket
             raise(WebSocket::Error::Frame::TooLong) if frame_length > WebSocket.max_frame_size
 
             # Check buffer size
-            return if @frame.data.getbyte(frame_length-1) == nil # Buffer incomplete
+            return if @frame.data.getbyte(frame_length - 1) == nil # Buffer incomplete
 
             # Remove frame header
             @frame.data.slice!(0...pointer)
