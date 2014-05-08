@@ -34,7 +34,7 @@ module WebSocket
             length = 0
 
             loop do
-              return if !@frame.data.getbyte(pointer)
+              return unless @frame.data.getbyte(pointer)
               b = @frame.data.getbyte(pointer)
               pointer += 1
               b_v = b & 0x7F
