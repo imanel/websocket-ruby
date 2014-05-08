@@ -10,7 +10,7 @@ module WebSocket
 
         # @see WebSocket::Handshake::Base#to_s
         def to_s
-          result = [ header_line ]
+          result = [header_line]
           handshake_keys.each do |key|
             result << key.join(': ')
           end
@@ -32,7 +32,7 @@ module WebSocket
         end
 
         # Set handshake headers. Provided as array because some protocol version require specific order of fields.
-        # @return [Array] List of headers as arrays [ key, value ]
+        # @return [Array] List of headers as arrays [key, value]
         def handshake_keys
           []
         end

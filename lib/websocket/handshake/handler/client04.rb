@@ -23,7 +23,7 @@ module WebSocket
           host += ":#{@handshake.port}" if @handshake.port
           keys << ['Host', host]
           keys << ['Sec-WebSocket-Origin', @handshake.origin] if @handshake.origin
-          keys << ['Sec-WebSocket-Version', @handshake.version ]
+          keys << ['Sec-WebSocket-Version', @handshake.version]
           keys << ['Sec-WebSocket-Key', key]
           keys
         end
