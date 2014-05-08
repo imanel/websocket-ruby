@@ -42,7 +42,7 @@ module WebSocket
         private
 
         def valid_code?(code)
-          [1000,1001,1002,1003,1007,1008,1009,1010,1011].include?(code) || (3000..4999).include?(code)
+          [1000, 1001, 1002, 1003, 1007, 1008, 1009, 1010, 1011].include?(code) || (3000..4999).include?(code)
         end
 
         def valid_encoding?(data)
