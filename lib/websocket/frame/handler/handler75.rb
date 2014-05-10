@@ -18,6 +18,7 @@ module WebSocket
               ary = ["\x00", @frame.data, "\xff"]
               ary.map { |s| s.encode('UTF-8', 'UTF-8', :invalid => :replace) if s.respond_to?(:encode) }
               ary.join
+            else raise WebSocket::Error::Frame::UnknownFrameType
           end
         end
 
