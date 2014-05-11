@@ -3,11 +3,15 @@ module WebSocket
     class Data < String
 
       def initialize(*args)
-        super *args.each { |arg| arg.force_encoding('ASCII-8BIT') if respond_to?(:force_encoding) }
+        super(*convert_args(args))
       end
 
       def <<(*args)
-        super *args.each { |arg| arg.force_encoding('ASCII-8BIT') if respond_to?(:force_encoding) }
+        super(*convert_args(args))
+      end
+
+      def convert_args(args)
+        args.each { |arg| arg.force_encoding('ASCII-8BIT') if arg.respond_to?(:force_encoding) }
       end
 
       def set_mask
