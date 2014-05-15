@@ -12,24 +12,24 @@ shared_examples_for 'valid_incoming_frame' do
   it 'should have specified number of returned frames' do
     decoded_text_array.each_with_index do |da, index|
       n = subject.next
-      n.should_not be_nil, "Should return frame for #{da}, #{frame_type_array[index]}"
-      n.class.should eql(WebSocket::Frame::Incoming), "Should be WebSocket::Frame::Incoming, #{n} received instead"
+      expect(n).not_to be_nil, "Should return frame for #{da}, #{frame_type_array[index]}"
+      expect(n.class).to eql(WebSocket::Frame::Incoming), "Should be WebSocket::Frame::Incoming, #{n} received instead"
     end
-    subject.next.should be_nil
+    expect(subject.next).to be_nil
     if error.is_a?(Class)
-      subject.error.should eql(error.new.message)
+      expect(subject.error).to eql(error.new.message)
     else
-      subject.error.should eql(error)
+      expect(subject.error).to eql(error)
     end
   end
 
   it 'should return valid decoded frame for each specified decoded texts' do
     decoded_text_array.each_with_index do |da, index|
       f = subject.next
-      f.decoded?.should be_true
-      f.type.should eql(frame_type_array[index])
-      f.code.should eql(close_code) if defined?(close_code)
-      f.to_s.should eql(da)
+      expect(f.decoded?).to be_true
+      expect(f.type).to eql(frame_type_array[index])
+      expect(f.code).to eql(close_code) if defined?(close_code)
+      expect(f.to_s).to eql(da)
     end
   end
 
@@ -41,14 +41,14 @@ shared_examples_for 'valid_incoming_frame' do
       expect do
         decoded_text_array.each_with_index do |da, index|
           n = subject.next
-          n.should_not be_nil, "Should return frame for #{da}, #{frame_type_array[index]}"
-          n.class.should eql(WebSocket::Frame::Incoming), "Should be WebSocket::Frame::Incoming, #{n} received instead"
+          expect(n).not_to be_nil, "Should return frame for #{da}, #{frame_type_array[index]}"
+          expect(n.class).to eql(WebSocket::Frame::Incoming), "Should be WebSocket::Frame::Incoming, #{n} received instead"
         end
-        subject.next.should be_nil
+        expect(subject.next).to be_nil
         if error.is_a?(Class)
-          subject.error.should eql(error.new.message)
+          expect(subject.error).to eql(error.new.message)
         else
-          subject.error.should eql(error)
+          expect(subject.error).to eql(error)
         end
       end.to raise_error(error) if error
     end

@@ -5,12 +5,12 @@ describe 'Masking frame draft 07' do
   it 'should encode and decode masked frame correctly' do
     outgoing_frame = WebSocket::Frame::Outgoing::Client.new(:data => 'Hello World', :type => 'text')
     outgoing_frame.to_s
-    outgoing_frame.error.should be_nil
+    expect(outgoing_frame.error).to be_nil
     incoming_frame = WebSocket::Frame::Incoming::Server.new(:data => outgoing_frame.to_s).next
-    incoming_frame.should_not be_nil
-    incoming_frame.class.should eql(WebSocket::Frame::Incoming::Server)
-    incoming_frame.error.should be_nil
-    incoming_frame.decoded?.should be_true
-    incoming_frame.to_s.should eql('Hello World')
+    expect(incoming_frame).not_to be_nil
+    expect(incoming_frame.class).to eql(WebSocket::Frame::Incoming::Server)
+    expect(incoming_frame.error).to be_nil
+    expect(incoming_frame.decoded?).to be_true
+    expect(incoming_frame.to_s).to eql('Hello World')
   end
 end

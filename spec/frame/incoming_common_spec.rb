@@ -10,14 +10,14 @@ describe 'Incoming common frame' do
   # its(:error?) { should be_false }
 
   it 'should allow adding data via <<' do
-    subject.data.should eql('')
+    expect(subject.data).to eql('')
     subject << 'test'
-    subject.data.should eql('test')
+    expect(subject.data).to eql('test')
   end
 
   it 'should raise error on invalid version' do
     subject = WebSocket::Frame::Incoming.new(:version => 70)
-    subject.error?.should be_true
-    subject.error.should eql(:unknown_protocol_version)
+    expect(subject.error?).to be_true
+    expect(subject.error).to eql(:unknown_protocol_version)
   end
 end

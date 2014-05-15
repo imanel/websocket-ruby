@@ -10,7 +10,7 @@ describe 'Outgoing common frame' do
 
   it 'should raise error on invalid version' do
     subject = WebSocket::Frame::Incoming.new(:version => 70)
-    subject.error?.should be_true
-    subject.error.should eql(:unknown_protocol_version)
+    expect(subject.error?).to be_true
+    expect(subject.error).to eql(:unknown_protocol_version)
   end
 end
