@@ -11,8 +11,8 @@ describe 'Server draft 04 handshake' do
   it 'should disallow request without Sec-WebSocket-Key' do
     handshake << client_request.gsub(/^Sec-WebSocket-Key:.*\n/, '')
 
-    handshake.should be_finished
-    handshake.should_not be_valid
-    handshake.error.should eql(:invalid_handshake_authentication)
+    expect(handshake).to be_finished
+    expect(handshake).not_to be_valid
+    expect(handshake.error).to eql(:invalid_handshake_authentication)
   end
 end
