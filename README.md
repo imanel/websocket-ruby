@@ -1,10 +1,12 @@
 # WebSocket Ruby
 
-- Travis CI build: [![Travis CI](https://travis-ci.org/imanel/websocket-ruby.png)](http://travis-ci.org/imanel/websocket-ruby)
-- Code Climate: [![Code Climate](https://codeclimate.com/github/imanel/websocket-ruby.png)](https://codeclimate.com/github/imanel/websocket-ruby)
-- Autobahn tests: [server](http://imanel.github.com/websocket-ruby/autobahn/server/), [client](http://imanel.github.com/websocket-ruby/autobahn/client/)
-
 Universal Ruby library to handle WebSocket protocol. It focuses on providing abstraction layer over [WebSocket API](http://dev.w3.org/html5/websockets/) instead of providing server or client functionality.
+
+[![Gem Version](https://badge.fury.io/rb/websocket.svg)](http://badge.fury.io/rb/websocket)
+[![Travis CI](https://travis-ci.org/imanel/websocket-ruby.png)](http://travis-ci.org/imanel/websocket-ruby)
+[![Code Climate](https://codeclimate.com/github/imanel/websocket-ruby.png)](https://codeclimate.com/github/imanel/websocket-ruby)
+
+**Autobahn tests:** [server](http://imanel.github.com/websocket-ruby/autobahn/server/), [client](http://imanel.github.com/websocket-ruby/autobahn/client/)
 
 Currently WebSocket Ruby supports all existing drafts of WebSocket, which include:
 
