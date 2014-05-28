@@ -10,7 +10,7 @@ describe 'Masking frame draft 07' do
     expect(incoming_frame).not_to be_nil
     expect(incoming_frame.class).to eql(WebSocket::Frame::Incoming::Server)
     expect(incoming_frame.error).to be_nil
-    expect(incoming_frame.decoded?).to be_true
+    expect(incoming_frame.decoded?).to be true
     expect(incoming_frame.to_s).to eql('Hello World')
   end
 end

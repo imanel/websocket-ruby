@@ -6,7 +6,7 @@ shared_examples_for 'valid_incoming_frame' do
   its(:data) { should eql(encoded_text || '') }
   its(:version) { should eql(version) }
   its(:type) { should be_nil }
-  its(:decoded?) { should be_false }
+  its(:decoded?) { should be false }
   its(:to_s) { should eql(encoded_text || '') }
 
   it 'should have specified number of returned frames' do
@@ -26,7 +26,7 @@ shared_examples_for 'valid_incoming_frame' do
   it 'should return valid decoded frame for each specified decoded texts' do
     decoded_text_array.each_with_index do |da, index|
       f = subject.next
-      expect(f.decoded?).to be_true
+      expect(f.decoded?).to be true
       expect(f.type).to eql(frame_type_array[index])
       expect(f.code).to eql(close_code) if defined?(close_code)
       expect(f.to_s).to eql(da)
