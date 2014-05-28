@@ -1,4 +1,5 @@
 require 'rspec'
+require 'rspec/its'
 require 'webrick'
 
 require 'websocket'
