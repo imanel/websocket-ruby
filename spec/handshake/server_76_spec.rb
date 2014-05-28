@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Server draft 76 handshake' do
+RSpec.describe 'Server draft 76 handshake' do
   let(:handshake) { WebSocket::Handshake::Server.new }
   let(:version) { 76 }
   let(:client_request) { client_handshake_76(@request_params || {}) }

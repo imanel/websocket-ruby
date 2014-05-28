@@ -1,7 +1,7 @@
 # encoding: binary
 require 'spec_helper'
 
-describe 'Outgoing frame draft 07' do
+RSpec.describe 'Outgoing frame draft 07' do
   let(:version) { 7 }
   let(:frame) { WebSocket::Frame::Outgoing.new(:version => version, :data => decoded_text, :type => frame_type, :code => close_code) }
   let(:decoded_text) { '' }

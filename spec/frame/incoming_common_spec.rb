@@ -1,12 +1,12 @@
 # encoding: binary
 require 'spec_helper'
 
-describe 'Incoming common frame' do
+RSpec.describe 'Incoming common frame' do
   subject { WebSocket::Frame::Incoming.new }
 
-  its(:version) { should eql(13) }
-  its(:decoded?) { should be false }
-  its(:error?) { should be false }
+  its(:version) { is_expected.to eql(13) }
+  its(:decoded?) { is_expected.to be false }
+  its(:error?) { is_expected.to be false }
 
   it 'should allow adding data via <<' do
     expect(subject.data).to eql('')

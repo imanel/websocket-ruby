@@ -1,4 +1,4 @@
-shared_examples_for 'all server drafts' do
+RSpec.shared_examples_for 'all server drafts' do
   def validate_request
     handshake << client_request
 

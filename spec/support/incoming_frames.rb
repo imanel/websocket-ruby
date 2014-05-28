@@ -1,13 +1,13 @@
-shared_examples_for 'valid_incoming_frame' do
+RSpec.shared_examples_for 'valid_incoming_frame' do
   let(:decoded_text_array) { decoded_text == '' ? [''] : Array(decoded_text) } # Bug in Ruby 1.8 -> Array('') => [] instead of ['']
   let(:frame_type_array) { Array(frame_type) }
 
-  its(:class) { should eql(WebSocket::Frame::Incoming) }
-  its(:data) { should eql(encoded_text || '') }
-  its(:version) { should eql(version) }
-  its(:type) { should be_nil }
-  its(:decoded?) { should be false }
-  its(:to_s) { should eql(encoded_text || '') }
+  its(:class) { is_expected.to eql(WebSocket::Frame::Incoming) }
+  its(:data) { is_expected.to eql(encoded_text || '') }
+  its(:version) { is_expected.to eql(version) }
+  its(:type) { is_expected.to be_nil }
+  its(:decoded?) { is_expected.to be false }
+  its(:to_s) { is_expected.to eql(encoded_text || '') }
 
   it 'should have specified number of returned frames' do
     decoded_text_array.each_with_index do |da, index|

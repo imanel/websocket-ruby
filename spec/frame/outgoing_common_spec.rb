@@ -1,11 +1,11 @@
 # encoding: binary
 require 'spec_helper'
 
-describe 'Outgoing common frame' do
+RSpec.describe 'Outgoing common frame' do
   subject { WebSocket::Frame::Outgoing.new }
 
-  its(:version) { should eql(13) }
-  its(:error?) { should be false }
+  its(:version) { is_expected.to eql(13) }
+  its(:error?) { is_expected.to be false }
 
   it 'should raise error on invalid version' do
     subject = WebSocket::Frame::Incoming.new(:version => 70)
