@@ -34,8 +34,8 @@ shared_examples_for 'valid_incoming_frame' do
   end
 
   context 'with raising' do
-    before { WebSocket.should_raise = true }
-    after { WebSocket.should_raise = false }
+    before(:each) { WebSocket.should_raise = true }
+    after(:each) { WebSocket.should_raise = false }
 
     it 'should have specified number of returned frames' do
       expect do

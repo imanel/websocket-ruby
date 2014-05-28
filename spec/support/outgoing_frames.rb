@@ -6,7 +6,7 @@ shared_examples_for 'valid_outgoing_frame' do
   its(:to_s) { should eql(encoded_text) }
 
   context 'after parsing' do
-    before { subject.to_s }
+    before(:each) { subject.to_s }
     its(:error) { should eql(error) }
     its(:require_sending?) { should eql(require_sending) }
   end
