@@ -46,7 +46,7 @@ module WebSocket
         end
 
         def valid_encoding?(data)
-          return true if data.nil? || !data.respond_to?(:encode)
+          return true if data.nil?
           data.encode('UTF-8')
           true
         rescue

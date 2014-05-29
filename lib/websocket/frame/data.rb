@@ -11,7 +11,7 @@ module WebSocket
       end
 
       def convert_args(args)
-        args.each { |arg| arg.force_encoding('ASCII-8BIT') if arg.respond_to?(:force_encoding) }
+        args.each { |arg| arg.force_encoding('ASCII-8BIT') }
       end
 
       def set_mask
