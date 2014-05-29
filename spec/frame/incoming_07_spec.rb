@@ -29,14 +29,12 @@ RSpec.describe 'Incoming frame draft 07' do
     it_should_behave_like 'valid_incoming_frame'
   end
 
-  if RUBY_VERSION >= '1.9.1'
-    context 'should properly decode close frame with invalid UTF-8 message' do
-      let(:encoded_text) { "\x88\x03\x03\xE8\xE3" }
-      let(:decoded_text) { nil }
-      let(:error) { WebSocket::Error::Frame::InvalidPayloadEncoding }
+  context 'should properly decode close frame with invalid UTF-8 message' do
+    let(:encoded_text) { "\x88\x03\x03\xE8\xE3" }
+    let(:decoded_text) { nil }
+    let(:error) { WebSocket::Error::Frame::InvalidPayloadEncoding }
 
-      it_should_behave_like 'valid_incoming_frame'
-    end
+    it_should_behave_like 'valid_incoming_frame'
   end
 
   context 'should properly decode ping frame' do

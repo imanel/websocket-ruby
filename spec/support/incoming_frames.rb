@@ -1,5 +1,5 @@
 RSpec.shared_examples_for 'valid_incoming_frame' do
-  let(:decoded_text_array) { decoded_text == '' ? [''] : Array(decoded_text) } # Bug in Ruby 1.8 -> Array('') => [] instead of ['']
+  let(:decoded_text_array) { Array(decoded_text) }
   let(:frame_type_array) { Array(frame_type) }
 
   its(:class) { is_expected.to eql(WebSocket::Frame::Incoming) }

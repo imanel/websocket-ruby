@@ -29,13 +29,6 @@ module WebSocket
         data
       end
 
-      # Required for support of Ruby 1.8
-      unless new.respond_to?(:getbyte)
-        def getbyte(index)
-          self[index]
-        end
-      end
-
       def mask(payload, mask)
         return mask_native(payload, mask) if respond_to?(:mask_native)
         result = []
