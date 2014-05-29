@@ -9,7 +9,7 @@ RSpec.describe 'Server draft 76 handshake' do
   it_should_behave_like 'all server drafts'
 
   it 'should disallow request without spaces in key 1' do
-    @request_params = { :key1 => '4@146546xW%0l15' }
+    @request_params = { key1: '4@146546xW%0l15' }
     handshake << client_request
 
     expect(handshake).to be_finished
@@ -18,7 +18,7 @@ RSpec.describe 'Server draft 76 handshake' do
   end
 
   it 'should disallow request without spaces in key 2' do
-    @request_params = { :key2 => '129985Y31.P00' }
+    @request_params = { key2: '129985Y31.P00' }
     handshake << client_request
 
     expect(handshake).to be_finished
@@ -27,7 +27,7 @@ RSpec.describe 'Server draft 76 handshake' do
   end
 
   it 'should disallow request with invalid number of spaces or numbers in key 1' do
-    @request_params = { :key1 => '4 @1   46546xW%0l 1 5' }
+    @request_params = { key1: '4 @1   46546xW%0l 1 5' }
     handshake << client_request
 
     expect(handshake).to be_finished
@@ -36,7 +36,7 @@ RSpec.describe 'Server draft 76 handshake' do
   end
 
   it 'should disallow request with invalid number of spaces or numbers in key 2' do
-    @request_params = { :key2 => '12998  5 Y3 1  .P00' }
+    @request_params = { key2: '12998  5 Y3 1  .P00' }
     handshake << client_request
 
     expect(handshake).to be_finished

@@ -16,7 +16,7 @@ module WebSocket
             when :close then "\xff\x00"
             when :text then
               ary = ["\x00", @frame.data, "\xff"]
-              ary.map { |s| s.encode('UTF-8', 'UTF-8', :invalid => :replace) if s.respond_to?(:encode) }
+              ary.map { |s| s.encode('UTF-8', 'UTF-8', invalid: :replace) if s.respond_to?(:encode) }
               ary.join
             else raise WebSocket::Error::Frame::UnknownFrameType
           end
@@ -53,7 +53,7 @@ module WebSocket
 
               # If the /frame type/ is 0xFF and the /length/ was 0, then close
               if length == 0
-                @frame.class.new(:version => @frame.version, :type => :close, :decoded => true)
+                @frame.class.new(version: @frame.version, type: :close, decoded: true)
               end
             end
           else
@@ -68,7 +68,7 @@ module WebSocket
             if msg
               msg.gsub!(/\A\x00|\xff\z/, '')
               msg.force_encoding('UTF-8') if msg.respond_to?(:force_encoding)
-              @frame.class.new(:version => @frame.version, :type => :text, :data => msg, :decoded => true)
+              @frame.class.new(version: @frame.version, type: :text, data: msg, decoded: true)
             end
           end
         end

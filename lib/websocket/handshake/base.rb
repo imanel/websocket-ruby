@@ -26,7 +26,7 @@ module WebSocket
       def to_s
         @handler ? @handler.to_s : ''
       end
-      rescue_method :to_s, :return => ''
+      rescue_method :to_s, return: ''
 
       # Recreate inspect as #to_s was overwritten
       def inspect
@@ -46,7 +46,7 @@ module WebSocket
       def valid?
         finished? && @error == nil && @handler && @handler.valid?
       end
-      rescue_method :valid?, :return => false
+      rescue_method :valid?, return: false
 
       # @abstract Should send data after parsing is finished?
       def should_respond?

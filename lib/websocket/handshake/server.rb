@@ -38,7 +38,7 @@ module WebSocket
       # @option args [Boolean] :secure If true then server will use wss:// protocol
       #
       # @example
-      #   Websocket::Handshake::Server.new(:secure => true)
+      #   Websocket::Handshake::Server.new(secure: true)
       def initialize(args = {})
         super
         @secure = !!args[:secure]

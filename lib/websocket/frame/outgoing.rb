@@ -4,7 +4,7 @@ module WebSocket
     # @note You should NEVER use this class directly - use Client or Server subclasses instead, as they contain additional frame options(i.e. Client-side masking in draft 04)
     #
     # @example
-    #   frame = WebSocket::Frame::Outgoing::Server.new(:version => @handshake.version, :data => "Hello", :type => :text)
+    #   frame = WebSocket::Frame::Outgoing::Server.new(version: @handshake.version, data: "Hello", type: :text)
     #   frame.to_s # "\x81\x05\x48\x65\x6c\x6c\x6f"
     class Outgoing < Base
 

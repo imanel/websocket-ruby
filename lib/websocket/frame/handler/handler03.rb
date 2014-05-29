@@ -7,12 +7,12 @@ module WebSocket
 
         # Hash of frame names and it's opcodes
         FRAME_TYPES = {
-          :continuation => 0,
-          :close => 1,
-          :ping => 2,
-          :pong => 3,
-          :text => 4,
-          :binary => 5
+          continuation: 0,
+          close: 1,
+          ping: 2,
+          pong: 3,
+          text: 4,
+          binary: 5
         }
 
         # Hash of frame opcodes and it's names
@@ -137,13 +137,13 @@ module WebSocket
                 @application_data_buffer << application_data
                 # Test valid UTF-8 encoding
                 raise(WebSocket::Error::Frame::InvalidPayloadEncoding) if @frame_type == :text && @application_data_buffer.respond_to?(:valid_encoding?) && !@application_data_buffer.valid_encoding?
-                message = @frame.class.new(:version => @frame.version, :type => @frame_type, :data => @application_data_buffer, :decoded => true)
+                message = @frame.class.new(version: @frame.version, type: @frame_type, data: @application_data_buffer, decoded: true)
                 @application_data_buffer = nil
                 @frame_type = nil
                 return message
               else
                 raise(WebSocket::Error::Frame::InvalidPayloadEncoding) if frame_type == :text && application_data.respond_to?(:valid_encoding?) && !application_data.valid_encoding?
-                return @frame.class.new(:version => @frame.version, :type => frame_type, :data => application_data, :decoded => true)
+                return @frame.class.new(version: @frame.version, type: frame_type, data: application_data, decoded: true)
               end
             end
           end

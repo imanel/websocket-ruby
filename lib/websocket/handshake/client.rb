@@ -5,7 +5,7 @@ module WebSocket
     # Construct or parse a client WebSocket handshake.
     #
     # @example
-    #   @handshake = WebSocket::Handshake::Client.new(:url => 'ws://example.com')
+    #   @handshake = WebSocket::Handshake::Client.new(url: 'ws://example.com')
     #
     #   # Create request
     #   @handshake.to_s # GET /demo HTTP/1.1
@@ -50,7 +50,7 @@ module WebSocket
       # @option args [Integer] :version Version of WebSocket to use. Default: 13 (this is version from RFC)
       #
       # @example
-      #   Websocket::Handshake::Client.new(:url => "ws://example.com/path?query=true")
+      #   Websocket::Handshake::Client.new(url: "ws://example.com/path?query=true")
       def initialize(args = {})
         super
 

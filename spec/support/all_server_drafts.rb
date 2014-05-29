@@ -23,28 +23,28 @@ RSpec.shared_examples_for 'all server drafts' do
   end
 
   it 'should return valid host' do
-    @request_params = { :host => 'www.test.cc' }
+    @request_params = { host: 'www.test.cc' }
     handshake << client_request
 
     expect(handshake.host).to eql('www.test.cc')
   end
 
   it 'should return valid path' do
-    @request_params = { :path => '/custom' }
+    @request_params = { path: '/custom' }
     handshake << client_request
 
     expect(handshake.path).to eql('/custom')
   end
 
   it 'should return valid query' do
-    @request_params = { :path => '/custom?aaa=bbb' }
+    @request_params = { path: '/custom?aaa=bbb' }
     handshake << client_request
 
     expect(handshake.query).to eql('aaa=bbb')
   end
 
   it 'should return valid port' do
-    @request_params = { :port => 123 }
+    @request_params = { port: 123 }
     handshake << client_request
 
     expect(handshake.port).to eql('123')
@@ -55,17 +55,17 @@ RSpec.shared_examples_for 'all server drafts' do
   end
 
   it 'should allow custom path' do
-    @request_params = { :path => '/custom' }
+    @request_params = { path: '/custom' }
     validate_request
   end
 
   it 'should allow query in path' do
-    @request_params = { :path => '/custom?test=true' }
+    @request_params = { path: '/custom?test=true' }
     validate_request
   end
 
   it 'should allow custom port' do
-    @request_params = { :port => 123 }
+    @request_params = { port: 123 }
     validate_request
   end
 
@@ -108,10 +108,10 @@ RSpec.shared_examples_for 'all server drafts' do
     end
 
     handshake.from_hash({
-      :headers => headers,
-      :path => path,
-      :query => query,
-      :body => body
+      headers: headers,
+      path: path,
+      query: query,
+      body: body
     })
 
     validate_request

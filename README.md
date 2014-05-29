@@ -62,7 +62,7 @@ EOF
 ## Client handshake
 
 ``` ruby
-@handshake = WebSocket::Handshake::Client.new(:url => 'ws://example.com')
+@handshake = WebSocket::Handshake::Client.new(url: 'ws://example.com')
 
 # Create request
 @handshake.to_s # GET /demo HTTP/1.1
@@ -93,11 +93,11 @@ EOF
 
 ``` ruby
 # Prepare frame for sending
-frame = WebSocket::Frame::Outgoing::Server.new(:version => @handshake.version, :data => "Hello", :type => :text)
+frame = WebSocket::Frame::Outgoing::Server.new(version: @handshake.version, data: "Hello", type: :text)
 frame.to_s # "\x81\x05\x48\x65\x6c\x6c\x6f"
 
 # Parse incoming frames
-frame = WebSocket::Frame::Incoming::Server.new(:version => @handshake.version)
+frame = WebSocket::Frame::Incoming::Server.new(version: @handshake.version)
 frame << "\x81\x05\x48\x65\x6c\x6c\x6f\x81\x06\x77\x6f\x72\x6c\x64\x21"
 frame.next # "Hello"
 frame.next # "world!""
