@@ -1,5 +1,10 @@
 # Changelog
 
+## Edge
+
+- Remove support for Ruby 1.8
+- Multiple small fixes and optimizations
+
 ## 1.1.4
 
 - verify valid close codes according to spec
