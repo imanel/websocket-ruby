@@ -2,19 +2,10 @@ module WebSocket
   module Frame
     # @abstract Subclass and override to implement custom frames
     class Base
-      include Common
+      include ExceptionHandler
 
-      attr_reader :type
+      attr_reader :type, :version, :error
       attr_accessor :data, :code
-
-      VERSION_MAP = {
-        75..76 => "75",
-        0..2   => "75",
-        [3]    => "03",
-        [4]    => "04",
-        5..6   => "05",
-        7..13  => "07"
-      }
 
       # Initialize frame
       # @param args [Hash] Arguments for frame
@@ -28,7 +19,7 @@ module WebSocket
         @data = Data.new(args[:data].to_s)
         @version = args[:version] || DEFAULT_VERSION
         @handler = nil
-        include_version(:Frame, :Handler)
+        include_version
       end
       rescue_method :initialize
 
@@ -46,6 +37,29 @@ module WebSocket
       # Implement in submodules
       def supported_frames
         raise NotImplementedError
+      end
+
+      # Recreate inspect as #to_s was overwritten
+      def inspect
+        vars = self.instance_variables.map { |v| "#{v}=#{instance_variable_get(v).inspect}" }.join(', ')
+        insp = "#{self.class}:0x%08x" % (self.__id__ * 2)
+        "<#{insp} #{vars}>"
+      end
+
+      private
+
+      # Include set of methods for selected protocol version
+      # @return [Boolean] false if protocol number is unknown, otherwise true
+      def include_version
+        @handler = case @version
+          when 75..76 then Handler::Handler75.new(self)
+          when 0..2 then Handler::Handler75.new(self)
+          when 3 then Handler::Handler03.new(self)
+          when 4 then Handler::Handler04.new(self)
+          when 5..6 then Handler::Handler05.new(self)
+          when 7..13 then Handler::Handler07.new(self)
+          else raise WebSocket::Error::Frame::UnknownVersion
+        end
       end
 
     end

@@ -35,17 +35,6 @@ module WebSocket
 
       attr_reader :origin
 
-      VERSION_MAP = {
-        [75]  => "75",
-        [76]  => "76",
-        [0]   => "76",
-        1..3  => "01",
-        4..13 => "04"
-      }
-
-      FIRST_LINE = /^HTTP\/1\.1 (\d{3})[\w\s]*$/
-
-
       # Initialize new WebSocket Client
       #
       # @param [Hash] args Arguments for client
@@ -87,7 +76,7 @@ module WebSocket
 
         raise WebSocket::Error::Handshake::NoHostProvided unless @host
 
-        include_version(:Handshake, :Client)
+        include_version
       end
       rescue_method :initialize
 
@@ -118,6 +107,20 @@ module WebSocket
       end
 
       private
+
+      # Include set of methods for selected protocol version
+      # @return [Boolean] false if protocol number is unknown, otherwise true
+      def include_version
+        @handler = case @version
+          when 75 then Handler::Client75.new(self)
+          when 76, 0 then Handler::Client76.new(self)
+          when 1..3  then Handler::Client01.new(self)
+          when 4..13 then Handler::Client04.new(self)
+          else raise WebSocket::Error::Handshake::UnknownVersion
+        end
+      end
+
+      FIRST_LINE = /^HTTP\/1\.1 (\d{3})[\w\s]*$/
 
       # Parse first line of Server response.
       # @param [String] line Line to parse

@@ -1,31 +1,13 @@
 module WebSocket
-  module Common
+  module ExceptionHandler
 
-    attr_reader :error, :version
+    attr_reader :error
 
     def self.included(base)
       base.extend(ClassMethods)
     end
 
-    # Recreate inspect as #to_s was overwritten
-    def inspect
-      vars = self.instance_variables.map { |v| "#{v}=#{instance_variable_get(v).inspect}" }.join(', ')
-      insp = "#{self.class}:0x%08x" % (self.__id__ * 2)
-      "<#{insp} #{vars}>"
-    end
-
     private
-
-    # Include set of methods for selected protocol version
-    def include_version(type, subtype)
-      self.class.const_get('VERSION_MAP').each do |versions, target|
-        next unless versions.include?(@version)
-        handler_class = WebSocket.const_get [type.to_s, 'Handler', subtype.to_s + target].join('::')
-        return @handler = handler_class.new(self)
-      end
-
-      raise WebSocket.const_get("Error::#{type}::UnknownVersion")
-    end
 
     # Changes state to error and sets error message
     # @param [String] message Error message to set
