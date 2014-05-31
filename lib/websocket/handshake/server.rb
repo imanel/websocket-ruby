@@ -31,6 +31,15 @@ module WebSocket
     #
     class Server < Base
 
+      VERSION_MAP = {
+        [75]  => "75",
+        [76]  => "76",
+        0..3  => "76",
+        4..13 => "04"
+      }
+
+      PATH = /^(\w+) (\/[^\s]*) HTTP\/1\.1$/
+
       # Initialize new WebSocket Server
       #
       # @param [Hash] args Arguments for server
@@ -144,21 +153,8 @@ module WebSocket
         @version ||= @headers['sec-websocket-draft'].to_i if @headers['sec-websocket-draft']
         @version ||= 76 if @leftovers != ''
         @version ||= 75
-        include_version
+        include_version(:Handshake, :Server)
       end
-
-      # Include set of methods for selected protocol version
-      # @return [Boolean] false if protocol number is unknown, otherwise true
-      def include_version
-        @handler = case @version
-          when 75 then Handler::Server75.new(self)
-          when 76, 0..3 then Handler::Server76.new(self)
-          when 4..13 then Handler::Server04.new(self)
-          else raise WebSocket::Error::Handshake::UnknownVersion
-        end
-      end
-
-      PATH = /^(\w+) (\/[^\s]*) HTTP\/1\.1$/
 
       # Parse first line of Client response.
       # @param [String] line Line to parse

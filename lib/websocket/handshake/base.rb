@@ -2,10 +2,9 @@ module WebSocket
   module Handshake
     # @abstract Subclass and override to implement custom handshakes
     class Base
-      include ExceptionHandler
+      include Common
 
-      attr_reader :host, :port, :path, :query,
-                  :state, :version, :secure, :headers
+      attr_reader :host, :port, :path, :query, :state, :secure, :headers
 
       # Initialize new WebSocket Handshake and set it's state to :new
       def initialize(args = {})
@@ -27,13 +26,6 @@ module WebSocket
         @handler ? @handler.to_s : ''
       end
       rescue_method :to_s, return: ''
-
-      # Recreate inspect as #to_s was overwritten
-      def inspect
-        vars = self.instance_variables.map { |v| "#{v}=#{instance_variable_get(v).inspect}" }.join(', ')
-        insp = "#{self.class}:0x%08x" % (self.__id__ * 2)
-        "<#{insp} #{vars}>"
-      end
 
       # Is parsing of data finished?
       # @return [Boolena] True if request was completely parsed or error occured. False otherwise
