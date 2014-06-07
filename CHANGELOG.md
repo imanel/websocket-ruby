@@ -3,6 +3,7 @@
 ## Edge
 
 - Remove support for Ruby 1.8
+- Add support for sending custom headers for Client
 - Multiple small fixes and optimizations
 
 ## 1.1.4
