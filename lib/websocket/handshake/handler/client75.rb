@@ -7,8 +7,7 @@ module WebSocket
 
         # @see WebSocket::Handshake::Handler::Base#handshake_keys
         def handshake_keys
-          keys = super
-          keys += [
+          keys = [
             ['Upgrade', 'WebSocket'],
             ['Connection', 'Upgrade']
           ]
@@ -16,6 +15,7 @@ module WebSocket
           host += ":#{@handshake.port}" if @handshake.port
           keys << ['Host', host]
           keys << ['Origin', @handshake.origin] if @handshake.origin
+          keys += super
           keys
         end
 
