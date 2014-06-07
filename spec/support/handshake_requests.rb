@@ -1,7 +1,7 @@
 def client_handshake_75(args = {})
   <<-EOF
 GET #{args[:path] || '/demo'}#{"?#{args[:query]}" if args[:query]} HTTP/1.1\r
-Upgrade: WebSocket\r
+#{(args[:headers] || {}).map{|key, value| "#{key}: #{value}\r\n"}.join('')}Upgrade: WebSocket\r
 Connection: Upgrade\r
 Host: #{args[:host] || 'example.com'}#{":#{args[:port]}" if args[:port]}\r
 Origin: http://example.com\r
@@ -23,7 +23,7 @@ end
 def client_handshake_76(args = {})
   request = <<-EOF
 GET #{args[:path] || '/demo'}#{"?#{args[:query]}" if args[:query]} HTTP/1.1\r
-Upgrade: WebSocket\r
+#{(args[:headers] || {}).map{|key, value| "#{key}: #{value}\r\n"}.join('')}Upgrade: WebSocket\r
 Connection: Upgrade\r
 Host: #{args[:host] || 'example.com'}#{":#{args[:port]}" if args[:port]}\r
 Origin: http://example.com\r
@@ -51,7 +51,7 @@ end
 def client_handshake_04(args = {})
   <<-EOF
 GET #{args[:path] || '/demo'}#{"?#{args[:query]}" if args[:query]} HTTP/1.1\r
-Upgrade: websocket\r
+#{(args[:headers] || {}).map{|key, value| "#{key}: #{value}\r\n"}.join('')}Upgrade: websocket\r
 Connection: Upgrade\r
 Host: #{args[:host] || 'example.com'}#{":#{args[:port]}" if args[:port]}\r
 Sec-WebSocket-Origin: http://example.com\r
