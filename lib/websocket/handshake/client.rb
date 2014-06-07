@@ -33,7 +33,7 @@ module WebSocket
     #
     class Client < Base
 
-      attr_reader :origin
+      attr_reader :origin, :headers
 
       # Initialize new WebSocket Client
       #
@@ -48,6 +48,7 @@ module WebSocket
       # @option args [String]  :url URL of request. Must by in format like ws://example.com/path?query=true. Every part of this url will be overriden by more specific arguments.
       # @option args [String]  :uri Alias to :url
       # @option args [Integer] :version Version of WebSocket to use. Default: 13 (this is version from RFC)
+      # @option args [Hash]    :headers HTTP headers to use in the handshake
       #
       # @example
       #   Websocket::Handshake::Client.new(url: "ws://example.com/path?query=true")
@@ -56,6 +57,7 @@ module WebSocket
 
         @version = args[:version] || DEFAULT_VERSION
         @origin = args[:origin]
+        @headers = args[:headers] || {}
 
         if args[:url] || args[:uri]
           uri     = URI.parse(args[:url] || args[:uri])

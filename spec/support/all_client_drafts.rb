@@ -41,6 +41,11 @@ RSpec.shared_examples_for 'all client drafts' do
     expect(handshake.port).to eql(123)
   end
 
+  it 'should return valid headers' do
+    @request_params = { headers: { 'aaa' => 'bbb' } }
+    expect(handshake.headers).to eql({ 'aaa' => 'bbb' })
+  end
+
   it 'should parse uri' do
     @request_params = { uri: 'ws://test.example.org:301/test_path?query=true' }
     expect(handshake.host).to eql('test.example.org')
@@ -78,6 +83,11 @@ RSpec.shared_examples_for 'all client drafts' do
 
   it 'should allow custom port' do
     @request_params = { port: 123 }
+    validate_request
+  end
+
+  it 'should allow custom headers' do
+    @request_params = { headers: { 'aaa' => 'bbb' } }
     validate_request
   end
 

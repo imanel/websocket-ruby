@@ -15,6 +15,7 @@ module WebSocket
           host += ":#{@handshake.port}" if @handshake.port
           keys << ['Host', host]
           keys << ['Origin', @handshake.origin] if @handshake.origin
+          keys += super
           keys
         end
 

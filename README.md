@@ -62,13 +62,14 @@ EOF
 ## Client handshake
 
 ``` ruby
-@handshake = WebSocket::Handshake::Client.new(url: 'ws://example.com')
+@handshake = WebSocket::Handshake::Client.new(url: 'ws://example.com', headers: { 'Cookie' => 'SESSIONID=1234' })
 
 # Create request
 @handshake.to_s # GET /demo HTTP/1.1
                 # Upgrade: websocket
                 # Connection: Upgrade
                 # Host: example.com
+                # Cookie: SESSIONID=1234
                 # Sec-WebSocket-Origin: http://example.com
                 # Sec-WebSocket-Version: 13
                 # Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==
