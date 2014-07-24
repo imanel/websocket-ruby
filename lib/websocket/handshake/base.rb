@@ -56,7 +56,7 @@ module WebSocket
       # Data left from parsing. Sometimes data that doesn't belong to handshake are added - use this method to retrieve them.
       # @return [String] String if some data are available. Nil otherwise
       def leftovers
-        @leftovers.split("\n", reserved_leftover_lines + 1)[reserved_leftover_lines]
+        @leftovers.to_s.split("\n", reserved_leftover_lines + 1)[reserved_leftover_lines]
       end
 
       # URI of request.

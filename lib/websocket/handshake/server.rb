@@ -82,20 +82,23 @@ module WebSocket
         @path      = env['REQUEST_PATH']
         @query     = env['QUERY_STRING']
 
+        set_version
+
         # Passenger is blocking on read
         # Unicorn doesn't support readpartial
         # Maybe someone is providing even plain string?
         # Better safe than sorry...
-        input = env['rack.input']
-        @leftovers =  if input.respond_to?(:readpartial)
-                        input.readpartial
-                      elsif input.respond_to?(:read)
-                        input.read
-                      else
-                        input.to_s
-                      end
+        if @version == 76
+          input = env['rack.input']
+          @leftovers =  if input.respond_to?(:readpartial)
+                          input.readpartial
+                        elsif input.respond_to?(:read)
+                          input.read
+                        else
+                          input.to_s
+                        end
+        end
 
-        set_version
         @state = :finished
       end
 
@@ -142,7 +145,7 @@ module WebSocket
       def set_version
         @version = @headers['sec-websocket-version'].to_i if @headers['sec-websocket-version']
         @version ||= @headers['sec-websocket-draft'].to_i if @headers['sec-websocket-draft']
-        @version ||= 76 if @leftovers != ''
+        @version ||= 76 if @headers['sec-websocket-key1']
         @version ||= 75
         include_version
       end

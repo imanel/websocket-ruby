@@ -63,7 +63,7 @@ module WebSocket
         # Verify if challenge sent by server match generated one
         # @return [Boolena] True if challenge matches, false otherwise(sets appropriate error)
         def verify_challenge
-          raise WebSocket::Error::Handshake::InvalidAuthentication unless @handshake.instance_variable_get('@leftovers') == challenge
+          raise WebSocket::Error::Handshake::InvalidAuthentication unless @handshake.leftovers == challenge
           true
         end
 
