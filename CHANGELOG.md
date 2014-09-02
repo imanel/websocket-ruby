@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.1
+
+- fix error for draft 76 when leftovers are empty
+
 ## 1.2.0
 
 - Remove support for Ruby 1.8
