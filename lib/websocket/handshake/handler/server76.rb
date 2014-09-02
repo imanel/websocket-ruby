@@ -45,7 +45,7 @@ module WebSocket
           # Refer to 5.2 4-9 of the draft 76
           first = numbers_over_spaces(@handshake.headers['sec-websocket-key1'].to_s)
           second = numbers_over_spaces(@handshake.headers['sec-websocket-key2'].to_s)
-          third = @handshake.leftovers.strip
+          third = @handshake.leftovers
 
           sum = [first].pack('N*') +
                 [second].pack('N*') +
