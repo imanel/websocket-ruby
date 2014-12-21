@@ -9,8 +9,9 @@ Gem::Specification.new do |s|
   s.authors     = ["Bernard Potocki"]
   s.email       = ["bernard.potocki@imanel.org"]
   s.homepage    = "http://github.com/imanel/websocket-ruby"
-  s.summary     = %q{Universal Ruby library to handle WebSocket protocol}
-  s.description = %q{Universal Ruby library to handle WebSocket protocol}
+  s.summary     = "Universal Ruby library to handle WebSocket protocol"
+  s.description = "Universal Ruby library to handle WebSocket protocol"
+  s.license     = "MIT"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
