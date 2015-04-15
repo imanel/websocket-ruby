@@ -11,7 +11,7 @@ module WebSocket
     #   Upgrade: websocket\r
     #   Connection: Upgrade\r
     #   Host: example.com\r
-    #   Sec-WebSocket-Origin: http://example.com\r
+    #   Origin: http://example.com\r
     #   Sec-WebSocket-Version: 13\r
     #   Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==\r
     #   \r
@@ -54,7 +54,7 @@ module WebSocket
       #   Upgrade: websocket
       #   Connection: Upgrade
       #   Host: example.com
-      #   Sec-WebSocket-Origin: http://example.com
+      #   Origin: http://example.com
       #   Sec-WebSocket-Version: 13
       #   Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==
       #

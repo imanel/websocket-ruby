@@ -54,7 +54,7 @@ GET #{args[:path] || '/demo'}#{"?#{args[:query]}" if args[:query]} HTTP/1.1\r
 Upgrade: websocket\r
 Connection: Upgrade\r
 Host: #{args[:host] || 'example.com'}#{":#{args[:port]}" if args[:port]}\r
-#{(args[:headers] || {}).map{|key, value| "#{key}: #{value}\r\n"}.join('')}Sec-WebSocket-Origin: http://example.com\r
+#{(args[:headers] || {}).map{|key, value| "#{key}: #{value}\r\n"}.join('')}Origin: http://example.com\r
 Sec-WebSocket-Version: #{args[:version] || '4'}\r
 Sec-WebSocket-Key: #{args[:key] || 'dGhlIHNhbXBsZSBub25jZQ=='}\r
 \r
