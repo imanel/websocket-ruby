@@ -12,7 +12,7 @@ module WebSocket
     #                   # Upgrade: websocket
     #                   # Connection: Upgrade
     #                   # Host: example.com
-    #                   # Sec-WebSocket-Origin: http://example.com
+    #                   # Origin: http://example.com
     #                   # Sec-WebSocket-Version: 13
     #                   # Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==
     #
@@ -117,7 +117,8 @@ module WebSocket
           when 75 then Handler::Client75.new(self)
           when 76, 0 then Handler::Client76.new(self)
           when 1..3  then Handler::Client01.new(self)
-          when 4..13 then Handler::Client04.new(self)
+          when 4..10 then Handler::Client04.new(self)
+          when 11..17 then Handler::Client11.new(self)
           else raise WebSocket::Error::Handshake::UnknownVersion
         end
       end

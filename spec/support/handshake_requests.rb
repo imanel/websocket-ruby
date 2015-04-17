@@ -70,3 +70,20 @@ Sec-WebSocket-Accept: #{args[:accept] || 's3pPLMBiTxaQ9kYGzzhZRbK+xOo='}\r
 \r
   EOF
 end
+
+def client_handshake_11(args = {})
+  <<-EOF
+GET #{args[:path] || '/demo'}#{"?#{args[:query]}" if args[:query]} HTTP/1.1\r
+Upgrade: websocket\r
+Connection: Upgrade\r
+Host: #{args[:host] || 'example.com'}#{":#{args[:port]}" if args[:port]}\r
+#{(args[:headers] || {}).map{|key, value| "#{key}: #{value}\r\n"}.join('')}Origin: http://example.com\r
+Sec-WebSocket-Version: #{args[:version] || '4'}\r
+Sec-WebSocket-Key: #{args[:key] || 'dGhlIHNhbXBsZSBub25jZQ=='}\r
+\r
+  EOF
+end
+
+def server_handshake_11(args = {})
+  server_handshake_04(args)
+end
