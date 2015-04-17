@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.2
+
+- fix handshake for draft 11+ sending Sec-WebSocket-Origin instead of Origin
+
 ## 1.2.1
 
 - fix error for draft 76 when leftovers are empty
