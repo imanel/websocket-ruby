@@ -20,7 +20,7 @@ module WebSocket
 
       # @abstract Add data to handshake
       def <<(data)
-        fail NotImplementedError
+        @data << data
       end
 
       # Return textual representation of handshake request or response
