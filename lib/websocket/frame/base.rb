@@ -36,13 +36,13 @@ module WebSocket
 
       # Implement in submodules
       def supported_frames
-        raise NotImplementedError
+        fail NotImplementedError
       end
 
       # Recreate inspect as #to_s was overwritten
       def inspect
-        vars = self.instance_variables.map { |v| "#{v}=#{instance_variable_get(v).inspect}" }.join(', ')
-        insp = "#{self.class}:0x%08x" % (self.__id__ * 2)
+        vars = instance_variables.map { |v| "#{v}=#{instance_variable_get(v).inspect}" }.join(', ')
+        insp = "#{self.class}:0x%08x" % (__id__ * 2)
         "<#{insp} #{vars}>"
       end
 
@@ -52,16 +52,15 @@ module WebSocket
       # @return [Boolean] false if protocol number is unknown, otherwise true
       def include_version
         @handler = case @version
-          when 75..76 then Handler::Handler75.new(self)
-          when 0..2 then Handler::Handler75.new(self)
-          when 3 then Handler::Handler03.new(self)
-          when 4 then Handler::Handler04.new(self)
-          when 5..6 then Handler::Handler05.new(self)
-          when 7..13 then Handler::Handler07.new(self)
-          else raise WebSocket::Error::Frame::UnknownVersion
+                   when 75..76 then Handler::Handler75.new(self)
+                   when 0..2 then Handler::Handler75.new(self)
+                   when 3 then Handler::Handler03.new(self)
+                   when 4 then Handler::Handler04.new(self)
+                   when 5..6 then Handler::Handler05.new(self)
+                   when 7..13 then Handler::Handler07.new(self)
+                   else fail WebSocket::Error::Frame::UnknownVersion
         end
       end
-
     end
   end
 end

@@ -2,7 +2,6 @@ module WebSocket
   module Handshake
     module Handler
       class Client < Base
-
         private
 
         # @see WebSocket::Handshake::Handler::Base#header_line
@@ -16,7 +15,6 @@ module WebSocket
         def handshake_keys
           super + @handshake.headers.to_a
         end
-
       end
     end
   end

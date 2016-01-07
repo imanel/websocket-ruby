@@ -10,5 +10,4 @@ RSpec.shared_examples_for 'valid_outgoing_frame' do
     its(:error) { is_expected.to eql(error) }
     its(:require_sending?) { is_expected.to eql(require_sending) }
   end
-
 end

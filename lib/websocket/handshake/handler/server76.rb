@@ -4,7 +4,6 @@ module WebSocket
   module Handshake
     module Handler
       class Server76 < Server
-
         # @see WebSocket::Handshake::Base#valid?
         def valid?
           super && !!finishing_line
@@ -25,8 +24,8 @@ module WebSocket
         # @see WebSocket::Handshake::Handler::Base#handshake_keys
         def handshake_keys
           [
-            ['Upgrade', 'WebSocket'],
-            ['Connection', 'Upgrade'],
+            %w(Upgrade WebSocket),
+            %w(Connection Upgrade),
             ['Sec-WebSocket-Origin', @handshake.headers['origin']],
             ['Sec-WebSocket-Location', @handshake.uri]
           ]
@@ -61,18 +60,17 @@ module WebSocket
 
           spaces = string.scan(/ /).size
           # As per 5.2.5, abort the connection if spaces are zero.
-          raise WebSocket::Error::Handshake::InvalidAuthentication if spaces == 0
+          fail WebSocket::Error::Handshake::InvalidAuthentication if spaces == 0
 
           # As per 5.2.6, abort if numbers is not an integral multiple of spaces
-          raise WebSocket::Error::Handshake::InvalidAuthentication if numbers % spaces != 0
+          fail WebSocket::Error::Handshake::InvalidAuthentication if numbers % spaces != 0
 
           quotient = numbers / spaces
 
-          raise WebSocket::Error::Handshake::InvalidAuthentication if quotient > 2**32 - 1
+          fail WebSocket::Error::Handshake::InvalidAuthentication if quotient > 2**32 - 1
 
-          return quotient
+          quotient
         end
-
       end
     end
   end

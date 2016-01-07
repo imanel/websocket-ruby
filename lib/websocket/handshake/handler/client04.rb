@@ -5,7 +5,6 @@ module WebSocket
   module Handshake
     module Handler
       class Client04 < Client
-
         # @see WebSocket::Handshake::Base#valid?
         def valid?
           super && verify_accept
@@ -16,8 +15,8 @@ module WebSocket
         # @see WebSocket::Handshake::Handler::Base#handshake_keys
         def handshake_keys
           keys = [
-            ['Upgrade', 'websocket'],
-            ['Connection', 'Upgrade']
+            %w(Upgrade websocket),
+            %w(Connection Upgrade)
           ]
           host = @handshake.host
           host += ":#{@handshake.port}" if @handshake.port
@@ -44,10 +43,9 @@ module WebSocket
         # Verify if received header Sec-WebSocket-Accept matches generated one.
         # @return [Boolean] True if accept is matching. False otherwise(appropriate error is set)
         def verify_accept
-          raise WebSocket::Error::Handshake::InvalidAuthentication unless @handshake.headers['sec-websocket-accept'] == accept
+          fail WebSocket::Error::Handshake::InvalidAuthentication unless @handshake.headers['sec-websocket-accept'] == accept
           true
         end
-
       end
     end
   end

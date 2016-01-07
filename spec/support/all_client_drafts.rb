@@ -43,7 +43,7 @@ RSpec.shared_examples_for 'all client drafts' do
 
   it 'should return valid headers' do
     @request_params = { headers: { 'aaa' => 'bbb' } }
-    expect(handshake.headers).to eql({ 'aaa' => 'bbb' })
+    expect(handshake.headers).to eql('aaa' => 'bbb')
   end
 
   it 'should parse uri' do

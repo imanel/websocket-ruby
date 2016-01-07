@@ -4,7 +4,6 @@ module WebSocket
   module Frame
     module Handler
       class Handler03 < Base
-
         # Hash of frame names and it's opcodes
         FRAME_TYPES = {
           continuation: 0,
@@ -64,51 +63,51 @@ module WebSocket
 
             more = ((@frame.data.getbyte(pointer) & 0b10000000) == 0b10000000) ^ fin
 
-            raise(WebSocket::Error::Frame::ReservedBitUsed) if @frame.data.getbyte(pointer) & 0b01110000 != 0b00000000
+            fail(WebSocket::Error::Frame::ReservedBitUsed) if @frame.data.getbyte(pointer) & 0b01110000 != 0b00000000
 
             opcode = @frame.data.getbyte(pointer) & 0b00001111
             frame_type = opcode_to_type(opcode)
             pointer += 1
 
-            raise(WebSocket::Error::Frame::FragmentedControlFrame) if more && control_frame?(frame_type)
-            raise(WebSocket::Error::Frame::DataFrameInsteadContinuation) if data_frame?(frame_type) && !@application_data_buffer.nil?
+            fail(WebSocket::Error::Frame::FragmentedControlFrame) if more && control_frame?(frame_type)
+            fail(WebSocket::Error::Frame::DataFrameInsteadContinuation) if data_frame?(frame_type) && !@application_data_buffer.nil?
 
             mask = @frame.incoming_masking? && (@frame.data.getbyte(pointer) & 0b10000000) == 0b10000000
             length = @frame.data.getbyte(pointer) & 0b01111111
 
-            raise(WebSocket::Error::Frame::ControlFramePayloadTooLong) if length > 125 && control_frame?(frame_type)
+            fail(WebSocket::Error::Frame::ControlFramePayloadTooLong) if length > 125 && control_frame?(frame_type)
 
             pointer += 1
 
             payload_length = case length
-            when 127 # Length defined by 8 bytes
-              # Check buffer size
-              return if @frame.data.getbyte(pointer + 8 - 1) == nil # Buffer incomplete
+                             when 127 # Length defined by 8 bytes
+                               # Check buffer size
+                               return if @frame.data.getbyte(pointer + 8 - 1).nil? # Buffer incomplete
 
-              # Only using the last 4 bytes for now, till I work out how to
-              # unpack 8 bytes. I'm sure 4GB frames will do for now :)
-              l = @frame.data.getbytes(pointer + 4, 4).unpack('N').first
-              pointer += 8
-              l
-            when 126 # Length defined by 2 bytes
-              # Check buffer size
-              return if @frame.data.getbyte(pointer + 2 - 1) == nil # Buffer incomplete
+                               # Only using the last 4 bytes for now, till I work out how to
+                               # unpack 8 bytes. I'm sure 4GB frames will do for now :)
+                               l = @frame.data.getbytes(pointer + 4, 4).unpack('N').first
+                               pointer += 8
+                               l
+                             when 126 # Length defined by 2 bytes
+                               # Check buffer size
+                               return if @frame.data.getbyte(pointer + 2 - 1).nil? # Buffer incomplete
 
-              l = @frame.data.getbytes(pointer, 2).unpack('n').first
-              pointer += 2
-              l
-            else
-              length
+                               l = @frame.data.getbytes(pointer, 2).unpack('n').first
+                               pointer += 2
+                               l
+                             else
+                               length
             end
 
             # Compute the expected frame length
             frame_length = pointer + payload_length
             frame_length += 4 if mask
 
-            raise(WebSocket::Error::Frame::TooLong) if frame_length > WebSocket.max_frame_size
+            fail(WebSocket::Error::Frame::TooLong) if frame_length > WebSocket.max_frame_size
 
             # Check buffer size
-            return if @frame.data.getbyte(frame_length - 1) == nil # Buffer incomplete
+            return if @frame.data.getbyte(frame_length - 1).nil? # Buffer incomplete
 
             # Remove frame header
             @frame.data.slice!(0...pointer)
@@ -125,7 +124,7 @@ module WebSocket
             # Throw away data up to pointer
             @frame.data.slice!(0...pointer)
 
-            raise(WebSocket::Error::Frame::UnexpectedContinuationFrame) if frame_type == :continuation && !@frame_type
+            fail(WebSocket::Error::Frame::UnexpectedContinuationFrame) if frame_type == :continuation && !@frame_type
 
             if more
               @application_data_buffer ||= ''
@@ -136,34 +135,38 @@ module WebSocket
               if frame_type == :continuation
                 @application_data_buffer << application_data
                 # Test valid UTF-8 encoding
-                raise(WebSocket::Error::Frame::InvalidPayloadEncoding) if @frame_type == :text && !@application_data_buffer.valid_encoding?
+                fail(WebSocket::Error::Frame::InvalidPayloadEncoding) if @frame_type == :text && !@application_data_buffer.valid_encoding?
                 message = @frame.class.new(version: @frame.version, type: @frame_type, data: @application_data_buffer, decoded: true)
                 @application_data_buffer = nil
                 @frame_type = nil
                 return message
               else
-                raise(WebSocket::Error::Frame::InvalidPayloadEncoding) if frame_type == :text && !application_data.valid_encoding?
+                fail(WebSocket::Error::Frame::InvalidPayloadEncoding) if frame_type == :text && !application_data.valid_encoding?
                 return @frame.class.new(version: @frame.version, type: frame_type, data: application_data, decoded: true)
               end
             end
           end
-          return nil
+          nil
         end
 
         # Allow turning on or off masking
-        def masking?; false; end
+        def masking?
+          false
+        end
 
         private
 
         # This allows flipping the more bit to fin for draft 04
-        def fin; false; end
+        def fin
+          false
+        end
 
         # Convert frame type name to opcode
         # @param [Symbol] frame_type Frame type name
         # @return [Integer] opcode or nil
         # @raise [WebSocket::Error] if frame opcode is not known
         def type_to_opcode(frame_type)
-          FRAME_TYPES[frame_type] || raise(WebSocket::Error::Frame::UnknownFrameType)
+          FRAME_TYPES[frame_type] || fail(WebSocket::Error::Frame::UnknownFrameType)
         end
 
         # Convert frame opcode to type name
@@ -171,9 +174,8 @@ module WebSocket
         # @return [Symbol] Frame type name or nil
         # @raise [WebSocket::Error] if frame type name is not known
         def opcode_to_type(opcode)
-          FRAME_TYPES_INVERSE[opcode] || raise(WebSocket::Error::Frame::UnknownOpcode)
+          FRAME_TYPES_INVERSE[opcode] || fail(WebSocket::Error::Frame::UnknownOpcode)
         end
-
       end
     end
   end

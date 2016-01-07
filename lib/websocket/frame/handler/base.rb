@@ -2,7 +2,6 @@ module WebSocket
   module Frame
     module Handler
       class Base
-
         def initialize(frame)
           @frame = frame
         end
@@ -10,13 +9,13 @@ module WebSocket
         # Convert data to raw frame ready to send to client
         # @return [String] Encoded frame
         def encode_frame
-          raise NotImplementedError
+          fail NotImplementedError
         end
 
         # Convert raw data to decoded frame
         # @return [WebSocket::Frame::Incoming] Frame if found, nil otherwise
         def decode_frame
-          raise NotImplementedError
+          fail NotImplementedError
         end
 
         private
@@ -34,7 +33,6 @@ module WebSocket
         def data_frame?(frame_type)
           [:text, :binary].include?(frame_type)
         end
-
       end
     end
   end

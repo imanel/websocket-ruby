@@ -1,7 +1,6 @@
 module WebSocket
   module Frame
     class Base
-
       def incoming_masking?
         @handler.masking?
       end
@@ -9,7 +8,6 @@ module WebSocket
       def outgoing_masking?
         false
       end
-
     end
   end
 end

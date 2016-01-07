@@ -88,7 +88,7 @@ RSpec.describe 'Incoming frame draft 07' do
   context 'should properly decode text frame in between of continuation' do
     let(:encoded_text) { "\x01\x03Hel\x8a\x03abc\x80\x02lo" }
     let(:frame_type)   { [:pong, :text] }
-    let(:decoded_text) { ['abc', 'Hello'] }
+    let(:decoded_text) { %w(abc Hello) }
 
     it_should_behave_like 'valid_incoming_frame'
   end
@@ -147,5 +147,4 @@ RSpec.describe 'Incoming frame draft 07' do
 
     it_should_behave_like 'valid_incoming_frame'
   end
-
 end

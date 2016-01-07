@@ -9,7 +9,6 @@ module WebSocket
     #   frame.next # "Hello"
     #   frame.next # "world!""
     class Incoming < Base
-
       autoload :Client, "#{::WebSocket::ROOT}/websocket/frame/incoming/client"
       autoload :Server, "#{::WebSocket::ROOT}/websocket/frame/incoming/server"
 
@@ -46,7 +45,6 @@ module WebSocket
       def to_s
         @data
       end
-
     end
   end
 end

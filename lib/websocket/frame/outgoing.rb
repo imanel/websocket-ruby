@@ -7,7 +7,6 @@ module WebSocket
     #   frame = WebSocket::Frame::Outgoing::Server.new(version: @handshake.version, data: "Hello", type: :text)
     #   frame.to_s # "\x81\x05\x48\x65\x6c\x6c\x6f"
     class Outgoing < Base
-
       autoload :Client, "#{::WebSocket::ROOT}/websocket/frame/outgoing/client"
       autoload :Server, "#{::WebSocket::ROOT}/websocket/frame/outgoing/server"
 
@@ -25,11 +24,10 @@ module WebSocket
 
       # Return raw frame formatted for sending.
       def to_s
-        raise WebSocket::Error::Frame::UnknownFrameType unless supported?
+        fail WebSocket::Error::Frame::UnknownFrameType unless supported?
         @handler.encode_frame
       end
       rescue_method :to_s
-
     end
   end
 end

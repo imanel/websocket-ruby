@@ -87,10 +87,10 @@ RSpec.shared_examples_for 'all server drafts' do
   it 'should parse a rack request' do
     request = WEBrick::HTTPRequest.new(ServerSoftware: 'rspec')
     expect(request.parse(StringIO.new(client_request))).to be true
-    rest    = client_request.slice((request.to_s.length..-1))
+    rest = client_request.slice((request.to_s.length..-1))
 
     handshake.from_rack(request.meta_vars.merge(
-      'rack.input' => StringIO.new(rest)
+                          'rack.input' => StringIO.new(rest)
     ))
     validate_request
   end
@@ -107,12 +107,10 @@ RSpec.shared_examples_for 'all server drafts' do
       hash
     end
 
-    handshake.from_hash({
-      headers: headers,
-      path: path,
-      query: query,
-      body: body
-    })
+    handshake.from_hash(headers: headers,
+                        path: path,
+                        query: query,
+                        body: body)
 
     validate_request
   end

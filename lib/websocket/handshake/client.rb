@@ -32,7 +32,6 @@ module WebSocket
     #   @handshake.valid?
     #
     class Client < Base
-
       attr_reader :origin, :headers
 
       # Initialize new WebSocket Client
@@ -76,7 +75,7 @@ module WebSocket
 
         @path   = '/'           if @path.nil? || @path.empty?
 
-        raise WebSocket::Error::Handshake::NoHostProvided unless @host
+        fail WebSocket::Error::Handshake::NoHostProvided unless @host
 
         include_version
       end
@@ -114,12 +113,12 @@ module WebSocket
       # @return [Boolean] false if protocol number is unknown, otherwise true
       def include_version
         @handler = case @version
-          when 75 then Handler::Client75.new(self)
-          when 76, 0 then Handler::Client76.new(self)
-          when 1..3  then Handler::Client01.new(self)
-          when 4..10 then Handler::Client04.new(self)
-          when 11..17 then Handler::Client11.new(self)
-          else raise WebSocket::Error::Handshake::UnknownVersion
+                   when 75 then Handler::Client75.new(self)
+                   when 76, 0 then Handler::Client76.new(self)
+                   when 1..3  then Handler::Client01.new(self)
+                   when 4..10 then Handler::Client04.new(self)
+                   when 11..17 then Handler::Client11.new(self)
+                   else fail WebSocket::Error::Handshake::UnknownVersion
         end
       end
 
@@ -130,11 +129,10 @@ module WebSocket
       # @return [Boolean] True if parsed correctly. False otherwise
       def parse_first_line(line)
         line_parts = line.match(FIRST_LINE)
-        raise WebSocket::Error::Handshake::InvalidHeader unless line_parts
+        fail WebSocket::Error::Handshake::InvalidHeader unless line_parts
         status = line_parts[1]
-        raise WebSocket::Error::Handshake::InvalidStatusCode unless status == '101'
+        fail WebSocket::Error::Handshake::InvalidStatusCode unless status == '101'
       end
-
     end
   end
 end

@@ -4,7 +4,6 @@
 # @author Bernard "Imanel" Potocki
 # @see http://github.com/imanel/websocket-ruby main repository
 module WebSocket
-
   # Default WebSocket version to use
   DEFAULT_VERSION = 13
   ROOT = File.expand_path(File.dirname(__FILE__))
@@ -34,7 +33,6 @@ module WebSocket
   def self.should_raise=(val)
     @should_raise = val
   end
-
 end
 
 # Try loading websocket-native if available

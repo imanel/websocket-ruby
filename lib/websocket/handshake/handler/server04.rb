@@ -5,7 +5,6 @@ module WebSocket
   module Handshake
     module Handler
       class Server04 < Server
-
         # @see WebSocket::Handshake::Base#valid?
         def valid?
           super && verify_key
@@ -21,8 +20,8 @@ module WebSocket
         # @see WebSocket::Handshake::Handler::Base#handshake_keys
         def handshake_keys
           [
-            ['Upgrade', 'websocket'],
-            ['Connection', 'Upgrade'],
+            %w(Upgrade websocket),
+            %w(Connection Upgrade),
             ['Sec-WebSocket-Accept', signature]
           ]
         end
@@ -36,14 +35,13 @@ module WebSocket
         end
 
         def verify_key
-          raise WebSocket::Error::Handshake::InvalidAuthentication unless key
+          fail WebSocket::Error::Handshake::InvalidAuthentication unless key
           true
         end
 
         def key
           @handshake.headers['sec-websocket-key']
         end
-
       end
     end
   end

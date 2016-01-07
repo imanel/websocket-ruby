@@ -3,7 +3,6 @@ module WebSocket
     module Handler
       # This class and it's descendants are included in client or server handshake in order to extend basic functionality
       class Base
-
         def initialize(handshake)
           @handshake = handshake
         end
@@ -42,7 +41,6 @@ module WebSocket
         def finishing_line
           ''
         end
-
       end
     end
   end

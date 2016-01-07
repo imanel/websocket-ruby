@@ -5,7 +5,7 @@ Upgrade: WebSocket\r
 Connection: Upgrade\r
 Host: #{args[:host] || 'example.com'}#{":#{args[:port]}" if args[:port]}\r
 Origin: http://example.com\r
-#{(args[:headers] || {}).map{|key, value| "#{key}: #{value}\r\n"}.join('')}\r
+#{(args[:headers] || {}).map { |key, value| "#{key}: #{value}\r\n" }.join('')}\r
   EOF
 end
 
@@ -27,7 +27,7 @@ Upgrade: WebSocket\r
 Connection: Upgrade\r
 Host: #{args[:host] || 'example.com'}#{":#{args[:port]}" if args[:port]}\r
 Origin: http://example.com\r
-#{(args[:headers] || {}).map{|key, value| "#{key}: #{value}\r\n"}.join('')}Sec-WebSocket-Key1: #{args[:key1] || '4 @1  46546xW%0l 1 5'}\r
+#{(args[:headers] || {}).map { |key, value| "#{key}: #{value}\r\n" }.join('')}Sec-WebSocket-Key1: #{args[:key1] || '4 @1  46546xW%0l 1 5'}\r
 Sec-WebSocket-Key2: #{args[:key2] || '12998 5 Y3 1  .P00'}\r
 \r
 #{args[:key3] || '^n:ds[4U'}
@@ -54,7 +54,7 @@ GET #{args[:path] || '/demo'}#{"?#{args[:query]}" if args[:query]} HTTP/1.1\r
 Upgrade: websocket\r
 Connection: Upgrade\r
 Host: #{args[:host] || 'example.com'}#{":#{args[:port]}" if args[:port]}\r
-#{(args[:headers] || {}).map{|key, value| "#{key}: #{value}\r\n"}.join('')}Sec-WebSocket-Origin: http://example.com\r
+#{(args[:headers] || {}).map { |key, value| "#{key}: #{value}\r\n" }.join('')}Sec-WebSocket-Origin: http://example.com\r
 Sec-WebSocket-Version: #{args[:version] || '4'}\r
 Sec-WebSocket-Key: #{args[:key] || 'dGhlIHNhbXBsZSBub25jZQ=='}\r
 \r
@@ -77,7 +77,7 @@ GET #{args[:path] || '/demo'}#{"?#{args[:query]}" if args[:query]} HTTP/1.1\r
 Upgrade: websocket\r
 Connection: Upgrade\r
 Host: #{args[:host] || 'example.com'}#{":#{args[:port]}" if args[:port]}\r
-#{(args[:headers] || {}).map{|key, value| "#{key}: #{value}\r\n"}.join('')}Origin: http://example.com\r
+#{(args[:headers] || {}).map { |key, value| "#{key}: #{value}\r\n" }.join('')}Origin: http://example.com\r
 Sec-WebSocket-Version: #{args[:version] || '4'}\r
 Sec-WebSocket-Key: #{args[:key] || 'dGhlIHNhbXBsZSBub25jZQ=='}\r
 \r

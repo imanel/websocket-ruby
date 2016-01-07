@@ -4,7 +4,6 @@ module WebSocket
   module Handshake
     module Handler
       class Client76 < Client75
-
         # @see WebSocket::Handshake::Base#valid?
         def valid?
           super && verify_challenge
@@ -63,11 +62,11 @@ module WebSocket
         # Verify if challenge sent by server match generated one
         # @return [Boolena] True if challenge matches, false otherwise(sets appropriate error)
         def verify_challenge
-          raise WebSocket::Error::Handshake::InvalidAuthentication unless @handshake.leftovers == challenge
+          fail WebSocket::Error::Handshake::InvalidAuthentication unless @handshake.leftovers == challenge
           true
         end
 
-        NOISE_CHARS = ("\x21".."\x2f").to_a() + ("\x3a".."\x7e").to_a()
+        NOISE_CHARS = ("\x21".."\x2f").to_a + ("\x3a".."\x7e").to_a
 
         # Generate Sec-WebSocket-Key1 and Sec-WebSocket-Key2
         # @param [String] name of key. Will be used to set number variable needed later. Valid values: key1, key2
@@ -78,23 +77,22 @@ module WebSocket
           number = rand(max + 1)
           instance_variable_set("@#{key}_number", number)
           key = (number * spaces).to_s
-          (1 + rand(12)).times() do
+          (1 + rand(12)).times do
             char = NOISE_CHARS[rand(NOISE_CHARS.size)]
             pos = rand(key.size + 1)
             key[pos...pos] = char
           end
-          spaces.times() do
+          spaces.times do
             pos = 1 + rand(key.size - 1)
             key[pos...pos] = ' '
           end
-          return key
+          key
         end
 
         # Generate third key
         def generate_key3
           [rand(0x100000000)].pack('N') + [rand(0x100000000)].pack('N')
         end
-
       end
     end
   end

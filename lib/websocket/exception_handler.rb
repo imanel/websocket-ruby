@@ -1,6 +1,5 @@
 module WebSocket
   module ExceptionHandler
-
     attr_reader :error
 
     def self.included(base)
@@ -16,7 +15,6 @@ module WebSocket
     end
 
     module ClassMethods
-
       # Rescue from WebSocket::Error errors.
       #
       # @param [String] method_name Name of method that should be wrapped and rescued
@@ -35,8 +33,6 @@ module WebSocket
         alias_method "#{method_name}_without_rescue", method_name
         alias_method method_name, "#{method_name}_with_rescue"
       end
-
     end
-
   end
 end

@@ -18,7 +18,7 @@ module WebSocket
 
       # @abstract Add data to handshake
       def <<(data)
-        raise NotImplementedError
+        fail NotImplementedError
       end
 
       # Return textual representation of handshake request or response
@@ -30,8 +30,8 @@ module WebSocket
 
       # Recreate inspect as #to_s was overwritten
       def inspect
-        vars = self.instance_variables.map { |v| "#{v}=#{instance_variable_get(v).inspect}" }.join(', ')
-        insp = "#{self.class}:0x%08x" % (self.__id__ * 2)
+        vars = instance_variables.map { |v| "#{v}=#{instance_variable_get(v).inspect}" }.join(', ')
+        insp = "#{self.class}:0x%08x" % (__id__ * 2)
         "<#{insp} #{vars}>"
       end
 
@@ -44,19 +44,19 @@ module WebSocket
       # Is parsed data valid?
       # @return [Boolean] False if some errors occured. Reason for error could be found in error method
       def valid?
-        finished? && @error == nil && @handler && @handler.valid?
+        finished? && @error.nil? && @handler && @handler.valid?
       end
       rescue_method :valid?, return: false
 
       # @abstract Should send data after parsing is finished?
       def should_respond?
-        raise NotImplementedError
+        fail NotImplementedError
       end
 
       # Data left from parsing. Sometimes data that doesn't belong to handshake are added - use this method to retrieve them.
       # @return [String] String if some data are available. Nil otherwise
       def leftovers
-        (@leftovers.to_s.split("\n", reserved_leftover_lines + 1)[reserved_leftover_lines] || "").strip
+        (@leftovers.to_s.split("\n", reserved_leftover_lines + 1)[reserved_leftover_lines] || '').strip
       end
 
       # URI of request.
@@ -108,7 +108,6 @@ module WebSocket
         @state = :finished
         true
       end
-
     end
   end
 end

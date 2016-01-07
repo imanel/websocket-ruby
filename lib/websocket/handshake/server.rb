@@ -30,7 +30,6 @@ module WebSocket
     #                   # Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=
     #
     class Server < Base
-
       # Initialize new WebSocket Server
       #
       # @param [Hash] args Arguments for server
@@ -71,11 +70,11 @@ module WebSocket
       # @example
       #   @handshake.from_rack(env)
       def from_rack(env)
-        @headers = env.select do |key, value|
+        @headers = env.select do |key, _value|
           key =~ /\AHTTP_/
         end.reduce({}) do |memo, tuple|
           key, value = tuple
-          memo[key.gsub(/\AHTTP_/, '').gsub('_', '-').downcase] = value
+          memo[key.gsub(/\AHTTP_/, '').tr('_', '-').downcase] = value
           memo
         end
 
@@ -90,12 +89,12 @@ module WebSocket
         # Better safe than sorry...
         if @version == 76
           input = env['rack.input']
-          @leftovers =  if input.respond_to?(:readpartial)
-                          input.readpartial
-                        elsif input.respond_to?(:read)
-                          input.read
-                        else
-                          input.to_s
+          @leftovers = if input.respond_to?(:readpartial)
+                         input.readpartial
+                       elsif input.respond_to?(:read)
+                         input.read
+                       else
+                         input.to_s
                         end
         end
 
@@ -154,10 +153,10 @@ module WebSocket
       # @return [Boolean] false if protocol number is unknown, otherwise true
       def include_version
         @handler = case @version
-          when 75 then Handler::Server75.new(self)
-          when 76, 0..3 then Handler::Server76.new(self)
-          when 4..17 then Handler::Server04.new(self)
-          else raise WebSocket::Error::Handshake::UnknownVersion
+                   when 75 then Handler::Server75.new(self)
+                   when 76, 0..3 then Handler::Server76.new(self)
+                   when 4..17 then Handler::Server04.new(self)
+                   else fail WebSocket::Error::Handshake::UnknownVersion
         end
       end
 
@@ -168,14 +167,13 @@ module WebSocket
       # @return [Boolean] True if parsed correctly. False otherwise
       def parse_first_line(line)
         line_parts = line.match(PATH)
-        raise WebSocket::Error::Handshake::InvalidHeader unless line_parts
+        fail WebSocket::Error::Handshake::InvalidHeader unless line_parts
         method = line_parts[1].strip
-        raise WebSocket::Error::Handshake::GetRequestRequired unless method == 'GET'
+        fail WebSocket::Error::Handshake::GetRequestRequired unless method == 'GET'
 
         resource_name = line_parts[2].strip
         @path, @query = resource_name.split('?', 2)
       end
-
     end
   end
 end

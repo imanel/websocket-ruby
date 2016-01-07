@@ -4,7 +4,6 @@ module WebSocket
   module Handshake
     module Handler
       class Client01 < Client76
-
         private
 
         # @see WebSocket::Handshake::Handler::Base#handshake_keys
@@ -13,7 +12,6 @@ module WebSocket
           keys << ['Sec-WebSocket-Draft', @handshake.version]
           keys
         end
-
       end
     end
   end

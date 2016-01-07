@@ -2,7 +2,6 @@ module WebSocket
   module Handshake
     module Handler
       class Client11 < Client04
-
         private
 
         # @see WebSocket::Handshake::Handler::Base#handshake_keys
@@ -15,7 +14,6 @@ module WebSocket
             end
           end
         end
-
       end
     end
   end
