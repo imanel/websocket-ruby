@@ -102,9 +102,8 @@ RSpec.shared_examples_for 'all server drafts' do
 
     path = request.path
     query = request.query_string
-    headers = request.header.reduce({}) do |hash, header|
+    headers = request.header.each_with_object({}) do |header, hash|
       hash[header[0]] = header[1].first if header[0] && header[1]
-      hash
     end
 
     handshake.from_hash(headers: headers,

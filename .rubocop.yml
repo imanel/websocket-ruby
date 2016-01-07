@@ -60,11 +60,5 @@ Metrics/PerceivedComplexity:
 Style/Documentation:
   Enabled: false
 
-# Offense count: 2
-Style/EachWithObject:
-  Exclude:
-    - 'lib/websocket/handshake/server.rb'
-    - 'spec/support/all_server_drafts.rb'
-
 Style/TrivialAccessors:
   AllowPredicates: true
