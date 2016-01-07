@@ -77,11 +77,5 @@ Style/MultilineBlockChain:
   Exclude:
     - 'lib/websocket/handshake/server.rb'
 
-# Offense count: 1
-# Configuration parameters: NamePrefix, NamePrefixBlacklist, NameWhitelist.
-Style/PredicateName:
-  Exclude:
-    - 'lib/websocket/frame/handler/handler07.rb'
-
 Style/TrivialAccessors:
   AllowPredicates: true

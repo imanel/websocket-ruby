@@ -29,7 +29,7 @@ module WebSocket
 
         def decode_frame
           result = super
-          if has_close_code?(result)
+          if close_code?(result)
             code = result.data.slice!(0..1)
             result.code = code.unpack('n').first
             fail WebSocket::Error::Frame::UnknownCloseCode unless valid_code?(result.code)
@@ -52,7 +52,7 @@ module WebSocket
           false
         end
 
-        def has_close_code?(frame)
+        def close_code?(frame)
           frame && frame.type == :close && !frame.data.empty?
         end
 
