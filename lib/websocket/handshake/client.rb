@@ -95,9 +95,7 @@ module WebSocket
       #   EOF
       def <<(data)
         @data << data
-        if parse_data
-
-        end
+        parse_data
       end
       rescue_method :<<
 

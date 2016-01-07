@@ -66,11 +66,5 @@ Style/EachWithObject:
     - 'lib/websocket/handshake/server.rb'
     - 'spec/support/all_server_drafts.rb'
 
-# Offense count: 1
-# Configuration parameters: MinBodyLength.
-Style/GuardClause:
-  Exclude:
-    - 'lib/websocket/handshake/client.rb'
-
 Style/TrivialAccessors:
   AllowPredicates: true
