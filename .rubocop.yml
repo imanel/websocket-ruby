@@ -72,10 +72,5 @@ Style/GuardClause:
   Exclude:
     - 'lib/websocket/handshake/client.rb'
 
-# Offense count: 1
-Style/MultilineBlockChain:
-  Exclude:
-    - 'lib/websocket/handshake/server.rb'
-
 Style/TrivialAccessors:
   AllowPredicates: true

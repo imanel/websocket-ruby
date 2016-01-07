@@ -70,9 +70,7 @@ module WebSocket
       # @example
       #   @handshake.from_rack(env)
       def from_rack(env)
-        @headers = env.select do |key, _value|
-          key =~ /\AHTTP_/
-        end.reduce({}) do |memo, tuple|
+        @headers = env.select { |key, _value| key =~ /\AHTTP_/ }.reduce({}) do |memo, tuple|
           key, value = tuple
           memo[key.gsub(/\AHTTP_/, '').tr('_', '-').downcase] = value
           memo
