@@ -117,7 +117,7 @@ module WebSocket
                    when 4..10 then Handler::Client04.new(self)
                    when 11..17 then Handler::Client11.new(self)
                    else fail WebSocket::Error::Handshake::UnknownVersion
-        end
+                   end
       end
 
       FIRST_LINE = %r{^HTTP\/1\.1 (\d{3})[\w\s]*$}

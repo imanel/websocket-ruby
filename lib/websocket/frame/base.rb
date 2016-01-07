@@ -59,7 +59,7 @@ module WebSocket
                    when 5..6 then Handler::Handler05.new(self)
                    when 7..13 then Handler::Handler07.new(self)
                    else fail WebSocket::Error::Frame::UnknownVersion
-        end
+                   end
       end
     end
   end

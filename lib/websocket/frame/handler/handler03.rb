@@ -98,7 +98,7 @@ module WebSocket
                                l
                              else
                                length
-            end
+                             end
 
             # Compute the expected frame length
             frame_length = pointer + payload_length

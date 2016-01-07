@@ -92,7 +92,7 @@ module WebSocket
                          input.read
                        else
                          input.to_s
-                        end
+                       end
         end
 
         @state = :finished
@@ -154,7 +154,7 @@ module WebSocket
                    when 76, 0..3 then Handler::Server76.new(self)
                    when 4..17 then Handler::Server04.new(self)
                    else fail WebSocket::Error::Handshake::UnknownVersion
-        end
+                   end
       end
 
       PATH = %r{^(\w+) (\/[^\s]*) HTTP\/1\.1$}
