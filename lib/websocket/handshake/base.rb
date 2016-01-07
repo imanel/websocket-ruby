@@ -9,11 +9,13 @@ module WebSocket
 
       # Initialize new WebSocket Handshake and set it's state to :new
       def initialize(args = {})
+        args.each { |k, v| instance_variable_set("@#{k}", v) }
+
         @state = :new
         @handler = nil
 
         @data = ''
-        @headers = {}
+        @headers ||= {}
       end
 
       # @abstract Add data to handshake

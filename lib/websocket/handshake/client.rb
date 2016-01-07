@@ -54,26 +54,17 @@ module WebSocket
       def initialize(args = {})
         super
 
-        @version = args[:version] || DEFAULT_VERSION
-        @origin = args[:origin]
-        @headers = args[:headers] || {}
-
-        if args[:url] || args[:uri]
-          uri     = URI.parse(args[:url] || args[:uri])
-          @secure = (uri.scheme == 'wss')
-          @host   = uri.host
-          @port   = uri.port
-          @path   = uri.path
-          @query  = uri.query
+        if @url || @uri
+          uri = URI.parse(@url || @uri)
+          @secure ||= (uri.scheme == 'wss')
+          @host ||= uri.host
+          @port ||= uri.port
+          @path ||= uri.path
+          @query ||= uri.query
         end
 
-        @secure = args[:secure] if args[:secure]
-        @host   = args[:host]   if args[:host]
-        @port   = args[:port]   if args[:port]
-        @path   = args[:path]   if args[:path]
-        @query  = args[:query]  if args[:query]
-
-        @path   = '/'           if @path.nil? || @path.empty?
+        @path = '/' if @path.nil? || @path.empty?
+        @version ||= DEFAULT_VERSION
 
         fail WebSocket::Error::Handshake::NoHostProvided unless @host
 
