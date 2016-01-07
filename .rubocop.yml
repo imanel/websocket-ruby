@@ -55,8 +55,6 @@ Metrics/MethodLength:
 Metrics/PerceivedComplexity:
   Max: 29
 
-# Offense count: 46
-# Configuration parameters: Exclude.
 Style/Documentation:
   Enabled: false
 
