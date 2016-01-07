@@ -66,13 +66,6 @@ Style/EachWithObject:
     - 'lib/websocket/handshake/server.rb'
     - 'spec/support/all_server_drafts.rb'
 
-# Offense count: 2
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-Style/FormatString:
-  Exclude:
-    - 'lib/websocket/frame/base.rb'
-    - 'lib/websocket/handshake/base.rb'
-
 # Offense count: 1
 # Configuration parameters: MinBodyLength.
 Style/GuardClause:

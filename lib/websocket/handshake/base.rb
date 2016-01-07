@@ -31,7 +31,7 @@ module WebSocket
       # Recreate inspect as #to_s was overwritten
       def inspect
         vars = instance_variables.map { |v| "#{v}=#{instance_variable_get(v).inspect}" }.join(', ')
-        insp = "#{self.class}:0x%08x" % (__id__ * 2)
+        insp = Kernel.format("#{self.class}:0x%08x", __id__)
         "<#{insp} #{vars}>"
       end
 
