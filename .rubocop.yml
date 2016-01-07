@@ -91,9 +91,5 @@ Style/RegexpLiteral:
     - 'lib/websocket/handshake/client.rb'
     - 'lib/websocket/handshake/server.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: ExactNameMatch, AllowPredicates, AllowDSLWriters, IgnoreClassMethods, Whitelist.
 Style/TrivialAccessors:
-  Exclude:
-    - 'lib/websocket/frame/incoming.rb'
+  AllowPredicates: true
