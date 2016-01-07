@@ -56,7 +56,7 @@ module WebSocket
                 [@key2_number].pack('N*') +
                 key3
 
-          @challenge = Digest::MD5.digest(sum)
+          @challenge = Digest::MD5.digest(sum).strip
         end
 
         # Verify if challenge sent by server match generated one

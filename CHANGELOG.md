@@ -1,5 +1,9 @@
 # Changelog
 
+## Edge
+
+- fix for draft 76 when challenge might sometimes fail
+
 ## 1.2.2
 
 - fix handshake for draft 11+ sending Sec-WebSocket-Origin instead of Origin
