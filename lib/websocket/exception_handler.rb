@@ -1,17 +1,9 @@
 module WebSocket
   module ExceptionHandler
-    attr_reader :error
+    attr_accessor :error
 
     def self.included(base)
       base.extend(ClassMethods)
-    end
-
-    private
-
-    # Changes state to error and sets error message
-    # @param [String] message Error message to set
-    def set_error(message)
-      @error = message
     end
 
     module ClassMethods
@@ -26,7 +18,7 @@ module WebSocket
           begin
             send("#{method_name}_without_rescue", *args)
           rescue WebSocket::Error => e
-            set_error(e.message.to_sym)
+            self.error = e.message.to_sym
             WebSocket.should_raise ? raise : options[:return]
           end
         end

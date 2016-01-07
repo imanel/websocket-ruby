@@ -82,7 +82,7 @@ module WebSocket
 
       # Changes state to error and sets error message
       # @param [String] message Error message to set
-      def set_error(message)
+      def error=(message)
         @state = :error
         super
       end
