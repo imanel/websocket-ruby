@@ -38,5 +38,6 @@ end
 # Try loading websocket-native if available
 begin
   require 'websocket-native'
-rescue LoadError
+rescue LoadError => e
+  raise unless e.message =~ /websocket-native/
 end
