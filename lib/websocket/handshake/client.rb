@@ -122,7 +122,7 @@ module WebSocket
         end
       end
 
-      FIRST_LINE = /^HTTP\/1\.1 (\d{3})[\w\s]*$/
+      FIRST_LINE = %r{^HTTP\/1\.1 (\d{3})[\w\s]*$}
 
       # Parse first line of Server response.
       # @param [String] line Line to parse

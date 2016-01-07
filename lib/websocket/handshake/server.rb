@@ -160,7 +160,7 @@ module WebSocket
         end
       end
 
-      PATH = /^(\w+) (\/[^\s]*) HTTP\/1\.1$/
+      PATH = %r{^(\w+) (\/[^\s]*) HTTP\/1\.1$}
 
       # Parse first line of Client response.
       # @param [String] line Line to parse

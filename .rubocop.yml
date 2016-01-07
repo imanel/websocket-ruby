@@ -83,13 +83,5 @@ Style/PredicateName:
   Exclude:
     - 'lib/websocket/frame/handler/handler07.rb'
 
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles, AllowInnerSlashes.
-Style/RegexpLiteral:
-  Exclude:
-    - 'lib/websocket/handshake/client.rb'
-    - 'lib/websocket/handshake/server.rb'
-
 Style/TrivialAccessors:
   AllowPredicates: true
