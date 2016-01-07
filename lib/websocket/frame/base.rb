@@ -26,7 +26,7 @@ module WebSocket
       # Check if some errors occured
       # @return [Boolean] True if error is set
       def error?
-        !!@error
+        !@error.nil?
       end
 
       # Is selected type supported for selected handler?

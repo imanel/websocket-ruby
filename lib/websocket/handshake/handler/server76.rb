@@ -6,7 +6,7 @@ module WebSocket
       class Server76 < Server
         # @see WebSocket::Handshake::Base#valid?
         def valid?
-          super && !!finishing_line
+          super && !finishing_line.nil?
         end
 
         private

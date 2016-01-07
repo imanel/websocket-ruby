@@ -40,7 +40,7 @@ module WebSocket
       #   Websocket::Handshake::Server.new(secure: true)
       def initialize(args = {})
         super
-        @secure = !!args[:secure]
+        @secure = args[:secure]
       end
 
       # Add text of request from Client. This method will parse content immediately and update version, state and error(if neccessary)
