@@ -130,20 +130,17 @@ module WebSocket
               @application_data_buffer ||= ''
               @application_data_buffer << application_data
               @frame_type ||= frame_type
+            elsif frame_type == :continuation
+              @application_data_buffer << application_data
+              # Test valid UTF-8 encoding
+              fail(WebSocket::Error::Frame::InvalidPayloadEncoding) if @frame_type == :text && !@application_data_buffer.valid_encoding?
+              message = @frame.class.new(version: @frame.version, type: @frame_type, data: @application_data_buffer, decoded: true)
+              @application_data_buffer = nil
+              @frame_type = nil
+              return message
             else
-              # Message is complete
-              if frame_type == :continuation
-                @application_data_buffer << application_data
-                # Test valid UTF-8 encoding
-                fail(WebSocket::Error::Frame::InvalidPayloadEncoding) if @frame_type == :text && !@application_data_buffer.valid_encoding?
-                message = @frame.class.new(version: @frame.version, type: @frame_type, data: @application_data_buffer, decoded: true)
-                @application_data_buffer = nil
-                @frame_type = nil
-                return message
-              else
-                fail(WebSocket::Error::Frame::InvalidPayloadEncoding) if frame_type == :text && !application_data.valid_encoding?
-                return @frame.class.new(version: @frame.version, type: frame_type, data: application_data, decoded: true)
-              end
+              fail(WebSocket::Error::Frame::InvalidPayloadEncoding) if frame_type == :text && !application_data.valid_encoding?
+              return @frame.class.new(version: @frame.version, type: frame_type, data: application_data, decoded: true)
             end
           end
           nil

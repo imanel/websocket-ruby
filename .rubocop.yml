@@ -2,10 +2,6 @@
 Metrics/AbcSize:
   Max: 102
 
-# Offense count: 2
-Metrics/BlockNesting:
-  Max: 4
-
 # Offense count: 1
 # Configuration parameters: CountComments.
 Metrics/ClassLength:
