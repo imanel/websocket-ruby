@@ -1,27 +1,24 @@
-# Offense count: 9
+# Target: 15
 Metrics/AbcSize:
-  Max: 102
+  Max: 54
 
-# Offense count: 1
-# Configuration parameters: CountComments.
 Metrics/ClassLength:
-  Max: 115
+  Enabled: false
 
-# Offense count: 7
+# Target: 6
 Metrics/CyclomaticComplexity:
-  Max: 28
+  Max: 16
 
 Metrics/LineLength:
   Enabled: false
 
-# Offense count: 8
-# Configuration parameters: CountComments.
+# Target: 10
 Metrics/MethodLength:
-  Max: 60
+  Max: 31
 
-# Offense count: 7
+# Target: 7
 Metrics/PerceivedComplexity:
-  Max: 29
+  Max: 15
 
 Style/Documentation:
   Enabled: false
