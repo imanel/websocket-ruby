@@ -126,59 +126,73 @@ module WebSocket
         end
 
         def decode_header
-          first_byte = @frame.data.getbyte(0)
-          second_byte = @frame.data.getbyte(1)
+          more, frame_type = decode_first_byte
+          header_length, payload_length, mask = decode_second_byte(frame_type)
+          return unless header_length
 
-          more = ((first_byte & 0b10000000) == 0b10000000) ^ fin
+          # Compute the expected frame length
+          frame_length = header_length + payload_length
+          frame_length += 4 if mask
+
+          fail(WebSocket::Error::Frame::TooLong) if frame_length > WebSocket.max_frame_size
+
+          # Check buffer size
+          return unless buffer_exists?(frame_length) # Buffer incomplete
+
+          # Remove frame header
+          @frame.data.slice!(0...header_length)
+
+          [true, more, frame_type, mask, payload_length]
+        end
+
+        def buffer_exists?(buffer_number)
+          !@frame.data.getbyte(buffer_number - 1).nil?
+        end
+
+        def decode_first_byte
+          first_byte = @frame.data.getbyte(0)
 
           fail(WebSocket::Error::Frame::ReservedBitUsed) if first_byte & 0b01110000 != 0b00000000
 
+          more = ((first_byte & 0b10000000) == 0b10000000) ^ fin
           frame_type = opcode_to_type first_byte & 0b00001111
 
           fail(WebSocket::Error::Frame::FragmentedControlFrame) if more && control_frame?(frame_type)
           fail(WebSocket::Error::Frame::DataFrameInsteadContinuation) if data_frame?(frame_type) && !@application_data_buffer.nil?
+
+          [more, frame_type]
+        end
+
+        def decode_second_byte(frame_type)
+          second_byte = @frame.data.getbyte(1)
 
           mask = @frame.incoming_masking? && (second_byte & 0b10000000) == 0b10000000
           length = second_byte & 0b01111111
 
           fail(WebSocket::Error::Frame::ControlFramePayloadTooLong) if length > 125 && control_frame?(frame_type)
 
-          pointer = 2
+          header_length, payload_length = decode_payload_length(length)
 
-          payload_length = case length
-                           when 127 # Length defined by 8 bytes
-                             # Check buffer size
-                             return if @frame.data.getbyte(9).nil? # Buffer incomplete
+          [header_length, payload_length, mask]
+        end
 
-                             pointer = 10
+        def decode_payload_length(length)
+          case length
+          when 127 # Length defined by 8 bytes
+            # Check buffer size
+            return unless buffer_exists?(10) # Buffer incomplete
 
-                             # Only using the last 4 bytes for now, till I work out how to
-                             # unpack 8 bytes. I'm sure 4GB frames will do for now :)
-                             @frame.data.getbytes(6, 4).unpack('N').first
-                           when 126 # Length defined by 2 bytes
-                             # Check buffer size
-                             return if @frame.data.getbyte(3).nil? # Buffer incomplete
+            # Only using the last 4 bytes for now, till I work out how to
+            # unpack 8 bytes. I'm sure 4GB frames will do for now :)
+            [10, @frame.data.getbytes(6, 4).unpack('N').first]
+          when 126 # Length defined by 2 bytes
+            # Check buffer size
+            return unless buffer_exists?(4) # Buffer incomplete
 
-                             pointer = 4
-
-                             @frame.data.getbytes(2, 2).unpack('n').first
-                           else
-                             length
-                           end
-
-          # Compute the expected frame length
-          frame_length = pointer + payload_length
-          frame_length += 4 if mask
-
-          fail(WebSocket::Error::Frame::TooLong) if frame_length > WebSocket.max_frame_size
-
-          # Check buffer size
-          return if @frame.data.getbyte(frame_length - 1).nil? # Buffer incomplete
-
-          # Remove frame header
-          @frame.data.slice!(0...pointer)
-
-          [true, more, frame_type, mask, payload_length]
+            [4, @frame.data.getbytes(2, 2).unpack('n').first]
+          else
+            [2, length]
+          end
         end
       end
     end

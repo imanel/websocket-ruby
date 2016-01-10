@@ -1,6 +1,6 @@
 # Target: 15
 Metrics/AbcSize:
-  Max: 54
+  Max: 51
 
 Metrics/ClassLength:
   Enabled: false
