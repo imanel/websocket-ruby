@@ -19,12 +19,15 @@ Metrics/LineLength:
 
 # Target: 10
 Metrics/MethodLength:
-  Max: 31
+  Max: 18
+  Exclude:
+    - lib/websocket/frame/handler/handler75.rb
 
 # Target: 7
 Metrics/PerceivedComplexity:
-  Max: 12
+  Max: 8
   Exclude:
+    - lib/websocket/frame/handler/handler75.rb
     - spec/support/handshake_requests.rb
 
 Style/Documentation:
