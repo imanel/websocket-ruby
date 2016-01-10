@@ -46,18 +46,9 @@ module WebSocket
             application_data = decode_payload(payload_length, mask)
 
             if more
-              @application_data_buffer ||= ''
-              @application_data_buffer << application_data
-              @frame_type ||= frame_type
+              decode_continuation_frame(application_data, frame_type)
             elsif frame_type == :continuation
-              fail(WebSocket::Error::Frame::UnexpectedContinuationFrame) unless @frame_type
-              @application_data_buffer << application_data
-              # Test valid UTF-8 encoding
-              fail(WebSocket::Error::Frame::InvalidPayloadEncoding) if @frame_type == :text && !@application_data_buffer.valid_encoding?
-              message = @frame.class.new(version: @frame.version, type: @frame_type, data: @application_data_buffer, decoded: true)
-              @application_data_buffer = nil
-              @frame_type = nil
-              return message
+              return decode_finish_continuation_frame(application_data)
             else
               fail(WebSocket::Error::Frame::InvalidPayloadEncoding) if frame_type == :text && !application_data.valid_encoding?
               return @frame.class.new(version: @frame.version, type: frame_type, data: application_data, decoded: true)
@@ -202,6 +193,23 @@ module WebSocket
           @frame.data.slice!(0...pointer)
 
           payload
+        end
+
+        def decode_continuation_frame(application_data, frame_type)
+          @application_data_buffer ||= ''
+          @application_data_buffer << application_data
+          @frame_type ||= frame_type
+        end
+
+        def decode_finish_continuation_frame(application_data)
+          fail(WebSocket::Error::Frame::UnexpectedContinuationFrame) unless @frame_type
+          @application_data_buffer << application_data
+          # Test valid UTF-8 encoding
+          fail(WebSocket::Error::Frame::InvalidPayloadEncoding) if @frame_type == :text && !@application_data_buffer.valid_encoding?
+          message = @frame.class.new(version: @frame.version, type: @frame_type, data: @application_data_buffer, decoded: true)
+          @application_data_buffer = nil
+          @frame_type = nil
+          message
         end
       end
     end
