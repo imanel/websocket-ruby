@@ -1,6 +1,6 @@
 # Target: 15
 Metrics/AbcSize:
-  Max: 44
+  Max: 29
   Exclude:
     - lib/websocket/frame/handler/handler75.rb
     - spec/**/*

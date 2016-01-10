@@ -1,4 +1,5 @@
 # encoding: binary
+require 'securerandom'
 
 module WebSocket
   module Frame
@@ -24,36 +25,16 @@ module WebSocket
 
         # @see WebSocket::Frame::Handler::Base#encode_frame
         def encode_frame
-          frame = ''
+          frame = if @frame.outgoing_masking?
+                    masking_key = SecureRandom.random_bytes(4)
+                    tmp_data = Data.new(masking_key + @frame.data)
+                    tmp_data.set_mask
+                    masking_key + tmp_data.getbytes(4, tmp_data.size)
+                  else
+                    @frame.data
+                  end
 
-          opcode = type_to_opcode(@frame.type)
-          byte1 = opcode | (fin ? 0b10000000 : 0b00000000) # since more, rsv1-3 are 0 and 0x80 for Draft 4
-          frame << byte1
-
-          mask = @frame.outgoing_masking? ? 0b10000000 : 0b00000000
-
-          length = @frame.data.size
-          if length <= 125
-            byte2 = length # since rsv4 is 0
-            frame << (byte2 | mask)
-          elsif length < 65_536 # write 2 byte length
-            frame << (126 | mask)
-            frame << [length].pack('n')
-          else # write 8 byte length
-            frame << (127 | mask)
-            frame << [length >> 32, length & 0xFFFFFFFF].pack('NN')
-          end
-
-          if @frame.outgoing_masking?
-            masking_key = [rand(256).chr, rand(256).chr, rand(256).chr, rand(256).chr].join
-            tmp_data = Data.new([masking_key, @frame.data.to_s].join)
-            tmp_data.set_mask
-            frame << masking_key + tmp_data.getbytes(4, tmp_data.size)
-          else
-            frame << @frame.data
-          end
-
-          frame
+          encode_header + frame
         end
 
         # @see WebSocket::Frame::Handler::Base#decode_frame
@@ -111,6 +92,29 @@ module WebSocket
         # @raise [WebSocket::Error] if frame type name is not known
         def opcode_to_type(opcode)
           FRAME_TYPES_INVERSE[opcode] || fail(WebSocket::Error::Frame::UnknownOpcode)
+        end
+
+        def encode_header
+          mask = @frame.outgoing_masking? ? 0b10000000 : 0b00000000
+
+          output = ''
+          output << (type_to_opcode(@frame.type) | (fin ? 0b10000000 : 0b00000000)) # since more, rsv1-3 are 0 and 0x80 for Draft 4
+          output << encode_payload_length(@frame.data.size, mask)
+          output
+        end
+
+        def encode_payload_length(length, mask)
+          output = ''
+          if length <= 125
+            output << (length | mask) # since rsv4 is 0
+          elsif length < 65_536 # write 2 byte length
+            output << (126 | mask)
+            output << [length].pack('n')
+          else # write 8 byte length
+            output << (127 | mask)
+            output << [length >> 32, length & 0xFFFFFFFF].pack('NN')
+          end
+          output
         end
 
         def decode_header
