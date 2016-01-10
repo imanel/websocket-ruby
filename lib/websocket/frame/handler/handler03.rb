@@ -62,26 +62,14 @@ module WebSocket
             valid_header, more, frame_type, mask, payload_length = decode_header
             return unless valid_header
 
-            pointer = 0
-
-            # Read application data (unmasked if required)
-            @frame.data.set_mask if mask
-            pointer += 4 if mask
-            application_data = @frame.data.getbytes(pointer, payload_length)
-            application_data.force_encoding('UTF-8')
-            pointer += payload_length
-            @frame.data.unset_mask if mask
-
-            # Throw away data up to pointer
-            @frame.data.slice!(0...pointer)
-
-            fail(WebSocket::Error::Frame::UnexpectedContinuationFrame) if frame_type == :continuation && !@frame_type
+            application_data = decode_payload(payload_length, mask)
 
             if more
               @application_data_buffer ||= ''
               @application_data_buffer << application_data
               @frame_type ||= frame_type
             elsif frame_type == :continuation
+              fail(WebSocket::Error::Frame::UnexpectedContinuationFrame) unless @frame_type
               @application_data_buffer << application_data
               # Test valid UTF-8 encoding
               fail(WebSocket::Error::Frame::InvalidPayloadEncoding) if @frame_type == :text && !@application_data_buffer.valid_encoding?
@@ -193,6 +181,23 @@ module WebSocket
           else
             [2, length]
           end
+        end
+
+        def decode_payload(payload_length, mask)
+          pointer = 0
+
+          # Read application data (unmasked if required)
+          @frame.data.set_mask if mask
+          pointer += 4 if mask
+          payload = @frame.data.getbytes(pointer, payload_length)
+          payload.force_encoding('UTF-8')
+          pointer += payload_length
+          @frame.data.unset_mask if mask
+
+          # Throw away data up to pointer
+          @frame.data.slice!(0...pointer)
+
+          payload
         end
       end
     end

@@ -1,13 +1,18 @@
 # Target: 15
 Metrics/AbcSize:
-  Max: 51
+  Max: 44
+  Exclude:
+    - lib/websocket/frame/handler/handler75.rb
+    - spec/**/*
 
 Metrics/ClassLength:
   Enabled: false
 
 # Target: 6
 Metrics/CyclomaticComplexity:
-  Max: 16
+  Max: 11
+  Exclude:
+    - spec/support/handshake_requests.rb
 
 Metrics/LineLength:
   Enabled: false
@@ -18,7 +23,9 @@ Metrics/MethodLength:
 
 # Target: 7
 Metrics/PerceivedComplexity:
-  Max: 15
+  Max: 12
+  Exclude:
+    - spec/support/handshake_requests.rb
 
 Style/Documentation:
   Enabled: false
