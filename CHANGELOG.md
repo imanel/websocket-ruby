@@ -1,8 +1,9 @@
 # Changelog
 
-## Edge
+## 1.2.3
 
 - fix for draft 76 when challenge might sometimes fail
+- multiple small optimizations
 
 ## 1.2.2
 
