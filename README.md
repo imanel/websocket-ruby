@@ -3,6 +3,7 @@
 Universal Ruby library to handle WebSocket protocol. It focuses on providing abstraction layer over [WebSocket API](http://dev.w3.org/html5/websockets/) instead of providing server or client functionality.
 
 [![Gem Version](https://badge.fury.io/rb/websocket.svg)](http://badge.fury.io/rb/websocket)
+[![Gem Downloads](https://img.shields.io/gem/dt/websocket.svg?maxAge=2592000)](https://rubygems.org/gems/websocket)
 [![Travis CI](https://travis-ci.org/imanel/websocket-ruby.png)](http://travis-ci.org/imanel/websocket-ruby)
 [![Code Climate](https://codeclimate.com/github/imanel/websocket-ruby.png)](https://codeclimate.com/github/imanel/websocket-ruby)
 
