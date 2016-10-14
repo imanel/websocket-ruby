@@ -5,8 +5,19 @@ rvm:
   - 2.0
   - 2.1
   - 2.2
-  - rbx
-  - jruby-19mode
+  - 2.3
   - ruby-head
+  - jruby
+  - jruby-head
+  - rbx
+  - rbx-head
+
+matrix:
+  allow_failures:
+    - rvm: ruby-head
+    - rvm: jruby-head
+    - rvm: rbx
+    - rvm: rbx-head
+
 before_install:
   - gem install bundler
