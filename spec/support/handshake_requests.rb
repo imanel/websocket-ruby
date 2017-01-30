@@ -14,7 +14,7 @@ def server_handshake_75(args = {})
 HTTP/1.1 101 Web Socket Protocol Handshake\r
 Upgrade: WebSocket\r
 Connection: Upgrade\r
-WebSocket-Origin: http://example.com\r
+#{(args[:headers] || {}).map { |key, value| "#{key}: #{value}\r\n" }.join('')}WebSocket-Origin: http://example.com\r
 WebSocket-Location: ws#{args[:secure] ? 's' : ''}://#{args[:host] || 'example.com'}#{":#{args[:port]}" if args[:port]}#{args[:path] || '/demo'}\r
 \r
   EOF
@@ -40,7 +40,7 @@ def server_handshake_76(args = {})
 HTTP/1.1 101 WebSocket Protocol Handshake\r
 Upgrade: WebSocket\r
 Connection: Upgrade\r
-Sec-WebSocket-Origin: http://example.com\r
+#{(args[:headers] || {}).map { |key, value| "#{key}: #{value}\r\n" }.join('')}Sec-WebSocket-Origin: http://example.com\r
 Sec-WebSocket-Location: ws#{args[:secure] ? 's' : ''}://#{args[:host] || 'example.com'}#{":#{args[:port]}" if args[:port]}#{args[:path] || '/demo'}\r
 \r
 #{args[:challenge] || "8jKS'y:G*Co,Wxa-"}
@@ -66,7 +66,7 @@ def server_handshake_04(args = {})
 HTTP/1.1 101 Switching Protocols\r
 Upgrade: websocket\r
 Connection: Upgrade\r
-Sec-WebSocket-Accept: #{args[:accept] || 's3pPLMBiTxaQ9kYGzzhZRbK+xOo='}\r
+#{(args[:headers] || {}).map { |key, value| "#{key}: #{value}\r\n" }.join('')}Sec-WebSocket-Accept: #{args[:accept] || 's3pPLMBiTxaQ9kYGzzhZRbK+xOo='}\r
 \r
   EOF
 end

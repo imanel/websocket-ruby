@@ -16,7 +16,13 @@ module WebSocket
             %w(Connection Upgrade),
             ['WebSocket-Origin', @handshake.headers['origin']],
             ['WebSocket-Location', @handshake.uri]
-          ]
+          ] + protocol
+        end
+
+        def protocol
+          return [] unless @handshake.headers.key?('websocket-protocol')
+          proto = @handshake.headers['websocket-protocol']
+          [['WebSocket-Protocol', @handshake.protocols.include?(proto) ? proto : nil]]
         end
       end
     end

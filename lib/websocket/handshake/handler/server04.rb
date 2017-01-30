@@ -23,7 +23,7 @@ module WebSocket
             %w(Upgrade websocket),
             %w(Connection Upgrade),
             ['Sec-WebSocket-Accept', signature]
-          ]
+          ] + protocol
         end
 
         # Signature of response, created from client request Sec-WebSocket-Key
@@ -41,6 +41,12 @@ module WebSocket
 
         def key
           @handshake.headers['sec-websocket-key']
+        end
+
+        def protocol
+          return [] unless @handshake.headers.key?('sec-websocket-protocol')
+          protos = @handshake.headers['sec-websocket-protocol'].split(/ *, */) & @handshake.protocols
+          [['Sec-WebSocket-Protocol', protos.first]]
         end
       end
     end

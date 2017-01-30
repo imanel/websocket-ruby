@@ -5,7 +5,8 @@ module WebSocket
       include ExceptionHandler
 
       attr_reader :host, :port, :path, :query,
-                  :state, :version, :secure, :headers
+                  :state, :version, :secure,
+                  :headers, :protocols
 
       # Initialize new WebSocket Handshake and set it's state to :new
       def initialize(args = {})
@@ -16,6 +17,7 @@ module WebSocket
 
         @data = ''
         @headers ||= {}
+        @protocols ||= []
       end
 
       # @abstract Add data to handshake
@@ -104,7 +106,15 @@ module WebSocket
 
         lines.each do |line|
           h = HEADER.match(line)
-          @headers[h[1].strip.downcase] = h[2].strip if h
+          next unless h # Skip any invalid headers
+          key = h[1].strip.downcase
+          val = h[2].strip
+          # If the header is already set and refers to the websocket protocol, append the new value
+          if @headers.key?(key) && key =~ /^(sec-)?websocket-protocol$/
+            @headers[key] << ", #{val}"
+          else
+            @headers[key] = val
+          end
         end
 
         @state = :finished

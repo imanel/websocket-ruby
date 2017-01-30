@@ -99,6 +99,12 @@ module WebSocket
         end
       end
 
+      class UnsupportedProtocol < ::WebSocket::Error::Handshake
+        def message
+          :unsupported_protocol
+        end
+      end
+
       class InvalidStatusCode < ::WebSocket::Error::Handshake
         def message
           :invalid_status_code
