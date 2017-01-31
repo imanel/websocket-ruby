@@ -1,3 +1,6 @@
+AllCops:
+  DisplayCopNames: true
+
 # Target: 15
 Metrics/AbcSize:
   Max: 24
