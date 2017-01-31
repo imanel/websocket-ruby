@@ -23,7 +23,7 @@ module WebSocket
 
         # @see WebSocket::Frame::Handler::Base#decode_frame
         def decode_frame
-          return if @frame.data.size == 0
+          return if @frame.data.size.zero?
 
           pointer = 0
           frame_type = @frame.data.getbyte(pointer)
@@ -51,7 +51,7 @@ module WebSocket
               @frame.instance_variable_set '@data', @frame.data[(pointer + length)..-1]
 
               # If the /frame type/ is 0xFF and the /length/ was 0, then close
-              if length == 0
+              if length.zero?
                 @frame.class.new(version: @frame.version, type: :close, decoded: true)
               end
             end

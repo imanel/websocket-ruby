@@ -60,7 +60,7 @@ module WebSocket
 
           spaces = string.scan(/ /).size
           # As per 5.2.5, abort the connection if spaces are zero.
-          raise WebSocket::Error::Handshake::InvalidAuthentication if spaces == 0
+          raise WebSocket::Error::Handshake::InvalidAuthentication if spaces.zero?
 
           # As per 5.2.6, abort if numbers is not an integral multiple of spaces
           raise WebSocket::Error::Handshake::InvalidAuthentication if numbers % spaces != 0
