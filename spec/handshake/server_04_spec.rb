@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe 'Server draft 04 handshake' do
   let(:handshake) { WebSocket::Handshake::Server.new }
-  let(:version) { 04 }
+  let(:version) { 4 }
   let(:client_request) { client_handshake_04(@request_params || {}) }
   let(:server_response) { server_handshake_04(@request_params || {}) }
 

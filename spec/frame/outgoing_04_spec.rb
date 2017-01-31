@@ -2,7 +2,7 @@
 require 'spec_helper'
 
 RSpec.describe 'Outgoing frame draft 04' do
-  let(:version) { 04 }
+  let(:version) { 4 }
   let(:frame) { WebSocket::Frame::Outgoing.new(version: version, data: decoded_text, type: frame_type) }
   let(:decoded_text) { '' }
   let(:encoded_text) { "\x84\x00" }
