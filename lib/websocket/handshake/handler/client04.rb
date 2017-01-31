@@ -7,7 +7,7 @@ module WebSocket
       class Client04 < Client
         # @see WebSocket::Handshake::Base#valid?
         def valid?
-          super && verify_accept
+          super && verify_accept && verify_protocol
         end
 
         private
@@ -25,6 +25,7 @@ module WebSocket
           keys << ['Sec-WebSocket-Origin', @handshake.origin] if @handshake.origin
           keys << ['Sec-WebSocket-Version', @handshake.version]
           keys << ['Sec-WebSocket-Key', key]
+          keys << ['Sec-WebSocket-Protocol', @handshake.protocols.join(', ')] if @handshake.protocols.any?
           keys
         end
 
@@ -44,6 +45,15 @@ module WebSocket
         # @return [Boolean] True if accept is matching. False otherwise(appropriate error is set)
         def verify_accept
           fail WebSocket::Error::Handshake::InvalidAuthentication unless @handshake.headers['sec-websocket-accept'] == accept
+          true
+        end
+
+        # Verify if received header Sec-WebSocket-Protocol matches with one of the sent ones
+        # @return [Boolean] True if matching. False otherwise(appropriate error is set)
+        def verify_protocol
+          return true if @handshake.protocols.empty?
+          protos = @handshake.headers['sec-websocket-protocol'].split(/ *, */) & @handshake.protocols
+          fail WebSocket::Error::Handshake::UnsupportedProtocol if protos.empty?
           true
         end
       end

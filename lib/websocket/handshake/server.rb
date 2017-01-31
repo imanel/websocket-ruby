@@ -35,6 +35,7 @@ module WebSocket
       # @param [Hash] args Arguments for server
       #
       # @option args [Boolean] :secure If true then server will use wss:// protocol
+      # @option args [Array<String>] :protocols an array of supported sub-protocols
       #
       # @example
       #   Websocket::Handshake::Server.new(secure: true)

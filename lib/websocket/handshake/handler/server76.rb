@@ -28,7 +28,7 @@ module WebSocket
             %w(Connection Upgrade),
             ['Sec-WebSocket-Origin', @handshake.headers['origin']],
             ['Sec-WebSocket-Location', @handshake.uri]
-          ]
+          ] + protocol
         end
 
         # @see WebSocket::Handshake::Handler::Base#finishing_line
@@ -70,6 +70,12 @@ module WebSocket
           fail WebSocket::Error::Handshake::InvalidAuthentication if quotient > 2**32 - 1
 
           quotient
+        end
+
+        def protocol
+          return [] unless @handshake.headers.key?('sec-websocket-protocol')
+          proto = @handshake.headers['sec-websocket-protocol']
+          [['Sec-WebSocket-Protocol', @handshake.protocols.include?(proto) ? proto : nil]]
         end
       end
     end

@@ -38,16 +38,17 @@ module WebSocket
       #
       # @param [Hash] args Arguments for client
       #
-      # @option args [String]  :host Host of request. Required if no :url param was provided.
-      # @option args [String]  :origin Origin of request. Optional, should be used mostly by browsers. Default: nil
-      # @option args [String]  :path Path of request. Should start with '/'. Default: '/'
-      # @option args [Integer] :port Port of request. Default: nil
-      # @option args [String]  :query. Query for request. Should be in format "aaa=bbb&ccc=ddd"
-      # @option args [Boolean] :secure Defines protocol to use. If true then wss://, otherwise ws://. This option will not change default port - it should be handled by programmer.
-      # @option args [String]  :url URL of request. Must by in format like ws://example.com/path?query=true. Every part of this url will be overriden by more specific arguments.
-      # @option args [String]  :uri Alias to :url
-      # @option args [Integer] :version Version of WebSocket to use. Default: 13 (this is version from RFC)
-      # @option args [Hash]    :headers HTTP headers to use in the handshake
+      # @option args [String]         :host Host of request. Required if no :url param was provided.
+      # @option args [String]         :origin Origin of request. Optional, should be used mostly by browsers. Default: nil
+      # @option args [String]         :path Path of request. Should start with '/'. Default: '/'
+      # @option args [Integer]        :port Port of request. Default: nil
+      # @option args [String]         :query. Query for request. Should be in format "aaa=bbb&ccc=ddd"
+      # @option args [Boolean]        :secure Defines protocol to use. If true then wss://, otherwise ws://. This option will not change default port - it should be handled by programmer.
+      # @option args [String]         :url URL of request. Must by in format like ws://example.com/path?query=true. Every part of this url will be overriden by more specific arguments.
+      # @option args [String]         :uri Alias to :url
+      # @option args [Array<String>]  :protocols An array of supported sub-protocols
+      # @option args [Integer]        :version Version of WebSocket to use. Default: 13 (this is version from RFC)
+      # @option args [Hash]           :headers HTTP headers to use in the handshake
       #
       # @example
       #   Websocket::Handshake::Client.new(url: "ws://example.com/path?query=true")

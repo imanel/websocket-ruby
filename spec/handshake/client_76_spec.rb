@@ -17,4 +17,29 @@ RSpec.describe 'Client draft 76 handshake' do
     expect(handshake).not_to be_valid
     expect(handshake.error).to eql(:invalid_handshake_authentication)
   end
+
+  context 'protocol header specified' do
+    let(:handshake) { WebSocket::Handshake::Client.new(uri: 'ws://example.com/demo', origin: 'http://example.com', version: version, protocols: %w(binary)) }
+
+    context 'supported' do
+      it 'returns a valid handshake' do
+        @request_params = { headers: { 'Sec-WebSocket-Protocol' => 'binary' } }
+        handshake << server_response
+
+        expect(handshake).to be_finished
+        expect(handshake).to be_valid
+      end
+    end
+
+    context 'unsupported' do
+      it 'fails with an unsupported protocol error' do
+        @request_params = { headers: { 'Sec-WebSocket-Protocol' => 'xmpp' } }
+        handshake << server_response
+
+        expect(handshake).to be_finished
+        expect(handshake).not_to be_valid
+        expect(handshake.error).to eql(:unsupported_protocol)
+      end
+    end
+  end
 end
