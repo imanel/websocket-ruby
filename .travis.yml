@@ -20,4 +20,5 @@ matrix:
     - rvm: rbx-head
 
 before_install:
-  - gem install bundler
+  - gem update --system
+  - gem update bundler
