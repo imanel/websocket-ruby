@@ -1,5 +1,9 @@
 # Changelog
 
+## Edge
+
+- add subprotocol handling for both server and client
+
 ## 1.2.3
 
 - fix for draft 76 when challenge might sometimes fail
