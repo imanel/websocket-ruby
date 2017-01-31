@@ -6,18 +6,17 @@ rvm:
   - 2.1
   - 2.2
   - 2.3
+  - 2.4.0 # https://github.com/travis-ci/packer-templates/issues/393
   - ruby-head
   - jruby
   - jruby-head
-  - rbx
-  - rbx-head
+  - rbx-3
 
 matrix:
   allow_failures:
     - rvm: ruby-head
     - rvm: jruby-head
-    - rvm: rbx
-    - rvm: rbx-head
+    - rvm: rbx-3
 
 before_install:
   - gem update --system
