@@ -20,7 +20,7 @@ module WebSocket
         def encode_frame
           if @frame.type == :close
             code = @frame.code || 1000
-            fail WebSocket::Error::Frame::UnknownCloseCode unless valid_code?(code)
+            raise WebSocket::Error::Frame::UnknownCloseCode unless valid_code?(code)
             @frame.data = Data.new([code].pack('n') + @frame.data.to_s)
             @frame.code = nil
           end
@@ -32,8 +32,8 @@ module WebSocket
           if close_code?(result)
             code = result.data.slice!(0..1)
             result.code = code.unpack('n').first
-            fail WebSocket::Error::Frame::UnknownCloseCode unless valid_code?(result.code)
-            fail WebSocket::Error::Frame::InvalidPayloadEncoding unless valid_encoding?(result.data)
+            raise WebSocket::Error::Frame::UnknownCloseCode unless valid_code?(result.code)
+            raise WebSocket::Error::Frame::InvalidPayloadEncoding unless valid_encoding?(result.data)
           end
           result
         end
@@ -61,7 +61,7 @@ module WebSocket
         # @return [Integer] opcode or nil
         # @raise [WebSocket::Error] if frame opcode is not known
         def type_to_opcode(frame_type)
-          FRAME_TYPES[frame_type] || fail(WebSocket::Error::Frame::UnknownFrameType)
+          FRAME_TYPES[frame_type] || raise(WebSocket::Error::Frame::UnknownFrameType)
         end
 
         # Convert frame opcode to type name
@@ -69,7 +69,7 @@ module WebSocket
         # @return [Symbol] Frame type name or nil
         # @raise [WebSocket::Error] if frame type name is not known
         def opcode_to_type(opcode)
-          FRAME_TYPES_INVERSE[opcode] || fail(WebSocket::Error::Frame::UnknownOpcode)
+          FRAME_TYPES_INVERSE[opcode] || raise(WebSocket::Error::Frame::UnknownOpcode)
         end
       end
     end

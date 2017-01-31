@@ -35,7 +35,7 @@ module WebSocket
         end
 
         def verify_key
-          fail WebSocket::Error::Handshake::InvalidAuthentication unless key
+          raise WebSocket::Error::Handshake::InvalidAuthentication unless key
           true
         end
 

@@ -154,7 +154,7 @@ module WebSocket
                    when 75 then Handler::Server75.new(self)
                    when 76, 0..3 then Handler::Server76.new(self)
                    when 4..17 then Handler::Server04.new(self)
-                   else fail WebSocket::Error::Handshake::UnknownVersion
+                   else raise WebSocket::Error::Handshake::UnknownVersion
                    end
       end
 
@@ -165,9 +165,9 @@ module WebSocket
       # @return [Boolean] True if parsed correctly. False otherwise
       def parse_first_line(line)
         line_parts = line.match(PATH)
-        fail WebSocket::Error::Handshake::InvalidHeader unless line_parts
+        raise WebSocket::Error::Handshake::InvalidHeader unless line_parts
         method = line_parts[1].strip
-        fail WebSocket::Error::Handshake::GetRequestRequired unless method == 'GET'
+        raise WebSocket::Error::Handshake::GetRequestRequired unless method == 'GET'
 
         resource_name = line_parts[2].strip
         @path, @query = resource_name.split('?', 2)

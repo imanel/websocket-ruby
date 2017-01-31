@@ -9,13 +9,13 @@ module WebSocket
         # Convert data to raw frame ready to send to client
         # @return [String] Encoded frame
         def encode_frame
-          fail NotImplementedError
+          raise NotImplementedError
         end
 
         # Convert raw data to decoded frame
         # @return [WebSocket::Frame::Incoming] Frame if found, nil otherwise
         def decode_frame
-          fail NotImplementedError
+          raise NotImplementedError
         end
 
         private

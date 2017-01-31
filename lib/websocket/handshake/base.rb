@@ -54,7 +54,7 @@ module WebSocket
 
       # @abstract Should send data after parsing is finished?
       def should_respond?
-        fail NotImplementedError
+        raise NotImplementedError
       end
 
       # Data left from parsing. Sometimes data that doesn't belong to handshake are added - use this method to retrieve them.

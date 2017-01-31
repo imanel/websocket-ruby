@@ -24,7 +24,7 @@ module WebSocket
 
       # Return raw frame formatted for sending.
       def to_s
-        fail WebSocket::Error::Frame::UnknownFrameType unless supported?
+        raise WebSocket::Error::Frame::UnknownFrameType unless supported?
         @handler.encode_frame
       end
       rescue_method :to_s

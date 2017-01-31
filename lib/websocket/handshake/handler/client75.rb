@@ -29,7 +29,7 @@ module WebSocket
         def verify_protocol
           return true if @handshake.protocols.empty?
           invalid = @handshake.headers['websocket-protocol'].strip != @handshake.protocols.first
-          fail WebSocket::Error::Handshake::UnsupportedProtocol if invalid
+          raise WebSocket::Error::Handshake::UnsupportedProtocol if invalid
           true
         end
       end

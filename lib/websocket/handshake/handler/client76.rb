@@ -62,7 +62,7 @@ module WebSocket
         # Verify if challenge sent by server match generated one
         # @return [Boolena] True if challenge matches, false otherwise(sets appropriate error)
         def verify_challenge
-          fail WebSocket::Error::Handshake::InvalidAuthentication unless @handshake.leftovers == challenge
+          raise WebSocket::Error::Handshake::InvalidAuthentication unless @handshake.leftovers == challenge
           true
         end
 
@@ -99,7 +99,7 @@ module WebSocket
         def verify_protocol
           return true if @handshake.protocols.empty?
           invalid = @handshake.headers['sec-websocket-protocol'].strip != @handshake.protocols.first
-          fail WebSocket::Error::Handshake::UnsupportedProtocol if invalid
+          raise WebSocket::Error::Handshake::UnsupportedProtocol if invalid
           true
         end
       end

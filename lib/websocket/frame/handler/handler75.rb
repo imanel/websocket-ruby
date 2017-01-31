@@ -17,7 +17,7 @@ module WebSocket
             ary = ["\x00", @frame.data, "\xff"]
             ary.map { |s| s.encode('UTF-8', 'UTF-8', invalid: :replace) }
             ary.join
-          else fail WebSocket::Error::Frame::UnknownFrameType
+          else raise WebSocket::Error::Frame::UnknownFrameType
           end
         end
 
@@ -42,7 +42,7 @@ module WebSocket
               break unless (b & 0x80) == 0x80
             end
 
-            fail WebSocket::Error::Frame::TooLong if length > ::WebSocket.max_frame_size
+            raise WebSocket::Error::Frame::TooLong if length > ::WebSocket.max_frame_size
 
             unless @frame.data.getbyte(pointer + length - 1).nil?
               # Straight from spec - I'm sure this isn't crazy...
@@ -58,10 +58,10 @@ module WebSocket
           else
             # If the high-order bit of the /frame type/ byte is _not_ set
 
-            fail WebSocket::Error::Frame::Invalid if @frame.data.getbyte(0) != 0x00
+            raise WebSocket::Error::Frame::Invalid if @frame.data.getbyte(0) != 0x00
 
             # Addition to the spec to protect against malicious requests
-            fail WebSocket::Error::Frame::TooLong if @frame.data.size > ::WebSocket.max_frame_size
+            raise WebSocket::Error::Frame::TooLong if @frame.data.size > ::WebSocket.max_frame_size
 
             msg = @frame.data.slice!(/\A\x00[^\xff]*\xff/)
             if msg

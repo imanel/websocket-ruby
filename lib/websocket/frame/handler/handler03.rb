@@ -50,7 +50,7 @@ module WebSocket
             elsif frame_type == :continuation
               return decode_finish_continuation_frame(application_data)
             else
-              fail(WebSocket::Error::Frame::InvalidPayloadEncoding) if frame_type == :text && !application_data.valid_encoding?
+              raise(WebSocket::Error::Frame::InvalidPayloadEncoding) if frame_type == :text && !application_data.valid_encoding?
               return @frame.class.new(version: @frame.version, type: frame_type, data: application_data, decoded: true)
             end
           end
@@ -74,7 +74,7 @@ module WebSocket
         # @return [Integer] opcode or nil
         # @raise [WebSocket::Error] if frame opcode is not known
         def type_to_opcode(frame_type)
-          FRAME_TYPES[frame_type] || fail(WebSocket::Error::Frame::UnknownFrameType)
+          FRAME_TYPES[frame_type] || raise(WebSocket::Error::Frame::UnknownFrameType)
         end
 
         # Convert frame opcode to type name
@@ -82,7 +82,7 @@ module WebSocket
         # @return [Symbol] Frame type name or nil
         # @raise [WebSocket::Error] if frame type name is not known
         def opcode_to_type(opcode)
-          FRAME_TYPES_INVERSE[opcode] || fail(WebSocket::Error::Frame::UnknownOpcode)
+          FRAME_TYPES_INVERSE[opcode] || raise(WebSocket::Error::Frame::UnknownOpcode)
         end
 
         def encode_header
@@ -117,7 +117,7 @@ module WebSocket
           frame_length = header_length + payload_length
           frame_length += 4 if mask
 
-          fail(WebSocket::Error::Frame::TooLong) if frame_length > WebSocket.max_frame_size
+          raise(WebSocket::Error::Frame::TooLong) if frame_length > WebSocket.max_frame_size
 
           # Check buffer size
           return unless buffer_exists?(frame_length) # Buffer incomplete
@@ -135,13 +135,13 @@ module WebSocket
         def decode_first_byte
           first_byte = @frame.data.getbyte(0)
 
-          fail(WebSocket::Error::Frame::ReservedBitUsed) if first_byte & 0b01110000 != 0b00000000
+          raise(WebSocket::Error::Frame::ReservedBitUsed) if first_byte & 0b01110000 != 0b00000000
 
           more = ((first_byte & 0b10000000) == 0b10000000) ^ fin
           frame_type = opcode_to_type first_byte & 0b00001111
 
-          fail(WebSocket::Error::Frame::FragmentedControlFrame) if more && control_frame?(frame_type)
-          fail(WebSocket::Error::Frame::DataFrameInsteadContinuation) if data_frame?(frame_type) && !@application_data_buffer.nil?
+          raise(WebSocket::Error::Frame::FragmentedControlFrame) if more && control_frame?(frame_type)
+          raise(WebSocket::Error::Frame::DataFrameInsteadContinuation) if data_frame?(frame_type) && !@application_data_buffer.nil?
 
           [more, frame_type]
         end
@@ -152,7 +152,7 @@ module WebSocket
           mask = @frame.incoming_masking? && (second_byte & 0b10000000) == 0b10000000
           length = second_byte & 0b01111111
 
-          fail(WebSocket::Error::Frame::ControlFramePayloadTooLong) if length > 125 && control_frame?(frame_type)
+          raise(WebSocket::Error::Frame::ControlFramePayloadTooLong) if length > 125 && control_frame?(frame_type)
 
           header_length, payload_length = decode_payload_length(length)
 
@@ -202,10 +202,10 @@ module WebSocket
         end
 
         def decode_finish_continuation_frame(application_data)
-          fail(WebSocket::Error::Frame::UnexpectedContinuationFrame) unless @frame_type
+          raise(WebSocket::Error::Frame::UnexpectedContinuationFrame) unless @frame_type
           @application_data_buffer << application_data
           # Test valid UTF-8 encoding
-          fail(WebSocket::Error::Frame::InvalidPayloadEncoding) if @frame_type == :text && !@application_data_buffer.valid_encoding?
+          raise(WebSocket::Error::Frame::InvalidPayloadEncoding) if @frame_type == :text && !@application_data_buffer.valid_encoding?
           message = @frame.class.new(version: @frame.version, type: @frame_type, data: @application_data_buffer, decoded: true)
           @application_data_buffer = nil
           @frame_type = nil

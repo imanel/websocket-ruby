@@ -67,7 +67,7 @@ module WebSocket
         @path = '/' if @path.nil? || @path.empty?
         @version ||= DEFAULT_VERSION
 
-        fail WebSocket::Error::Handshake::NoHostProvided unless @host
+        raise WebSocket::Error::Handshake::NoHostProvided unless @host
 
         include_version
       end
@@ -108,7 +108,7 @@ module WebSocket
                    when 1..3  then Handler::Client01.new(self)
                    when 4..10 then Handler::Client04.new(self)
                    when 11..17 then Handler::Client11.new(self)
-                   else fail WebSocket::Error::Handshake::UnknownVersion
+                   else raise WebSocket::Error::Handshake::UnknownVersion
                    end
       end
 
@@ -119,9 +119,9 @@ module WebSocket
       # @return [Boolean] True if parsed correctly. False otherwise
       def parse_first_line(line)
         line_parts = line.match(FIRST_LINE)
-        fail WebSocket::Error::Handshake::InvalidHeader unless line_parts
+        raise WebSocket::Error::Handshake::InvalidHeader unless line_parts
         status = line_parts[1]
-        fail WebSocket::Error::Handshake::InvalidStatusCode unless status == '101'
+        raise WebSocket::Error::Handshake::InvalidStatusCode unless status == '101'
       end
     end
   end

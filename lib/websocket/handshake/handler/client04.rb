@@ -44,7 +44,7 @@ module WebSocket
         # Verify if received header Sec-WebSocket-Accept matches generated one.
         # @return [Boolean] True if accept is matching. False otherwise(appropriate error is set)
         def verify_accept
-          fail WebSocket::Error::Handshake::InvalidAuthentication unless @handshake.headers['sec-websocket-accept'] == accept
+          raise WebSocket::Error::Handshake::InvalidAuthentication unless @handshake.headers['sec-websocket-accept'] == accept
           true
         end
 
@@ -53,7 +53,7 @@ module WebSocket
         def verify_protocol
           return true if @handshake.protocols.empty?
           protos = @handshake.headers['sec-websocket-protocol'].split(/ *, */) & @handshake.protocols
-          fail WebSocket::Error::Handshake::UnsupportedProtocol if protos.empty?
+          raise WebSocket::Error::Handshake::UnsupportedProtocol if protos.empty?
           true
         end
       end
