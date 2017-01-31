@@ -36,8 +36,6 @@ module WebSocket
           @finishing_line ||= challenge_response
         end
 
-        private
-
         # Response to client challenge from request Sec-WebSocket-Key1, Sec-WebSocket-Key2 and leftovers
         # @return [String] Challenge response or nil if error occured
         def challenge_response
