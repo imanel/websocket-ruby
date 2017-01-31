@@ -5,6 +5,10 @@ Metrics/AbcSize:
     - lib/websocket/frame/handler/handler75.rb
     - spec/**/*
 
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*
+
 Metrics/ClassLength:
   Enabled: false
 
