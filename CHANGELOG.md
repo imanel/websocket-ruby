@@ -1,6 +1,6 @@
 # Changelog
 
-## Edge
+## 1.2.4
 
 - add subprotocol handling for both server and client
 
