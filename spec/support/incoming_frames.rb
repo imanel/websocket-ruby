@@ -38,19 +38,21 @@ RSpec.shared_examples_for 'valid_incoming_frame' do
     after(:each) { WebSocket.should_raise = false }
 
     it 'should have specified number of returned frames' do
-      expect do
-        decoded_text_array.each_with_index do |da, index|
-          n = subject.next
-          expect(n).not_to be_nil, "Should return frame for #{da}, #{frame_type_array[index]}"
-          expect(n.class).to eql(WebSocket::Frame::Incoming), "Should be WebSocket::Frame::Incoming, #{n} received instead"
-        end
-        expect(subject.next).to be_nil
-        if error.is_a?(Class)
-          expect(subject.error).to eql(error.new.message)
-        else
-          expect(subject.error).to eql(error)
-        end
-      end.to raise_error(error) if error
+      if error
+        expect do
+          decoded_text_array.each_with_index do |da, index|
+            n = subject.next
+            expect(n).not_to be_nil, "Should return frame for #{da}, #{frame_type_array[index]}"
+            expect(n.class).to eql(WebSocket::Frame::Incoming), "Should be WebSocket::Frame::Incoming, #{n} received instead"
+          end
+          expect(subject.next).to be_nil
+          if error.is_a?(Class)
+            expect(subject.error).to eql(error.new.message)
+          else
+            expect(subject.error).to eql(error)
+          end
+        end.to raise_error(error)
+      end
     end
   end
 end
