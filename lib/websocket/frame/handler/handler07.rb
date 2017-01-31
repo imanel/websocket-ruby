@@ -12,10 +12,10 @@ module WebSocket
           close: 8,
           ping: 9,
           pong: 10
-        }
+        }.freeze
 
         # Hash of frame opcodes and it's names
-        FRAME_TYPES_INVERSE = FRAME_TYPES.invert
+        FRAME_TYPES_INVERSE = FRAME_TYPES.invert.freeze
 
         def encode_frame
           if @frame.type == :close
