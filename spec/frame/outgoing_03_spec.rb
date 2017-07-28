@@ -1,4 +1,5 @@
 # encoding: binary
+
 require 'spec_helper'
 
 RSpec.describe 'Outgoing frame draft 03' do

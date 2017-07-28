@@ -1,4 +1,5 @@
 # encoding: binary
+
 require 'securerandom'
 
 module WebSocket
