@@ -22,7 +22,7 @@ RSpec.describe 'Client draft 4 handshake' do
     let(:handshake) { WebSocket::Handshake::Client.new(uri: 'ws://example.com/demo', origin: 'http://example.com', version: version, protocols: protocols) }
 
     context 'single protocol requested' do
-      let(:protocols) { %w(binary) }
+      let(:protocols) { %w[binary] }
 
       it 'returns a valid handshake' do
         @request_params = { headers: { 'Sec-WebSocket-Protocol' => 'binary' } }
@@ -34,7 +34,7 @@ RSpec.describe 'Client draft 4 handshake' do
     end
 
     context 'multiple protocols requested' do
-      let(:protocols) { %w(binary xmpp) }
+      let(:protocols) { %w[binary xmpp] }
 
       it 'returns with a valid handshake' do
         @request_params = { headers: { 'Sec-WebSocket-Protocol' => 'xmpp' } }
@@ -46,7 +46,7 @@ RSpec.describe 'Client draft 4 handshake' do
     end
 
     context 'unsupported protocol requested' do
-      let(:protocols) { %w(binary xmpp) }
+      let(:protocols) { %w[binary xmpp] }
 
       it 'fails with an unsupported protocol error' do
         @request_params = { headers: { 'Sec-WebSocket-Protocol' => 'generic' } }

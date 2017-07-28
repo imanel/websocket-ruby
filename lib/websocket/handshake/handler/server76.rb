@@ -24,8 +24,8 @@ module WebSocket
         # @see WebSocket::Handshake::Handler::Base#handshake_keys
         def handshake_keys
           [
-            %w(Upgrade WebSocket),
-            %w(Connection Upgrade),
+            %w[Upgrade WebSocket],
+            %w[Connection Upgrade],
             ['Sec-WebSocket-Origin', @handshake.headers['origin']],
             ['Sec-WebSocket-Location', @handshake.uri]
           ] + protocol

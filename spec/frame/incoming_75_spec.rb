@@ -22,7 +22,7 @@ RSpec.describe 'Incoming frame draft 75' do
 
   context 'with two frames' do
     let(:encoded_text) { "\x00abc\xFF\x00def\xFF" }
-    let(:decoded_text) { %w(abc def) }
+    let(:decoded_text) { %w[abc def] }
     let(:frame_type)   { [:text, :text] }
 
     it_should_behave_like 'valid_incoming_frame'
