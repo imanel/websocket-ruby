@@ -3,6 +3,7 @@ module WebSocket
     # @abstract Subclass and override to implement custom handshakes
     class Base
       include ExceptionHandler
+      include NiceInspect
 
       attr_reader :host, :port, :path, :query,
                   :state, :version, :secure,
@@ -31,13 +32,6 @@ module WebSocket
         @handler ? @handler.to_s : ''
       end
       rescue_method :to_s, return: ''
-
-      # Recreate inspect as #to_s was overwritten
-      def inspect
-        vars = instance_variables.map { |v| "#{v}=#{instance_variable_get(v).inspect}" }.join(', ')
-        insp = Kernel.format("#{self.class}:0x%08x", __id__)
-        "<#{insp} #{vars}>"
-      end
 
       # Is parsing of data finished?
       # @return [Boolena] True if request was completely parsed or error occured. False otherwise
