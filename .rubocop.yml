@@ -42,3 +42,6 @@ Style/Documentation:
 
 Style/TrivialAccessors:
   AllowPredicates: true
+
+Layout/IndentHeredoc:
+  Enabled: false
