@@ -48,3 +48,8 @@ Layout/IndentHeredoc:
 
 Style/SymbolArray:
   Enabled: false
+
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    default: '[]'
+    '%w': '[]'
