@@ -45,3 +45,6 @@ Style/TrivialAccessors:
 
 Layout/IndentHeredoc:
   Enabled: false
+
+Style/SymbolArray:
+  Enabled: false
