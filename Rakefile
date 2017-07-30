@@ -11,7 +11,7 @@ end
 
 RuboCop::RakeTask.new
 
-task default: [:spec, :rubocop]
+task default: %i[spec rubocop]
 
 namespace :autobahn do
   desc 'Run autobahn tests for client'

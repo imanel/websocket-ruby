@@ -43,6 +43,3 @@ Style/Documentation:
 Layout/IndentHeredoc:
   Exclude:
     - spec/support/handshake_requests.rb
-
-Style/SymbolArray:
-  Enabled: false # Support for 1.9.3

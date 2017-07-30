@@ -21,7 +21,7 @@ module WebSocket
 
         # @see WebSocket::Frame::Base#supported_frames
         def supported_frames
-          [:text, :binary, :close, :ping, :pong]
+          %i[text binary close ping pong]
         end
 
         # @see WebSocket::Frame::Handler::Base#encode_frame
