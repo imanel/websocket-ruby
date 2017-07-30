@@ -3,6 +3,7 @@ module WebSocket
     # @abstract Subclass and override to implement custom frames
     class Base
       include ExceptionHandler
+      include NiceInspect
 
       attr_reader :type, :version, :error
       attr_accessor :data, :code
@@ -37,13 +38,6 @@ module WebSocket
       # Implement in submodules
       def supported_frames
         raise NotImplementedError
-      end
-
-      # Recreate inspect as #to_s was overwritten
-      def inspect
-        vars = instance_variables.map { |v| "#{v}=#{instance_variable_get(v).inspect}" }.join(', ')
-        insp = Kernel.format("#{self.class}:0x%08x", __id__)
-        "<#{insp} #{vars}>"
       end
 
       private

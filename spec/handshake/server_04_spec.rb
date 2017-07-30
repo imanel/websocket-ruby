@@ -17,7 +17,7 @@ RSpec.describe 'Server draft 04 handshake' do
   end
 
   context 'protocol header specified' do
-    let(:handshake) { WebSocket::Handshake::Server.new(protocols: %w(binary xmpp)) }
+    let(:handshake) { WebSocket::Handshake::Server.new(protocols: %w[binary xmpp]) }
 
     context 'single protocol requested' do
       it 'returns with the same protocol' do

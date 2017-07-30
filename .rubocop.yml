@@ -42,3 +42,14 @@ Style/Documentation:
 
 Style/TrivialAccessors:
   AllowPredicates: true
+
+Layout/IndentHeredoc:
+  Enabled: false
+
+Style/SymbolArray:
+  Enabled: false
+
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    default: '[]'
+    '%w': '[]'

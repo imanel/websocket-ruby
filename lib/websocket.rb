@@ -12,6 +12,7 @@ module WebSocket
   autoload :ExceptionHandler, "#{ROOT}/websocket/exception_handler"
   autoload :Frame,            "#{ROOT}/websocket/frame"
   autoload :Handshake,        "#{ROOT}/websocket/handshake"
+  autoload :NiceInspect,      "#{ROOT}/websocket/nice_inspect"
 
   # Limit of frame size payload in bytes
   def self.max_frame_size
