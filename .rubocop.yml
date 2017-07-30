@@ -1,5 +1,11 @@
+require: rubocop-rspec
+
 AllCops:
   DisplayCopNames: true
+
+Layout/IndentHeredoc:
+  Exclude:
+    - spec/support/handshake_requests.rb
 
 # Target: 15
 Metrics/AbcSize:
@@ -39,7 +45,3 @@ Metrics/PerceivedComplexity:
 
 Style/Documentation:
   Enabled: false
-
-Layout/IndentHeredoc:
-  Exclude:
-    - spec/support/handshake_requests.rb
