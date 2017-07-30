@@ -3,6 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe 'Outgoing frame draft 04' do
+  subject { frame }
   let(:version) { 4 }
   let(:frame) { WebSocket::Frame::Outgoing.new(version: version, data: decoded_text, type: frame_type) }
   let(:decoded_text) { '' }
@@ -10,7 +11,6 @@ RSpec.describe 'Outgoing frame draft 04' do
   let(:frame_type) { :text }
   let(:require_sending) { true }
   let(:error) { nil }
-  subject { frame }
 
   it_should_behave_like 'valid_outgoing_frame'
 

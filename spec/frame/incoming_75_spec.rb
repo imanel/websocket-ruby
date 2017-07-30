@@ -3,13 +3,13 @@
 require 'spec_helper'
 
 RSpec.describe 'Incoming frame draft 75' do
+  subject { frame }
   let(:version) { 75 }
   let(:frame) { WebSocket::Frame::Incoming.new(version: version, data: encoded_text) }
   let(:encoded_text) { nil }
   let(:decoded_text) { nil }
   let(:frame_type) { nil }
   let(:error) { nil }
-  subject { frame }
 
   it_should_behave_like 'valid_incoming_frame'
 
