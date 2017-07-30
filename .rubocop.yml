@@ -40,11 +40,9 @@ Metrics/PerceivedComplexity:
 Style/Documentation:
   Enabled: false
 
-Style/TrivialAccessors:
-  AllowPredicates: true
-
 Layout/IndentHeredoc:
-  Enabled: false
+  Exclude:
+    - spec/support/handshake_requests.rb
 
 Style/SymbolArray:
-  Enabled: false
+  Enabled: false # Support for 1.9.3
