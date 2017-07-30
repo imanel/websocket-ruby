@@ -2,12 +2,29 @@ RSpec.shared_examples_for 'valid_incoming_frame' do
   let(:decoded_text_array) { Array(decoded_text) }
   let(:frame_type_array) { Array(frame_type) }
 
-  its(:class) { is_expected.to eql(WebSocket::Frame::Incoming) }
-  its(:data) { is_expected.to eql(encoded_text || '') }
-  its(:version) { is_expected.to eql(version) }
-  its(:type) { is_expected.to be_nil }
-  its(:decoded?) { is_expected.to be false }
-  its(:to_s) { is_expected.to eql(encoded_text || '') }
+  it 'is incoming frame' do
+    expect(subject.class).to be WebSocket::Frame::Incoming
+  end
+
+  it 'is in proper verions' do
+    expect(subject.version).to eql version
+  end
+
+  it 'does not have type set' do
+    expect(subject.type).to be nil
+  end
+
+  it 'is not decoded' do
+    expect(subject.decoded?).to be false
+  end
+
+  it 'contains encoded data' do
+    expect(subject.data).to eql(encoded_text || '')
+  end
+
+  it 'returns data as to_s' do
+    expect(subject.to_s).to eql(encoded_text || '')
+  end
 
   it 'has specified number of returned frames' do
     decoded_text_array.each_with_index do |da, index|
