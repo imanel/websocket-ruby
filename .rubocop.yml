@@ -49,9 +49,6 @@ RSpec/DescribeClass:
 RSpec/ExampleLength:
   Enabled: false
 
-RSpec/ExampleWording:
-  Enabled: false
-
 RSpec/InstanceVariable:
   Enabled: false
 

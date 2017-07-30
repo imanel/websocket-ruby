@@ -8,7 +8,7 @@ RSpec.shared_examples_for 'all server drafts' do
     expect(handshake.to_s).to eql(server_response)
   end
 
-  it 'should be valid' do
+  it 'is valid' do
     handshake << client_request
 
     expect(handshake.error).to be_nil
@@ -16,67 +16,67 @@ RSpec.shared_examples_for 'all server drafts' do
     expect(handshake).to be_valid
   end
 
-  it 'should return valid version' do
+  it 'returns valid version' do
     handshake << client_request
 
     expect(handshake.version).to eql(version)
   end
 
-  it 'should return valid host' do
+  it 'returns valid host' do
     @request_params = { host: 'www.test.cc' }
     handshake << client_request
 
     expect(handshake.host).to eql('www.test.cc')
   end
 
-  it 'should return valid path' do
+  it 'returns valid path' do
     @request_params = { path: '/custom' }
     handshake << client_request
 
     expect(handshake.path).to eql('/custom')
   end
 
-  it 'should return valid query' do
+  it 'returns valid query' do
     @request_params = { path: '/custom?aaa=bbb' }
     handshake << client_request
 
     expect(handshake.query).to eql('aaa=bbb')
   end
 
-  it 'should return valid port' do
+  it 'returns valid port' do
     @request_params = { port: 123 }
     handshake << client_request
 
     expect(handshake.port).to eql('123')
   end
 
-  it 'should return valid response' do
+  it 'returns valid response' do
     validate_request
   end
 
-  it 'should allow custom path' do
+  it 'allows custom path' do
     @request_params = { path: '/custom' }
     validate_request
   end
 
-  it 'should allow query in path' do
+  it 'allows query in path' do
     @request_params = { path: '/custom?test=true' }
     validate_request
   end
 
-  it 'should allow custom port' do
+  it 'allows custom port' do
     @request_params = { port: 123 }
     validate_request
   end
 
-  it 'should recognize unfinished requests' do
+  it 'recognizes unfinished requests' do
     handshake << client_request[0..-10]
 
     expect(handshake).not_to be_finished
     expect(handshake).not_to be_valid
   end
 
-  it 'should disallow requests with invalid request method' do
+  it 'disallows requests with invalid request method' do
     handshake << client_request.gsub('GET', 'POST')
 
     expect(handshake).to be_finished
@@ -84,7 +84,7 @@ RSpec.shared_examples_for 'all server drafts' do
     expect(handshake.error).to be(:get_request_required)
   end
 
-  it 'should parse a rack request' do
+  it 'parses a rack request' do
     request = WEBrick::HTTPRequest.new(ServerSoftware: 'rspec')
     expect(request.parse(StringIO.new(client_request))).to be true
     rest = client_request.slice((request.to_s.length..-1))
@@ -95,7 +95,7 @@ RSpec.shared_examples_for 'all server drafts' do
     validate_request
   end
 
-  it 'should parse a hash request' do
+  it 'parses a hash request' do
     request = WEBrick::HTTPRequest.new(ServerSoftware: 'rspec')
     expect(request.parse(StringIO.new(client_request))).to be true
     body = client_request.slice((request.to_s.length..-1))

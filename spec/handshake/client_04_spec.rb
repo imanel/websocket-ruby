@@ -9,7 +9,7 @@ RSpec.describe 'Client draft 4 handshake' do
 
   it_should_behave_like 'all client drafts'
 
-  it 'should disallow client with invalid challenge' do
+  it 'disallows client with invalid challenge' do
     @request_params = { accept: 'invalid' }
     handshake << server_response
 

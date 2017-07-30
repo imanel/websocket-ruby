@@ -8,7 +8,7 @@ RSpec.describe 'Outgoing common frame' do
   its(:version) { is_expected.to be(13) }
   its(:error?) { is_expected.to be false }
 
-  it 'should raise error on invalid version' do
+  it 'raises error on invalid version' do
     subject = WebSocket::Frame::Incoming.new(version: 70)
     expect(subject.error?).to be true
     expect(subject.error).to be(:unknown_protocol_version)

@@ -8,7 +8,7 @@ RSpec.describe 'Server draft 04 handshake' do
 
   it_should_behave_like 'all server drafts'
 
-  it 'should disallow request without Sec-WebSocket-Key' do
+  it 'disallows request without Sec-WebSocket-Key' do
     handshake << client_request.gsub(/^Sec-WebSocket-Key:.*\n/, '')
 
     expect(handshake).to be_finished

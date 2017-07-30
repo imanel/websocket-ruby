@@ -9,7 +9,7 @@ RSpec.shared_examples_for 'valid_incoming_frame' do
   its(:decoded?) { is_expected.to be false }
   its(:to_s) { is_expected.to eql(encoded_text || '') }
 
-  it 'should have specified number of returned frames' do
+  it 'has specified number of returned frames' do
     decoded_text_array.each_with_index do |da, index|
       n = subject.next
       expect(n).not_to be_nil, "Should return frame for #{da}, #{frame_type_array[index]}"
@@ -23,7 +23,7 @@ RSpec.shared_examples_for 'valid_incoming_frame' do
     end
   end
 
-  it 'should return valid decoded frame for each specified decoded texts' do
+  it 'returns valid decoded frame for each specified decoded texts' do
     decoded_text_array.each_with_index do |da, index|
       f = subject.next
       expect(f.decoded?).to be true
@@ -37,7 +37,7 @@ RSpec.shared_examples_for 'valid_incoming_frame' do
     before { WebSocket.should_raise = true }
     after { WebSocket.should_raise = false }
 
-    it 'should have specified number of returned frames' do
+    it 'has specified number of returned frames' do
       if error
         expect do
           decoded_text_array.each_with_index do |da, index|

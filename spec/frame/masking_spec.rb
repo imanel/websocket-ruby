@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 RSpec.describe 'Masking frame draft 07' do
-  it 'should encode and decode masked frame correctly' do
+  it 'encodes and decode masked frame correctly' do
     outgoing_frame = WebSocket::Frame::Outgoing::Client.new(data: 'Hello World', type: 'text')
     outgoing_frame.to_s
     expect(outgoing_frame.error).to be_nil
