@@ -3,13 +3,21 @@ require 'digest/md5'
 module WebSocket
   module Handshake
     module Handler
-      class Server76 < Server
+      class Server76 < Server75
         # @see WebSocket::Handshake::Base#valid?
         def valid?
           super && !finishing_line.nil?
         end
 
         private
+
+        def headers
+          {
+            origin: 'Sec-WebSocket-Origin',
+            location: 'Sec-WebSocket-Location',
+            protocol: 'Sec-WebSocket-Protocol'
+          }.freeze
+        end
 
         # @see WebSocket::Handshake::Base#reserved_leftover_lines
         def reserved_leftover_lines
@@ -19,16 +27,6 @@ module WebSocket
         # @see WebSocket::Handshake::Handler::Base#header_line
         def header_line
           'HTTP/1.1 101 WebSocket Protocol Handshake'
-        end
-
-        # @see WebSocket::Handshake::Handler::Base#handshake_keys
-        def handshake_keys
-          [
-            %w(Upgrade WebSocket),
-            %w(Connection Upgrade),
-            ['Sec-WebSocket-Origin', @handshake.headers['origin']],
-            ['Sec-WebSocket-Location', @handshake.uri]
-          ] + protocol
         end
 
         # @see WebSocket::Handshake::Handler::Base#finishing_line
@@ -68,12 +66,6 @@ module WebSocket
           raise WebSocket::Error::Handshake::InvalidAuthentication if quotient > 2**32 - 1
 
           quotient
-        end
-
-        def protocol
-          return [] unless @handshake.headers.key?('sec-websocket-protocol')
-          proto = @handshake.headers['sec-websocket-protocol']
-          [['Sec-WebSocket-Protocol', @handshake.protocols.include?(proto) ? proto : nil]]
         end
       end
     end

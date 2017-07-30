@@ -4,6 +4,14 @@ module WebSocket
       class Server75 < Server
         private
 
+        def headers
+          {
+            origin: 'WebSocket-Origin',
+            location: 'WebSocket-Location',
+            protocol: 'WebSocket-Protocol'
+          }.freeze
+        end
+
         # @see WebSocket::Handshake::Handler::Base#header_line
         def header_line
           'HTTP/1.1 101 Web Socket Protocol Handshake'
@@ -14,15 +22,15 @@ module WebSocket
           [
             %w(Upgrade WebSocket),
             %w(Connection Upgrade),
-            ['WebSocket-Origin', @handshake.headers['origin']],
-            ['WebSocket-Location', @handshake.uri]
+            [headers[:origin], @handshake.headers['origin']],
+            [headers[:location], @handshake.uri]
           ] + protocol
         end
 
         def protocol
-          return [] unless @handshake.headers.key?('websocket-protocol')
-          proto = @handshake.headers['websocket-protocol']
-          [['WebSocket-Protocol', @handshake.protocols.include?(proto) ? proto : nil]]
+          return [] unless @handshake.headers.key?(headers[:protocol].downcase)
+          proto = @handshake.headers[headers[:protocol].downcase]
+          [[headers[:protocol], @handshake.protocols.include?(proto) ? proto : nil]]
         end
       end
     end
