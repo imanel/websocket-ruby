@@ -15,6 +15,15 @@ module WebSocket
         def handshake_keys
           super + @handshake.headers.to_a
         end
+
+        # Verify if received header matches with one of the sent ones
+        # @return [Boolean] True if matching. False otherwise(appropriate error is set)
+        def verify_protocol
+          return true if supported_protocols.empty?
+          protos = provided_protocols & supported_protocols
+          raise WebSocket::Error::Handshake::UnsupportedProtocol if protos.empty?
+          true
+        end
       end
     end
   end

@@ -24,13 +24,12 @@ module WebSocket
           keys
         end
 
-        # Verify if received header WebSocket-Protocol matches with the sent one
-        # @return [Boolean] True if matching. False otherwise(appropriate error is set)
-        def verify_protocol
-          return true if @handshake.protocols.empty?
-          invalid = @handshake.headers['websocket-protocol'].strip != @handshake.protocols.first
-          raise WebSocket::Error::Handshake::UnsupportedProtocol if invalid
-          true
+        def supported_protocols
+          Array(@handshake.protocols.first)
+        end
+
+        def provided_protocols
+          Array(@handshake.headers['websocket-protocol'].to_s.strip)
         end
       end
     end

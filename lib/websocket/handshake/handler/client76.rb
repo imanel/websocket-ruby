@@ -94,13 +94,8 @@ module WebSocket
           [rand(0x100000000)].pack('N') + [rand(0x100000000)].pack('N')
         end
 
-        # Verify if received header Sec-WebSocket-Protocol matches with the sent one
-        # @return [Boolean] True if matching. False otherwise(appropriate error is set)
-        def verify_protocol
-          return true if @handshake.protocols.empty?
-          invalid = @handshake.headers['sec-websocket-protocol'].strip != @handshake.protocols.first
-          raise WebSocket::Error::Handshake::UnsupportedProtocol if invalid
-          true
+        def provided_protocols
+          Array(@handshake.headers['sec-websocket-protocol'].to_s.strip)
         end
       end
     end
