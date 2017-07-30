@@ -6,7 +6,7 @@ module WebSocket
       class Handler75 < Base
         # @see WebSocket::Frame::Base#supported_frames
         def supported_frames
-          %i[text close]
+          %i(text close)
         end
 
         # @see WebSocket::Frame::Handler::Base#encode_frame

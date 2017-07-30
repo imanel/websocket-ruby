@@ -19,7 +19,7 @@ RSpec.describe 'Client draft 76 handshake' do
   end
 
   context 'protocol header specified' do
-    let(:handshake) { WebSocket::Handshake::Client.new(uri: 'ws://example.com/demo', origin: 'http://example.com', version: version, protocols: %w[binary]) }
+    let(:handshake) { WebSocket::Handshake::Client.new(uri: 'ws://example.com/demo', origin: 'http://example.com', version: version, protocols: %w(binary)) }
 
     context 'supported' do
       it 'returns a valid handshake' do

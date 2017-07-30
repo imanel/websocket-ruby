@@ -2,10 +2,7 @@ require: rubocop-rspec
 
 AllCops:
   DisplayCopNames: true
-
-Layout/IndentHeredoc:
-  Exclude:
-    - spec/support/handshake_requests.rb
+  TargetRubyVersion: 2.1
 
 # Target: 15
 Metrics/AbcSize:
