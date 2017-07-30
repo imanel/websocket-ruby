@@ -15,7 +15,7 @@ RSpec.describe 'Client draft 76 handshake' do
 
     expect(handshake).to be_finished
     expect(handshake).not_to be_valid
-    expect(handshake.error).to eql(:invalid_handshake_authentication)
+    expect(handshake.error).to be(:invalid_handshake_authentication)
   end
 
   context 'protocol header specified' do
@@ -38,7 +38,7 @@ RSpec.describe 'Client draft 76 handshake' do
 
         expect(handshake).to be_finished
         expect(handshake).not_to be_valid
-        expect(handshake.error).to eql(:unsupported_protocol)
+        expect(handshake.error).to be(:unsupported_protocol)
       end
     end
   end

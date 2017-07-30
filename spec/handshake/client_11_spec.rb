@@ -15,6 +15,6 @@ RSpec.describe 'Client draft 11 handshake' do
 
     expect(handshake).to be_finished
     expect(handshake).not_to be_valid
-    expect(handshake.error).to eql(:invalid_handshake_authentication)
+    expect(handshake.error).to be(:invalid_handshake_authentication)
   end
 end

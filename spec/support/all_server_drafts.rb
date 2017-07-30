@@ -81,7 +81,7 @@ RSpec.shared_examples_for 'all server drafts' do
 
     expect(handshake).to be_finished
     expect(handshake).not_to be_valid
-    expect(handshake.error).to eql(:get_request_required)
+    expect(handshake.error).to be(:get_request_required)
   end
 
   it 'should parse a rack request' do

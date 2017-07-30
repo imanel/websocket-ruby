@@ -43,5 +43,26 @@ Metrics/PerceivedComplexity:
     - lib/websocket/frame/handler/handler75.rb
     - spec/support/handshake_requests.rb
 
+RSpec/DescribeClass:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/ExampleWording:
+  Enabled: false
+
+RSpec/InstanceVariable:
+  Enabled: false
+
+RSpec/LeadingSubject:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/NamedSubject:
+  Enabled: false
+
 Style/Documentation:
   Enabled: false

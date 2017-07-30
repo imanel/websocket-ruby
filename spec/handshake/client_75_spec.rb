@@ -29,7 +29,7 @@ RSpec.describe 'Client draft 75 handshake' do
 
         expect(handshake).to be_finished
         expect(handshake).not_to be_valid
-        expect(handshake.error).to eql(:unsupported_protocol)
+        expect(handshake.error).to be(:unsupported_protocol)
       end
     end
   end

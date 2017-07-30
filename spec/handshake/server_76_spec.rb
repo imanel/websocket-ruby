@@ -14,7 +14,7 @@ RSpec.describe 'Server draft 76 handshake' do
 
     expect(handshake).to be_finished
     expect(handshake).not_to be_valid
-    expect(handshake.error).to eql(:invalid_handshake_authentication)
+    expect(handshake.error).to be(:invalid_handshake_authentication)
   end
 
   it 'should disallow request without spaces in key 2' do
@@ -23,7 +23,7 @@ RSpec.describe 'Server draft 76 handshake' do
 
     expect(handshake).to be_finished
     expect(handshake).not_to be_valid
-    expect(handshake.error).to eql(:invalid_handshake_authentication)
+    expect(handshake.error).to be(:invalid_handshake_authentication)
   end
 
   it 'should disallow request with invalid number of spaces or numbers in key 1' do
@@ -32,7 +32,7 @@ RSpec.describe 'Server draft 76 handshake' do
 
     expect(handshake).to be_finished
     expect(handshake).not_to be_valid
-    expect(handshake.error).to eql(:invalid_handshake_authentication)
+    expect(handshake.error).to be(:invalid_handshake_authentication)
   end
 
   it 'should disallow request with invalid number of spaces or numbers in key 2' do
@@ -41,7 +41,7 @@ RSpec.describe 'Server draft 76 handshake' do
 
     expect(handshake).to be_finished
     expect(handshake).not_to be_valid
-    expect(handshake.error).to eql(:invalid_handshake_authentication)
+    expect(handshake.error).to be(:invalid_handshake_authentication)
   end
 
   context 'protocol header specified' do

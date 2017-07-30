@@ -38,7 +38,7 @@ RSpec.shared_examples_for 'all client drafts' do
 
   it 'should return valid port' do
     @request_params = { port: 123 }
-    expect(handshake.port).to eql(123)
+    expect(handshake.port).to be(123)
   end
 
   it 'should return valid headers' do
@@ -49,7 +49,7 @@ RSpec.shared_examples_for 'all client drafts' do
   it 'should parse uri' do
     @request_params = { uri: 'ws://test.example.org:301/test_path?query=true' }
     expect(handshake.host).to eql('test.example.org')
-    expect(handshake.port).to eql(301)
+    expect(handshake.port).to be(301)
     expect(handshake.path).to eql('/test_path')
     expect(handshake.query).to eql('query=true')
   end
@@ -57,7 +57,7 @@ RSpec.shared_examples_for 'all client drafts' do
   it 'should parse url' do
     @request_params = { url: 'ws://test.example.org:301/test_path?query=true' }
     expect(handshake.host).to eql('test.example.org')
-    expect(handshake.port).to eql(301)
+    expect(handshake.port).to be(301)
     expect(handshake.path).to eql('/test_path')
     expect(handshake.query).to eql('query=true')
   end
@@ -103,6 +103,6 @@ RSpec.shared_examples_for 'all client drafts' do
 
     expect(handshake).to be_finished
     expect(handshake).not_to be_valid
-    expect(handshake.error).to eql(:invalid_status_code)
+    expect(handshake.error).to be(:invalid_status_code)
   end
 end
