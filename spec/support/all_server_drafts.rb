@@ -92,7 +92,8 @@ RSpec.shared_examples_for 'all server drafts' do
     rest = client_request.slice((request.to_s.length..-1))
 
     handshake.from_rack(request.meta_vars.merge(
-                          'rack.input' => StringIO.new(rest)
+                          'rack.input' => StringIO.new(rest),
+                          :random_key => :random_value
     ))
     validate_request
   end
