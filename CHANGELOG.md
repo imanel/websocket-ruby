@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.5
+
+- make handshake server resilient to non-string Rack env keys
+
 ## 1.2.4
 
 - add subprotocol handling for both server and client
