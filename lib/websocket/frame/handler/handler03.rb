@@ -89,14 +89,14 @@ module WebSocket
         def encode_header
           mask = @frame.outgoing_masking? ? 0b10000000 : 0b00000000
 
-          output = ''
+          output = String.new('')
           output << (type_to_opcode(@frame.type) | (fin ? 0b10000000 : 0b00000000)) # since more, rsv1-3 are 0 and 0x80 for Draft 4
           output << encode_payload_length(@frame.data.size, mask)
           output
         end
 
         def encode_payload_length(length, mask)
-          output = ''
+          output = String.new('')
           if length <= 125
             output << (length | mask) # since rsv4 is 0
           elsif length < 65_536 # write 2 byte length
@@ -197,7 +197,7 @@ module WebSocket
         end
 
         def decode_continuation_frame(application_data, frame_type)
-          @application_data_buffer ||= ''
+          @application_data_buffer ||= String.new('')
           @application_data_buffer << application_data
           @frame_type ||= frame_type
         end
