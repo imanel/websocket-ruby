@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # WebSocket protocol implementation in Ruby
 # This module does not provide a WebSocket server or client, but is made for using
 # in http servers or clients to provide WebSocket support.

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module WebSocket
   module NiceInspect
     # Recreate inspect as #to_s will be overwritten

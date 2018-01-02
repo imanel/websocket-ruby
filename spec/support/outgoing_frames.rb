@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.shared_examples_for 'valid_outgoing_frame' do
   it 'is outgoing frame' do
     expect(subject.class).to be WebSocket::Frame::Outgoing

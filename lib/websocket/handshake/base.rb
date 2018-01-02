@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module WebSocket
   module Handshake
     # @abstract Subclass and override to implement custom handshakes
@@ -16,7 +18,7 @@ module WebSocket
         @state = :new
         @handler = nil
 
-        @data = ''
+        @data = String.new('')
         @headers ||= {}
         @protocols ||= []
       end
@@ -62,7 +64,7 @@ module WebSocket
       # @example
       #   @handshake.uri #=> "ws://example.com/path?query=true"
       def uri
-        uri =  secure ? 'wss://' : 'ws://'
+        uri =  String.new(secure ? 'wss://' : 'ws://')
         uri << host
         uri << ":#{port}" if port
         uri << path

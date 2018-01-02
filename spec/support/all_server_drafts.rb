@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'webrick'
 
 RSpec.shared_examples_for 'all server drafts' do

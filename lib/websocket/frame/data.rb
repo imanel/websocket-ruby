@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module WebSocket
   module Frame
     class Data < String
@@ -11,7 +13,7 @@ module WebSocket
 
       # Convert all arguments to ASCII-8BIT for easier traversing
       def convert_args(args)
-        args.each { |arg| arg.force_encoding('ASCII-8BIT') }
+        args.collect { |arg| arg.dup.force_encoding('ASCII-8BIT') }
       end
 
       # Extract mask from 4 first bytes according to spec

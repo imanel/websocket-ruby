@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.shared_examples_for 'all client drafts' do
   def validate_request
     expect(handshake.to_s).to eql(client_request)
