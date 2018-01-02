@@ -5,6 +5,7 @@ require 'spec_helper'
 
 RSpec.describe 'Outgoing frame draft 04' do
   subject { frame }
+
   let(:version) { 4 }
   let(:frame) { WebSocket::Frame::Outgoing.new(version: version, data: decoded_text, type: frame_type) }
   let(:decoded_text) { '' }
@@ -13,7 +14,7 @@ RSpec.describe 'Outgoing frame draft 04' do
   let(:require_sending) { true }
   let(:error) { nil }
 
-  it_should_behave_like 'valid_outgoing_frame'
+  it_behaves_like 'valid_outgoing_frame'
 
   context 'should properly encode close frame' do
     let(:frame_type) { :close }
@@ -21,7 +22,7 @@ RSpec.describe 'Outgoing frame draft 04' do
     let(:encoded_text) { "\x81\x05" + decoded_text }
     let(:require_sending) { true }
 
-    it_should_behave_like 'valid_outgoing_frame'
+    it_behaves_like 'valid_outgoing_frame'
   end
 
   context 'should properly encode ping frame' do
@@ -30,7 +31,7 @@ RSpec.describe 'Outgoing frame draft 04' do
     let(:encoded_text) { "\x82\x05" + decoded_text }
     let(:require_sending) { true }
 
-    it_should_behave_like 'valid_outgoing_frame'
+    it_behaves_like 'valid_outgoing_frame'
   end
 
   context 'should properly encode pong frame' do
@@ -39,7 +40,7 @@ RSpec.describe 'Outgoing frame draft 04' do
     let(:encoded_text) { "\x83\x05" + decoded_text }
     let(:require_sending) { true }
 
-    it_should_behave_like 'valid_outgoing_frame'
+    it_behaves_like 'valid_outgoing_frame'
   end
 
   context 'should properly encode text frame' do
@@ -47,7 +48,7 @@ RSpec.describe 'Outgoing frame draft 04' do
     let(:encoded_text) { "\x84\x05" + decoded_text }
     let(:require_sending) { true }
 
-    it_should_behave_like 'valid_outgoing_frame'
+    it_behaves_like 'valid_outgoing_frame'
   end
 
   context 'should properly encode 256 bytes binary frame' do
@@ -56,7 +57,7 @@ RSpec.describe 'Outgoing frame draft 04' do
     let(:encoded_text) { "\x85\x7E\x01\x00" + decoded_text }
     let(:require_sending) { true }
 
-    it_should_behave_like 'valid_outgoing_frame'
+    it_behaves_like 'valid_outgoing_frame'
   end
 
   context 'should properly encode 64KiB binary frame' do
@@ -65,7 +66,7 @@ RSpec.describe 'Outgoing frame draft 04' do
     let(:encoded_text) { "\x85\x7F\x00\x00\x00\x00\x00\x01\x00\x00" + decoded_text }
     let(:require_sending) { true }
 
-    it_should_behave_like 'valid_outgoing_frame'
+    it_behaves_like 'valid_outgoing_frame'
   end
 
   context 'should return error for unknown frame type' do
@@ -75,6 +76,6 @@ RSpec.describe 'Outgoing frame draft 04' do
     let(:error) { :unknown_frame_type }
     let(:require_sending) { false }
 
-    it_should_behave_like 'valid_outgoing_frame'
+    it_behaves_like 'valid_outgoing_frame'
   end
 end

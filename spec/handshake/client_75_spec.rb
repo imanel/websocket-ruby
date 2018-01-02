@@ -9,10 +9,10 @@ RSpec.describe 'Client draft 75 handshake' do
   let(:client_request) { client_handshake_75(@request_params || {}) }
   let(:server_response) { server_handshake_75(@request_params || {}) }
 
-  it_should_behave_like 'all client drafts'
+  it_behaves_like 'all client drafts'
 
   context 'protocol header specified' do
-    let(:handshake) { WebSocket::Handshake::Client.new(uri: 'ws://example.com/demo', origin: 'http://example.com', version: version, protocols: %w(binary)) }
+    let(:handshake) { WebSocket::Handshake::Client.new(uri: 'ws://example.com/demo', origin: 'http://example.com', version: version, protocols: %w[binary]) }
 
     context 'supported' do
       it 'returns a valid handshake' do

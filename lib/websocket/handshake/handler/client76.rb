@@ -74,12 +74,12 @@ module WebSocket
         # @param [String] name of key. Will be used to set number variable needed later. Valid values: key1, key2
         # @return [String] generated key
         def generate_key(key)
-          spaces = 1 + rand(12)
+          spaces = rand(1..12)
           max = 0xffffffff / spaces
           number = rand(max + 1)
           instance_variable_set("@#{key}_number", number)
           key = (number * spaces).to_s
-          (1 + rand(12)).times do
+          rand(1..12).times do
             char = NOISE_CHARS[rand(NOISE_CHARS.size)]
             pos = rand(key.size + 1)
             key[pos...pos] = char

@@ -9,7 +9,7 @@ RSpec.describe 'Client draft 11 handshake' do
   let(:client_request) { client_handshake_11({ key: handshake.handler.send(:key), version: version }.merge(@request_params || {})) }
   let(:server_response) { server_handshake_11({ accept: handshake.handler.send(:accept) }.merge(@request_params || {})) }
 
-  it_should_behave_like 'all client drafts'
+  it_behaves_like 'all client drafts'
 
   it 'disallows client with invalid challenge' do
     @request_params = { accept: 'invalid' }

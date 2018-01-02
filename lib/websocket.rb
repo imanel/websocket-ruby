@@ -8,7 +8,7 @@
 module WebSocket
   # Default WebSocket version to use
   DEFAULT_VERSION = 13
-  ROOT = File.expand_path(File.dirname(__FILE__))
+  ROOT = __dir__
 
   autoload :Error,            "#{ROOT}/websocket/error"
   autoload :ExceptionHandler, "#{ROOT}/websocket/exception_handler"

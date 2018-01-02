@@ -49,7 +49,7 @@ module WebSocket
           return true if data.nil?
           data.encode('UTF-8')
           true
-        rescue
+        rescue StandardError
           false
         end
 

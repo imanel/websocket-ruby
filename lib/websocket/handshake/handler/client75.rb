@@ -14,8 +14,8 @@ module WebSocket
         # @see WebSocket::Handshake::Handler::Base#handshake_keys
         def handshake_keys
           keys = [
-            %w(Upgrade WebSocket),
-            %w(Connection Upgrade)
+            %w[Upgrade WebSocket],
+            %w[Connection Upgrade]
           ]
           host = @handshake.host
           host += ":#{@handshake.port}" if @handshake.port

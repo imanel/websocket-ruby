@@ -18,7 +18,7 @@ module WebSocket
         @state = :new
         @handler = nil
 
-        @data = String.new('')
+        @data = +''
         @headers ||= {}
         @protocols ||= []
       end
