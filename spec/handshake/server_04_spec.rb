@@ -8,7 +8,7 @@ RSpec.describe 'Server draft 04 handshake' do
   let(:client_request) { client_handshake_04(@request_params || {}) }
   let(:server_response) { server_handshake_04(@request_params || {}) }
 
-  it_should_behave_like 'all server drafts'
+  it_behaves_like 'all server drafts'
 
   it 'disallows request without Sec-WebSocket-Key' do
     handshake << client_request.gsub(/^Sec-WebSocket-Key:.*\n/, '')
@@ -19,7 +19,7 @@ RSpec.describe 'Server draft 04 handshake' do
   end
 
   context 'protocol header specified' do
-    let(:handshake) { WebSocket::Handshake::Server.new(protocols: %w(binary xmpp)) }
+    let(:handshake) { WebSocket::Handshake::Server.new(protocols: %w[binary xmpp]) }
 
     context 'single protocol requested' do
       it 'returns with the same protocol' do

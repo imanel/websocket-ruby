@@ -22,8 +22,8 @@ module WebSocket
         # @see WebSocket::Handshake::Handler::Base#handshake_keys
         def handshake_keys
           [
-            %w(Upgrade websocket),
-            %w(Connection Upgrade),
+            %w[Upgrade websocket],
+            %w[Connection Upgrade],
             ['Sec-WebSocket-Accept', signature]
           ] + protocol
         end

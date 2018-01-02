@@ -8,7 +8,7 @@ RSpec.describe 'Server draft 76 handshake' do
   let(:client_request) { client_handshake_76(@request_params || {}) }
   let(:server_response) { server_handshake_76(@request_params || {}) }
 
-  it_should_behave_like 'all server drafts'
+  it_behaves_like 'all server drafts'
 
   it 'disallows request without spaces in key 1' do
     @request_params = { key1: '4@146546xW%0l15' }
@@ -47,7 +47,7 @@ RSpec.describe 'Server draft 76 handshake' do
   end
 
   context 'protocol header specified' do
-    let(:handshake) { WebSocket::Handshake::Server.new(protocols: %w(binary)) }
+    let(:handshake) { WebSocket::Handshake::Server.new(protocols: %w[binary]) }
 
     context 'supported' do
       it 'returns with the same protocol' do

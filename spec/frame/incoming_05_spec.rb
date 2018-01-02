@@ -5,6 +5,7 @@ require 'spec_helper'
 
 RSpec.describe 'Incoming frame draft 05' do
   subject { frame }
+
   let(:version) { 5 }
   let(:frame) { WebSocket::Frame::Incoming.new(version: version, data: encoded_text) }
   let(:encoded_text) { nil }
@@ -12,14 +13,14 @@ RSpec.describe 'Incoming frame draft 05' do
   let(:frame_type) { nil }
   let(:error) { nil }
 
-  it_should_behave_like 'valid_incoming_frame'
+  it_behaves_like 'valid_incoming_frame'
 
   context 'should properly decode close frame' do
     let(:encoded_text) { "\x81\x05" + decoded_text }
     let(:frame_type) { :close }
     let(:decoded_text) { 'Hello' }
 
-    it_should_behave_like 'valid_incoming_frame'
+    it_behaves_like 'valid_incoming_frame'
   end
 
   context 'should properly decode ping frame' do
@@ -27,7 +28,7 @@ RSpec.describe 'Incoming frame draft 05' do
     let(:frame_type) { :ping }
     let(:decoded_text) { 'Hello' }
 
-    it_should_behave_like 'valid_incoming_frame'
+    it_behaves_like 'valid_incoming_frame'
   end
 
   context 'should properly decode pong frame' do
@@ -35,7 +36,7 @@ RSpec.describe 'Incoming frame draft 05' do
     let(:frame_type) { :pong }
     let(:decoded_text) { 'Hello' }
 
-    it_should_behave_like 'valid_incoming_frame'
+    it_behaves_like 'valid_incoming_frame'
   end
 
   context 'should properly decode text frame' do
@@ -43,7 +44,7 @@ RSpec.describe 'Incoming frame draft 05' do
     let(:decoded_text) { 'Hello' }
     let(:frame_type) { :text }
 
-    it_should_behave_like 'valid_incoming_frame'
+    it_behaves_like 'valid_incoming_frame'
   end
 
   context 'should properly decode masked text frame' do
@@ -51,7 +52,7 @@ RSpec.describe 'Incoming frame draft 05' do
     let(:decoded_text) { 'Hello' }
     let(:frame_type) { :text }
 
-    it_should_behave_like 'valid_incoming_frame'
+    it_behaves_like 'valid_incoming_frame'
   end
 
   context 'should properly decode text frame with continuation' do
@@ -59,7 +60,7 @@ RSpec.describe 'Incoming frame draft 05' do
     let(:frame_type)   { :text }
     let(:decoded_text) { 'Hello' }
 
-    it_should_behave_like 'valid_incoming_frame'
+    it_behaves_like 'valid_incoming_frame'
   end
 
   context 'should properly decode masked text frame with continuation' do
@@ -67,15 +68,15 @@ RSpec.describe 'Incoming frame draft 05' do
     let(:frame_type)   { :text }
     let(:decoded_text) { 'Hello' }
 
-    it_should_behave_like 'valid_incoming_frame'
+    it_behaves_like 'valid_incoming_frame'
   end
 
   context 'should properly decode text frame in between of continuation' do
     let(:encoded_text) { "\x04\x03Hel\x83\x03abc\x80\x02lo" }
-    let(:frame_type)   { %i(pong text) }
-    let(:decoded_text) { %w(abc Hello) }
+    let(:frame_type)   { %i[pong text] }
+    let(:decoded_text) { %w[abc Hello] }
 
-    it_should_behave_like 'valid_incoming_frame'
+    it_behaves_like 'valid_incoming_frame'
   end
 
   context 'should not return unfinished more frame' do
@@ -83,7 +84,7 @@ RSpec.describe 'Incoming frame draft 05' do
     let(:frame_type)   { :pong }
     let(:decoded_text) { 'abc' }
 
-    it_should_behave_like 'valid_incoming_frame'
+    it_behaves_like 'valid_incoming_frame'
   end
 
   context 'should properly decode 256 bytes binary frame' do
@@ -91,7 +92,7 @@ RSpec.describe 'Incoming frame draft 05' do
     let(:frame_type) { :binary }
     let(:decoded_text) { 'a' * 256 }
 
-    it_should_behave_like 'valid_incoming_frame'
+    it_behaves_like 'valid_incoming_frame'
   end
 
   context 'should properly decode 64KiB binary frame' do
@@ -99,14 +100,14 @@ RSpec.describe 'Incoming frame draft 05' do
     let(:frame_type) { :binary }
     let(:decoded_text) { 'a' * 65_536 }
 
-    it_should_behave_like 'valid_incoming_frame'
+    it_behaves_like 'valid_incoming_frame'
   end
 
   context 'should wait with incomplete frame' do
     let(:encoded_text) { "\x84\x06Hello" }
     let(:decoded_text) { nil }
 
-    it_should_behave_like 'valid_incoming_frame'
+    it_behaves_like 'valid_incoming_frame'
   end
 
   context 'should raise error with invalid opcode' do
@@ -114,7 +115,7 @@ RSpec.describe 'Incoming frame draft 05' do
     let(:decoded_text) { nil }
     let(:error) { WebSocket::Error::Frame::UnknownOpcode }
 
-    it_should_behave_like 'valid_incoming_frame'
+    it_behaves_like 'valid_incoming_frame'
   end
 
   context 'should raise error with too long frame' do
@@ -122,7 +123,7 @@ RSpec.describe 'Incoming frame draft 05' do
     let(:decoded_text) { nil }
     let(:error) { WebSocket::Error::Frame::TooLong }
 
-    it_should_behave_like 'valid_incoming_frame'
+    it_behaves_like 'valid_incoming_frame'
   end
 
   context 'should raise error with continuation frame without more frame earlier' do
@@ -130,6 +131,6 @@ RSpec.describe 'Incoming frame draft 05' do
     let(:decoded_text) { nil }
     let(:error) { WebSocket::Error::Frame::UnexpectedContinuationFrame }
 
-    it_should_behave_like 'valid_incoming_frame'
+    it_behaves_like 'valid_incoming_frame'
   end
 end
