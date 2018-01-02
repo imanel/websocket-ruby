@@ -2,7 +2,7 @@ require: rubocop-rspec
 
 AllCops:
   DisplayCopNames: true
-  TargetRubyVersion: 2.1
+  TargetRubyVersion: 2.3
 
 # Target: 15
 Metrics/AbcSize:
@@ -39,6 +39,9 @@ Metrics/PerceivedComplexity:
   Exclude:
     - lib/websocket/frame/handler/handler75.rb
     - spec/support/handshake_requests.rb
+
+RSpec/ContextWording:
+  Enabled: false
 
 RSpec/DescribeClass:
   Enabled: false
