@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module WebSocket
   module Frame
     # Construct or parse incoming WebSocket Frame.

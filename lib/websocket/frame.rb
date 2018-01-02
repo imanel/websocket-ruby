@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module WebSocket
   module Frame
     autoload :Base,     "#{::WebSocket::ROOT}/websocket/frame/base"

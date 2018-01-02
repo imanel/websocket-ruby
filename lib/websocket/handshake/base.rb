@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module WebSocket
   module Handshake
     # @abstract Subclass and override to implement custom handshakes

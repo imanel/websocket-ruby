@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module WebSocket
   class Error < RuntimeError
     class Frame < ::WebSocket::Error

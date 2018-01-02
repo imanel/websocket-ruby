@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.shared_examples_for 'valid_incoming_frame' do
   let(:decoded_text_array) { Array(decoded_text) }
   let(:frame_type_array) { Array(frame_type) }

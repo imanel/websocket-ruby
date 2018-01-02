@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module WebSocket
   module Handshake
     # Construct or parse a server WebSocket handshake.

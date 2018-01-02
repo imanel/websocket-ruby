@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 def client_handshake_75(args = {})
   <<-EOF
 GET #{args[:path] || '/demo'}#{"?#{args[:query]}" if args[:query]} HTTP/1.1\r
