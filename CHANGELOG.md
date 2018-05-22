@@ -1,5 +1,9 @@
 # Changelog
 
+## Edge
+
+- fix bug in previous version for Ruby 2.3
+
 ## 1.2.6
 
 - duplicate variables passed in initializers to avoid changing them

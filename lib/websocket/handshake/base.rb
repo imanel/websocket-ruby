@@ -13,7 +13,14 @@ module WebSocket
 
       # Initialize new WebSocket Handshake and set it's state to :new
       def initialize(args = {})
-        args.each { |k, v| instance_variable_set("@#{k}", v.dup) }
+        args.each do |k, v|
+          value = begin
+            v.dup
+          rescue TypeError
+            v
+          end
+          instance_variable_set("@#{k}", value)
+        end
 
         @state = :new
         @handler = nil
