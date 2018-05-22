@@ -1,6 +1,6 @@
 # Changelog
 
-## Edge
+## 1.2.7
 
 - fix bug in previous version for Ruby 2.3
 
