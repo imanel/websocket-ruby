@@ -1,5 +1,9 @@
 # Changelog
 
+## Edge
+
+- duplicate variables passed in initializers to avoid changing them
+
 ## 1.2.5
 
 - make handshake server resilient to non-string Rack env keys
