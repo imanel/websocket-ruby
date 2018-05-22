@@ -1,6 +1,6 @@
 # Changelog
 
-## Edge
+## 1.2.6
 
 - duplicate variables passed in initializers to avoid changing them
 
