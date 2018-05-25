@@ -4,6 +4,9 @@ AllCops:
   DisplayCopNames: true
   TargetRubyVersion: 2.1
 
+Layout/IndentHeredoc:
+  Enabled: false
+
 # Target: 15
 Metrics/AbcSize:
   Max: 24
