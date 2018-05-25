@@ -1,6 +1,6 @@
 # Changelog
 
-## Edge
+## 1.2.8
 
 - restore support for Ruby 2.0+
 
