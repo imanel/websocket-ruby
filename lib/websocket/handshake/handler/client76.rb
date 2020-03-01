@@ -71,7 +71,7 @@ module WebSocket
         NOISE_CHARS = ("\x21".."\x2f").to_a + ("\x3a".."\x7e").to_a
 
         # Generate Sec-WebSocket-Key1 and Sec-WebSocket-Key2
-        # @param [String] name of key. Will be used to set number variable needed later. Valid values: key1, key2
+        # @param key [String] name of key. Will be used to set number variable needed later. Valid values: key1, key2
         # @return [String] generated key
         def generate_key(key)
           spaces = rand(1..12)
