@@ -20,6 +20,11 @@ module WebSocket
         # Hash of frame opcodes and it's names
         FRAME_TYPES_INVERSE = FRAME_TYPES.invert.freeze
 
+        def initialize(frame)
+          super
+          @application_data_buffer = nil
+        end
+
         # @see WebSocket::Frame::Base#supported_frames
         def supported_frames
           %i[text binary close ping pong]
