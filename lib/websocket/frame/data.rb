@@ -5,6 +5,7 @@ module WebSocket
     class Data < String
       def initialize(*args)
         super(*convert_args(args))
+        @masking_key = nil
       end
 
       def <<(*args)
