@@ -4,7 +4,6 @@ Universal Ruby library to handle WebSocket protocol. It focuses on providing abs
 
 [![Gem Version](https://badge.fury.io/rb/websocket.svg)](http://badge.fury.io/rb/websocket)
 [![Gem Downloads](https://img.shields.io/gem/dt/websocket.svg?maxAge=2592000)](https://rubygems.org/gems/websocket)
-[![Travis CI](https://travis-ci.org/imanel/websocket-ruby.svg)](http://travis-ci.org/imanel/websocket-ruby)
 [![Code Climate](https://codeclimate.com/github/imanel/websocket-ruby.svg)](https://codeclimate.com/github/imanel/websocket-ruby)
 
 **Autobahn tests:** [server](http://imanel.github.com/websocket-ruby/autobahn/server/), [client](http://imanel.github.com/websocket-ruby/autobahn/client/)
