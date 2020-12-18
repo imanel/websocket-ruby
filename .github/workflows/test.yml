@@ -1,4 +1,4 @@
-name: Publish Gem
+name: Test
 
 on: [push, pull_request]
 
