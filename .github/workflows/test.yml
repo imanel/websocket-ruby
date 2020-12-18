@@ -16,9 +16,7 @@ jobs:
           - 2.6
           - 2.7
           - 3.0
-          - ruby-head
           - jruby
-          - jruby-head
 
     runs-on: ubuntu-latest
     name: Test against Ruby ${{ matrix.ruby }}
