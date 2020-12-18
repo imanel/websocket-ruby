@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.9
+
+- avoid ruby -w warnings
+
 ## 1.2.8
 
 - restore support for Ruby 2.0+
