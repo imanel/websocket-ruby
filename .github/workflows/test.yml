@@ -19,7 +19,7 @@ jobs:
           - jruby
 
     runs-on: ubuntu-latest
-    name: Test against Ruby ${{ matrix.ruby }}
+    name: Ruby ${{ matrix.ruby }}
 
     steps:
       - uses: actions/checkout@v2
