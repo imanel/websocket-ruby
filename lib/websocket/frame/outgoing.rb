@@ -2,7 +2,7 @@
 
 module WebSocket
   module Frame
-    # Construct or parse incoming WebSocket Frame.
+    # Construct or parse outgoing WebSocket Frame.
     # @note You should NEVER use this class directly - use Client or Server subclasses instead, as they contain additional frame options(i.e. Client-side masking in draft 04)
     #
     # @example
