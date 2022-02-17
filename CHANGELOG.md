@@ -1,5 +1,9 @@
 # Changelog
 
+## Edge
+
+- ensure correct port is always specified for handshake
+
 ## 1.2.9
 
 - avoid ruby -w warnings
