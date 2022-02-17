@@ -37,6 +37,10 @@ RSpec.shared_examples_for 'all client drafts' do
     @request_params = { query: 'aaa=bbb' }
     expect(handshake.query).to eql('aaa=bbb')
   end
+  
+  it 'returns default port' do
+    expect(handshake.port).to be(80)
+  end
 
   it 'returns valid port' do
     @request_params = { port: 123 }
