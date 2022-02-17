@@ -18,7 +18,7 @@ module WebSocket
             %w[Connection Upgrade]
           ]
           host = @handshake.host
-          host += ":#{@handshake.port}" if @handshake.port
+          host += ":#{@handshake.port}" unless @handshake.default_port?
           keys << ['Host', host]
           keys << ['Origin', @handshake.origin] if @handshake.origin
           keys << ['WebSocket-Protocol', @handshake.protocols.first] if @handshake.protocols.any?

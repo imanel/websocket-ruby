@@ -7,7 +7,7 @@ module WebSocket
       include ExceptionHandler
       include NiceInspect
 
-      attr_reader :host, :port, :path, :query,
+      attr_reader :host, :path, :query,
                   :state, :version, :secure,
                   :headers, :protocols
 
@@ -66,6 +66,20 @@ module WebSocket
         (@leftovers.to_s.split("\n", reserved_leftover_lines + 1)[reserved_leftover_lines] || '').strip
       end
 
+      # Return default port for protocol (80 for ws, 443 for wss)
+      def default_port
+        secure ? 443 : 80
+      end
+
+      # Check if provided port is a default one
+      def default_port?
+        port == default_port
+      end
+
+      def port
+        @port || default_port
+      end
+
       # URI of request.
       # @return [String] Full URI with protocol
       # @example
@@ -73,7 +87,7 @@ module WebSocket
       def uri
         uri =  String.new(secure ? 'wss://' : 'ws://')
         uri << host
-        uri << ":#{port}" if port
+        uri << ":#{port}" unless default_port?
         uri << path
         uri << "?#{query}" if query
         uri
