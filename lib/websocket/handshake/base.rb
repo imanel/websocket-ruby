@@ -66,17 +66,18 @@ module WebSocket
         (@leftovers.to_s.split("\n", reserved_leftover_lines + 1)[reserved_leftover_lines] || '').strip
       end
 
-      def port
-        @port || (secure ? 443 : 80)
+      # Return default port for protocol (80 for ws, 443 for wss)
+      def default_port
+        secure ? 443 : 80
       end
 
-      # Check if the port used is default off the protocol
-      def default_port
-        if secure
-          port == 443
-        else
-          port == 80
-        end
+      # Check if provided port is a default one
+      def default_port?
+        port == default_port
+      end
+
+      def port
+        @port || default_port
       end
 
       # URI of request.
@@ -86,7 +87,7 @@ module WebSocket
       def uri
         uri =  String.new(secure ? 'wss://' : 'ws://')
         uri << host
-        uri << ":#{port}" unless default_port
+        uri << ":#{port}" unless default_port?
         uri << path
         uri << "?#{query}" if query
         uri
