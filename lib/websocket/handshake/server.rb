@@ -133,9 +133,9 @@ module WebSocket
       end
 
       # Port of server according to client header
-      # @return [String] port
+      # @return [Integer] port
       def port
-        @port || @headers['host'].to_s.split(':')[1] || default_port
+        (@port || @headers['host'].to_s.split(':')[1] || default_port).to_i
       end
 
       private
