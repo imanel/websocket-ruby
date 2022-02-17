@@ -61,7 +61,7 @@ module WebSocket
           uri = URI.parse(@url || @uri)
           @secure ||= (uri.scheme == 'wss')
           @host ||= uri.host
-          @port ||= uri.port || @secure ? 443 : 80
+          @port ||= uri.port || (@secure ? 443 : 80)
           @path ||= uri.path
           @query ||= uri.query
         end
