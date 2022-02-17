@@ -129,13 +129,13 @@ module WebSocket
       # Host of server according to client header
       # @return [String] host
       def host
-        @headers['host'].to_s.split(':')[0].to_s
+        @host || @headers['host'].to_s.split(':')[0].to_s
       end
 
       # Port of server according to client header
       # @return [String] port
       def port
-        @headers['host'].to_s.split(':')[1] || secure ? 443 : 80
+        @port || @headers['host'].to_s.split(':')[1] || secure ? 443 : 80
       end
 
       private
