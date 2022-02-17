@@ -67,7 +67,7 @@ module WebSocket
       end
 
       def port
-        @port || secure ? 443 : 80
+        @port || (secure ? 443 : 80)
       end
 
       # Check if the port used is default off the protocol
