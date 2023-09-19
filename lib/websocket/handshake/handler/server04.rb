@@ -33,7 +33,7 @@ module WebSocket
         def signature
           return unless key
           string_to_sign = "#{key}258EAFA5-E914-47DA-95CA-C5AB0DC85B11"
-          Base64.encode64(Digest::SHA1.digest(string_to_sign)).chomp
+          [Digest::SHA1.digest(string_to_sign)].pack('m').chomp
         end
 
         def verify_key

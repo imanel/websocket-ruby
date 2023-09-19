@@ -34,13 +34,13 @@ module WebSocket
         # Sec-WebSocket-Key value
         # @return [String] key
         def key
-          @key ||= Base64.encode64((1..16).map { rand(255).chr } * '').strip
+          @key ||= [(1..16).map { rand(255).chr } * ''].pack('m').strip
         end
 
         # Value of Sec-WebSocket-Accept that should be delivered back by server
         # @return [Sering] accept
         def accept
-          @accept ||= Base64.encode64(Digest::SHA1.digest(key + '258EAFA5-E914-47DA-95CA-C5AB0DC85B11')).strip
+          @accept ||= [Digest::SHA1.digest(key + '258EAFA5-E914-47DA-95CA-C5AB0DC85B11')].pack('m').strip
         end
 
         # Verify if received header Sec-WebSocket-Accept matches generated one.
