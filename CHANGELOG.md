@@ -2,7 +2,10 @@
 
 ## Edge
 
+## 1.2.10
+
 - ensure correct port is always specified for handshake
+- no longer using Base64 for compatibility with Ruby 3.4+
 
 ## 1.2.9
 
