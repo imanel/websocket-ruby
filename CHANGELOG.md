@@ -2,6 +2,10 @@
 
 ## Edge
 
+## 1.2.11
+
+- remove unused base64 require that would cause issues in Ruby 3.4
+
 ## 1.2.10
 
 - ensure correct port is always specified for handshake
