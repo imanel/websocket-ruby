@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'digest/sha1'
-require 'base64'
 
 module WebSocket
   module Handshake
