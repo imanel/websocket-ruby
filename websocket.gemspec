@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.description = 'Universal Ruby library to handle WebSocket protocol'
   s.license     = 'MIT'
 
-  s.files         = `git ls-files`.split("\n").grep_v(/^spec/)
+  s.files         = `git ls-files`.split("\n").reject { |f| f.match(%r{^(spec/|\.)}) }
   s.executables   = `git ls-files -- bin/*`.split("\n").map { |f| File.basename(f) }
   s.require_paths = ['lib']
 
