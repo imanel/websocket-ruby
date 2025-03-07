@@ -2,6 +2,8 @@
 
 ## Edge
 
+- include invalid status code when raising handshake error
+
 ## 1.2.11
 
 - remove unused base64 require that would cause issues in Ruby 3.4

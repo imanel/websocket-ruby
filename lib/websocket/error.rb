@@ -108,6 +108,12 @@ module WebSocket
       end
 
       class InvalidStatusCode < ::WebSocket::Error::Handshake
+        attr_reader :invalid_status_code
+
+        def initialize(invalid_status_code)
+          @invalid_status_code = invalid_status_code
+        end
+
         def message
           :invalid_status_code
         end
