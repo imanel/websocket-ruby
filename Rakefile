@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'rake/clean'
 require 'bundler'
 require 'rspec/core/rake_task'
 require 'rubocop/rake_task'
@@ -12,6 +13,9 @@ RSpec::Core::RakeTask.new do |t|
 end
 
 RuboCop::RakeTask.new
+
+CLEAN.include('coverage')
+CLOBBER.include('coverage')
 
 task default: %i[spec rubocop]
 

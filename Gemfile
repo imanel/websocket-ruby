@@ -11,6 +11,9 @@ group :development do
   # https://github.com/codeclimate/codeclimate-rubocop/blob/master/Gemfile.lock
   gem 'rubocop', '0.52.1', require: false
   gem 'rubocop-rspec', '1.21.0', require: false
+
+  gem 'simplecov', require: false
+  gem 'simplecov-lcov', require: false
 end
 
 gemspec

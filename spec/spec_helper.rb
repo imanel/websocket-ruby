@@ -1,3 +1,10 @@
+require 'simplecov'
+require 'simplecov-lcov'
+
+SimpleCov.formatter = SimpleCov::Formatter::LcovFormatter
+SimpleCov.coverage_dir('coverage') # Output LCOV report to coverage
+SimpleCov.start
+
 # frozen_string_literal: true
 
 require 'rspec'
