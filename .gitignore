@@ -1,3 +1,4 @@
 Gemfile.lock
 autobahn
 pkg/*.gem
+vendor/bundle
