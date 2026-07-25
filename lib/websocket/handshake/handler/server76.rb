@@ -5,6 +5,8 @@ require 'digest/md5'
 module WebSocket
   module Handshake
     module Handler
+      # Server handshake for the hixie-76 draft, which responds with an MD5-based
+      # digest of the client's key challenge.
       class Server76 < Server75
         # @see WebSocket::Handshake::Base#valid?
         def valid?

@@ -114,7 +114,7 @@ module WebSocket
                    end
       end
 
-      FIRST_LINE = %r{^HTTP\/1\.1 (\d{3})[\w\s]*$}
+      FIRST_LINE = %r{^HTTP/1\.1 (\d{3})[\w\s]*$}.freeze
 
       # Parse first line of Server response.
       # @param [String] line Line to parse
@@ -122,6 +122,7 @@ module WebSocket
       def parse_first_line(line)
         line_parts = line.match(FIRST_LINE)
         raise WebSocket::Error::Handshake::InvalidHeader unless line_parts
+
         status = line_parts[1]
         raise WebSocket::Error::Handshake::InvalidStatusCode unless status == '101'
       end

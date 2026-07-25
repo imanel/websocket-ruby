@@ -13,12 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     name: Rubocop
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.0'
+          ruby-version: '3.3'
 
       - name: Install gems
         run: bundle install
@@ -42,13 +42,14 @@ jobs:
           - 3.2
           - 3.3
           - 3.4
+          - "4.0"
           - jruby
 
     runs-on: ubuntu-latest
     name: Ruby ${{ matrix.ruby }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1

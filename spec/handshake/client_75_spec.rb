@@ -11,6 +11,11 @@ RSpec.describe 'Client draft 75 handshake' do
 
   it_behaves_like 'all client drafts'
 
+  it 'omits the Origin header when no origin is given' do
+    handshake = WebSocket::Handshake::Client.new(uri: 'ws://example.com/demo', version: version)
+    expect(handshake.to_s).not_to include('Origin')
+  end
+
   context 'protocol header specified' do
     let(:handshake) { WebSocket::Handshake::Client.new(uri: 'ws://example.com/demo', origin: 'http://example.com', version: version, protocols: %w[binary]) }
 
@@ -21,6 +26,10 @@ RSpec.describe 'Client draft 75 handshake' do
 
         expect(handshake).to be_finished
         expect(handshake).to be_valid
+      end
+
+      it 'includes the requested protocol in the request' do
+        expect(handshake.to_s).to include("WebSocket-Protocol: binary\r\n")
       end
     end
 

@@ -1,14 +1,14 @@
-require: rubocop-rspec
+plugins:
+  - rubocop-rspec
 
 AllCops:
   DisplayCopNames: true
   TargetRubyVersion: 2.1
+  NewCops: disable
+  SuggestExtensions: false
 
 # New version of Rubocop does not support 2.0
 Gemspec/RequiredRubyVersion:
-  Enabled: false
-
-Layout/IndentHeredoc:
   Enabled: false
 
 # Target: 15
@@ -30,8 +30,9 @@ Metrics/CyclomaticComplexity:
   Max: 11
   Exclude:
     - spec/support/handshake_requests.rb
+    - lib/websocket/handshake/client.rb
 
-Metrics/LineLength:
+Layout/LineLength:
   Enabled: false
 
 # Target: 10
@@ -45,6 +46,13 @@ Metrics/PerceivedComplexity:
   Max: 8
   Exclude:
     - lib/websocket/frame/handler/handler75.rb
+    - spec/support/handshake_requests.rb
+    - lib/websocket/handshake/client.rb
+
+# Draft numbers (75, 76, 04, 11...) are part of the protocol version they
+# implement, not counters - renaming them would obscure their meaning.
+Naming/VariableNumber:
+  Exclude:
     - spec/support/handshake_requests.rb
 
 RSpec/ContextWording:
@@ -62,8 +70,30 @@ RSpec/InstanceVariable:
 RSpec/MultipleExpectations:
   Enabled: false
 
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+
 RSpec/NamedSubject:
   Enabled: false
+
+# These examples assert via a shared `validate_request` helper method, which
+# this cop cannot see into, producing a false positive.
+RSpec/NoExpectationExample:
+  Exclude:
+    - spec/support/all_client_drafts.rb
+    - spec/support/all_server_drafts.rb
+
+# This codebase names spec files/directories after what they describe (e.g.
+# spec/frame/data_spec.rb for WebSocket::Frame::Data), not after the full
+# `WebSocket::` constant path the cop expects.
+RSpec/SpecFilePathFormat:
+  Enabled: false
+
+# @frame_type is intentionally shared state between decode_continuation_frame
+# and decode_finish_continuation_frame, not a per-method memoization.
+Naming/MemoizedInstanceVariableName:
+  Exclude:
+    - lib/websocket/frame/handler/handler03.rb
 
 Style/Documentation:
   Enabled: false

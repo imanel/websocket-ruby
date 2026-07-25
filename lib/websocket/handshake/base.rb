@@ -108,7 +108,7 @@ module WebSocket
         super
       end
 
-      HEADER = /^([^:]+):\s*(.+)$/
+      HEADER = /^([^:]+):\s*(.+)$/.freeze
 
       # Parse data imported to handshake and sets state to finished if necessary.
       # @return [Boolean] True if finished parsing. False if not all data received yet.
@@ -124,6 +124,7 @@ module WebSocket
         lines.each do |line|
           h = HEADER.match(line)
           next unless h # Skip any invalid headers
+
           key = h[1].strip.downcase
           val = h[2].strip
           # If the header is already set and refers to the websocket protocol, append the new value

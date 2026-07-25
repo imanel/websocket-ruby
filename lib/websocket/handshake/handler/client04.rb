@@ -5,6 +5,8 @@ require 'digest/sha1'
 module WebSocket
   module Handshake
     module Handler
+      # Client handshake for hybi drafts 04-10, which introduced the
+      # Sec-WebSocket-Key/Sec-WebSocket-Accept SHA1-based challenge.
       class Client04 < Client
         # @see WebSocket::Handshake::Base#valid?
         def valid?
@@ -39,13 +41,14 @@ module WebSocket
         # Value of Sec-WebSocket-Accept that should be delivered back by server
         # @return [Sering] accept
         def accept
-          @accept ||= [Digest::SHA1.digest(key + '258EAFA5-E914-47DA-95CA-C5AB0DC85B11')].pack('m').strip
+          @accept ||= [Digest::SHA1.digest("#{key}258EAFA5-E914-47DA-95CA-C5AB0DC85B11")].pack('m').strip
         end
 
         # Verify if received header Sec-WebSocket-Accept matches generated one.
         # @return [Boolean] True if accept is matching. False otherwise(appropriate error is set)
         def verify_accept
           raise WebSocket::Error::Handshake::InvalidAuthentication unless @handshake.headers['sec-websocket-accept'] == accept
+
           true
         end
 

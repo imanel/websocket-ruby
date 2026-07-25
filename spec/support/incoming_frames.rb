@@ -13,7 +13,7 @@ RSpec.shared_examples_for 'valid_incoming_frame' do
   end
 
   it 'does not have type set' do
-    expect(subject.type).to be nil
+    expect(subject.type).to be_nil
   end
 
   it 'is not decoded' do

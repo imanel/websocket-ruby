@@ -1,0 +1,23 @@
+{
+  "blocked": false,
+  "blocked_reason": null,
+  "dependency_changes": [
+    "rspec: ~> 3.7 -> ~> 3.13",
+    "rubocop: pinned 0.52.1 -> ~> 1.88",
+    "rubocop-rspec: pinned 1.21.0 -> ~> 3.10",
+    "rake: unpinned -> ~> 13.0",
+    "webrick: unpinned -> ~> 1.9",
+    "added simplecov ~> 1.0 for coverage measurement/enforcement",
+    "added bundler-audit ~> 0.9 for dependency vulnerability scanning",
+    "replaced abandoned/unpinned cadwallion/publish-rubygems-action@master GitHub Action with a plain gem build/gem push step using only official actions"
+  ],
+  "security_findings": [
+    "No known vulnerabilities found by bundler-audit against the full dependency set (ruby-advisory-db, 1218 advisories synced at audit time)",
+    "Supply-chain risk resolved: release workflow depended on an abandoned third-party GitHub Action floating on @master (arbitrary future commits would run with publish credentials); replaced with gem build/gem push using only actions/checkout and ruby/setup-ruby",
+    "No eval/instance_eval/class_eval/Marshal.load/YAML.load/shell-out usage found in lib/",
+    "Reviewed all regexes applied to untrusted network input (header/status-line/request-line/hixie framing parsing) for catastrophic backtracking; all are linear/anchored, no ReDoS exposure found",
+    "MD5/SHA1 usage in handshake challenge/response code is mandated by the hixie-76 and RFC 6455 specs respectively (not security-sensitive hashing), left unchanged to preserve interoperability"
+  ],
+  "coverage_before": 96.19,
+  "coverage_after": 100.0
+}

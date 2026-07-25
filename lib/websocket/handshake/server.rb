@@ -160,7 +160,7 @@ module WebSocket
                    end
       end
 
-      PATH = %r{^(\w+) (\/[^\s]*) HTTP\/1\.1$}
+      PATH = %r{^(\w+) (/[^\s]*) HTTP/1\.1$}.freeze
 
       # Parse first line of Client response.
       # @param [String] line Line to parse
@@ -168,6 +168,7 @@ module WebSocket
       def parse_first_line(line)
         line_parts = line.match(PATH)
         raise WebSocket::Error::Handshake::InvalidHeader unless line_parts
+
         method = line_parts[1].strip
         raise WebSocket::Error::Handshake::GetRequestRequired unless method == 'GET'
 

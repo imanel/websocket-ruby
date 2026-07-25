@@ -29,4 +29,10 @@ RSpec.describe 'Incoming common frame' do
     expect(subject.error?).to be true
     expect(subject.error).to be :unknown_protocol_version
   end
+
+  it 'does not attempt to decode an already-decoded frame' do
+    subject = WebSocket::Frame::Incoming.new(decoded: true)
+    expect(subject).to be_decoded
+    expect(subject.next).to be_nil
+  end
 end

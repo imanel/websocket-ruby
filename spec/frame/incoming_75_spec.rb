@@ -54,7 +54,38 @@ RSpec.describe 'Incoming frame draft 75' do
   end
 
   context 'with too long frame' do
-    let(:encoded_text) { "\x00" + 'a' * WebSocket.max_frame_size + "\xFF" }
+    let(:encoded_text) { "\x00#{'a' * WebSocket.max_frame_size}\xFF" }
+    let(:error) { WebSocket::Error::Frame::TooLong }
+
+    it_behaves_like 'valid_incoming_frame'
+  end
+
+  context 'with an incomplete length-prefixed frame header' do
+    let(:encoded_text) { "\x80" }
+    let(:decoded_text) { nil }
+
+    it_behaves_like 'valid_incoming_frame'
+  end
+
+  context 'with an incomplete length-prefixed frame payload' do
+    let(:encoded_text) { "\x80\x05ab" }
+    let(:decoded_text) { nil }
+
+    it_behaves_like 'valid_incoming_frame'
+  end
+
+  context 'with a multi-byte length-prefixed frame' do
+    # length 129, encoded as the base-128 digits [1, 1] (0x81 continues, 0x01 ends)
+    let(:encoded_text) { "\x80\x81\x01#{'a' * 129}" }
+    let(:decoded_text) { nil }
+
+    it_behaves_like 'valid_incoming_frame'
+  end
+
+  context 'with a length-prefixed frame exceeding the maximum frame size' do
+    # length 200_000 > WebSocket.max_frame_size, base-128 encoded as [12, 26, 64]
+    let(:encoded_text) { "\xFF\x8C\x9A\x40" }
+    let(:decoded_text) { nil }
     let(:error) { WebSocket::Error::Frame::TooLong }
 
     it_behaves_like 'valid_incoming_frame'

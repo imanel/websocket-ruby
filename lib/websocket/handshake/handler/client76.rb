@@ -5,6 +5,8 @@ require 'digest/md5'
 module WebSocket
   module Handshake
     module Handler
+      # Client handshake for the hixie-76 draft, which adds an MD5-based key
+      # challenge/response exchanged in the handshake body.
       class Client76 < Client75
         # @see WebSocket::Handshake::Base#valid?
         def valid?
@@ -53,6 +55,7 @@ module WebSocket
         # @return [String] challenge
         def challenge
           return @challenge if defined?(@challenge)
+
           key1 && key2
           sum = [@key1_number].pack('N*') +
                 [@key2_number].pack('N*') +
@@ -65,6 +68,7 @@ module WebSocket
         # @return [Boolena] True if challenge matches, false otherwise(sets appropriate error)
         def verify_challenge
           raise WebSocket::Error::Handshake::InvalidAuthentication unless @handshake.leftovers == challenge
+
           true
         end
 

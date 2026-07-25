@@ -16,7 +16,7 @@ RSpec.describe 'Incoming frame draft 05' do
   it_behaves_like 'valid_incoming_frame'
 
   context 'should properly decode close frame' do
-    let(:encoded_text) { "\x81\x05" + decoded_text }
+    let(:encoded_text) { "\x81\x05#{decoded_text}" }
     let(:frame_type) { :close }
     let(:decoded_text) { 'Hello' }
 
@@ -24,7 +24,7 @@ RSpec.describe 'Incoming frame draft 05' do
   end
 
   context 'should properly decode ping frame' do
-    let(:encoded_text) { "\x82\x05" + decoded_text }
+    let(:encoded_text) { "\x82\x05#{decoded_text}" }
     let(:frame_type) { :ping }
     let(:decoded_text) { 'Hello' }
 
@@ -32,7 +32,7 @@ RSpec.describe 'Incoming frame draft 05' do
   end
 
   context 'should properly decode pong frame' do
-    let(:encoded_text) { "\x83\x05" + decoded_text }
+    let(:encoded_text) { "\x83\x05#{decoded_text}" }
     let(:frame_type) { :pong }
     let(:decoded_text) { 'Hello' }
 
@@ -40,7 +40,7 @@ RSpec.describe 'Incoming frame draft 05' do
   end
 
   context 'should properly decode text frame' do
-    let(:encoded_text) { "\x84\x05" + decoded_text }
+    let(:encoded_text) { "\x84\x05#{decoded_text}" }
     let(:decoded_text) { 'Hello' }
     let(:frame_type) { :text }
 
@@ -88,7 +88,7 @@ RSpec.describe 'Incoming frame draft 05' do
   end
 
   context 'should properly decode 256 bytes binary frame' do
-    let(:encoded_text) { "\x85\x7E\x01\x00" + decoded_text }
+    let(:encoded_text) { "\x85~\x01\x00#{decoded_text}" }
     let(:frame_type) { :binary }
     let(:decoded_text) { 'a' * 256 }
 
@@ -96,7 +96,7 @@ RSpec.describe 'Incoming frame draft 05' do
   end
 
   context 'should properly decode 64KiB binary frame' do
-    let(:encoded_text) { "\x85\x7F\x00\x00\x00\x00\x00\x01\x00\x00" + decoded_text }
+    let(:encoded_text) { "\x85\x7F\x00\x00\x00\x00\x00\x01\x00\x00#{decoded_text}" }
     let(:frame_type) { :binary }
     let(:decoded_text) { 'a' * 65_536 }
 
@@ -119,7 +119,7 @@ RSpec.describe 'Incoming frame draft 05' do
   end
 
   context 'should raise error with too long frame' do
-    let(:encoded_text) { "\x84\x7F" + 'a' * WebSocket.max_frame_size }
+    let(:encoded_text) { "\x84\x7F#{'a' * WebSocket.max_frame_size}" }
     let(:decoded_text) { nil }
     let(:error) { WebSocket::Error::Frame::TooLong }
 

@@ -16,6 +16,7 @@ RSpec.describe 'Server draft 04 handshake' do
     expect(handshake).to be_finished
     expect(handshake).not_to be_valid
     expect(handshake.error).to be(:invalid_handshake_authentication)
+    expect(handshake.to_s).to include("Sec-WebSocket-Accept: \r\n")
   end
 
   context 'protocol header specified' do

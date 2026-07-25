@@ -3,6 +3,8 @@
 module WebSocket
   module Handshake
     module Handler
+      # Client handshake for hybi drafts 11-17 and RFC 6455. Identical to draft 04 except
+      # the origin header is renamed from Sec-WebSocket-Origin to Origin.
       class Client11 < Client04
         private
 

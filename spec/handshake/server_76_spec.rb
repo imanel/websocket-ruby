@@ -46,6 +46,15 @@ RSpec.describe 'Server draft 76 handshake' do
     expect(handshake.error).to be(:invalid_handshake_authentication)
   end
 
+  it 'disallows request with a key that overflows 32 bits' do
+    @request_params = { key1: '99999999999 9' }
+    handshake << client_request
+
+    expect(handshake).to be_finished
+    expect(handshake).not_to be_valid
+    expect(handshake.error).to be(:invalid_handshake_authentication)
+  end
+
   context 'protocol header specified' do
     let(:handshake) { WebSocket::Handshake::Server.new(protocols: %w[binary]) }
 

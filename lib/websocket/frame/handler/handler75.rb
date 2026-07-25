@@ -4,6 +4,9 @@
 module WebSocket
   module Frame
     module Handler
+      # Frame encoder/decoder for the original hixie-75/hixie-76 drafts of the protocol.
+      # These early drafts only support UTF-8 text frames delimited by \x00...\xff, and
+      # a length-prefixed binary framing format (never used for closing in practice).
       class Handler75 < Base
         # @see WebSocket::Frame::Base#supported_frames
         def supported_frames
@@ -14,7 +17,7 @@ module WebSocket
         def encode_frame
           case @frame.type
           when :close then "\xff\x00"
-          when :text then
+          when :text
             ary = ["\x00", @frame.data, "\xff"]
             ary.map { |s| s.encode('UTF-8', 'UTF-8', invalid: :replace) }
             ary.join
@@ -24,7 +27,7 @@ module WebSocket
 
         # @see WebSocket::Frame::Handler::Base#decode_frame
         def decode_frame
-          return if @frame.data.size.zero?
+          return if @frame.data.empty?
 
           pointer = 0
           frame_type = @frame.data.getbyte(pointer)
@@ -36,6 +39,7 @@ module WebSocket
 
             loop do
               return unless @frame.data.getbyte(pointer)
+
               b = @frame.data.getbyte(pointer)
               pointer += 1
               b_v = b & 0x7F
@@ -52,9 +56,7 @@ module WebSocket
               @frame.instance_variable_set '@data', @frame.data[(pointer + length)..-1]
 
               # If the /frame type/ is 0xFF and the /length/ was 0, then close
-              if length.zero?
-                @frame.class.new(version: @frame.version, type: :close, decoded: true)
-              end
+              @frame.class.new(version: @frame.version, type: :close, decoded: true) if length.zero?
             end
           else
             # If the high-order bit of the /frame type/ byte is _not_ set

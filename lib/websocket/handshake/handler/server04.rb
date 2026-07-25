@@ -5,6 +5,8 @@ require 'digest/sha1'
 module WebSocket
   module Handshake
     module Handler
+      # Server handshake for hybi drafts 04-17 and RFC 6455, responding with the
+      # SHA1-based Sec-WebSocket-Accept signature.
       class Server04 < Server
         # @see WebSocket::Handshake::Base#valid?
         def valid?
@@ -31,12 +33,14 @@ module WebSocket
         # @return [String] signature
         def signature
           return unless key
+
           string_to_sign = "#{key}258EAFA5-E914-47DA-95CA-C5AB0DC85B11"
           [Digest::SHA1.digest(string_to_sign)].pack('m').chomp
         end
 
         def verify_key
           raise WebSocket::Error::Handshake::InvalidAuthentication unless key
+
           true
         end
 
@@ -46,6 +50,7 @@ module WebSocket
 
         def protocol
           return [] unless @handshake.headers.key?('sec-websocket-protocol')
+
           protos = @handshake.headers['sec-websocket-protocol'].split(/ *, */) & @handshake.protocols
           [['Sec-WebSocket-Protocol', protos.first]]
         end

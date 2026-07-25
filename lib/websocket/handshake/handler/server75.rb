@@ -3,6 +3,7 @@
 module WebSocket
   module Handshake
     module Handler
+      # Server handshake for the original hixie-75 draft, with no authentication challenge.
       class Server75 < Server
         private
 
@@ -31,6 +32,7 @@ module WebSocket
 
         def protocol
           return [] unless @handshake.headers.key?(headers[:protocol].downcase)
+
           proto = @handshake.headers[headers[:protocol].downcase]
           [[headers[:protocol], @handshake.protocols.include?(proto) ? proto : nil]]
         end

@@ -3,13 +3,15 @@
 module WebSocket
   module Handshake
     module Handler
+      # Shared behaviour for hybi-family client handshakes (drafts 01 and up):
+      # the GET request line, header assembly and sub-protocol negotiation.
       class Client < Base
         private
 
         # @see WebSocket::Handshake::Handler::Base#header_line
         def header_line
           path = @handshake.path
-          path += '?' + @handshake.query if @handshake.query
+          path += "?#{@handshake.query}" if @handshake.query
           "GET #{path} HTTP/1.1"
         end
 
@@ -22,8 +24,10 @@ module WebSocket
         # @return [Boolean] True if matching. False otherwise(appropriate error is set)
         def verify_protocol
           return true if supported_protocols.empty?
+
           protos = provided_protocols & supported_protocols
           raise WebSocket::Error::Handshake::UnsupportedProtocol if protos.empty?
+
           true
         end
       end

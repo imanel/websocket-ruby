@@ -97,19 +97,19 @@ RSpec.shared_examples_for 'all server drafts' do
   it 'parses a rack request' do
     request = WEBrick::HTTPRequest.new(ServerSoftware: 'rspec')
     expect(request.parse(StringIO.new(client_request))).to be true
-    rest = client_request.slice((request.to_s.length..-1))
+    rest = client_request.slice(request.to_s.length..-1)
 
     handshake.from_rack(request.meta_vars.merge(
                           'rack.input' => StringIO.new(rest),
                           :random_key => :random_value
-    ))
+                        ))
     validate_request
   end
 
   it 'parses a hash request' do
     request = WEBrick::HTTPRequest.new(ServerSoftware: 'rspec')
     expect(request.parse(StringIO.new(client_request))).to be true
-    body = client_request.slice((request.to_s.length..-1))
+    body = client_request.slice(request.to_s.length..-1)
 
     path = request.path
     query = request.query_string

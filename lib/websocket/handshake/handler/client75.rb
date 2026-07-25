@@ -3,6 +3,7 @@
 module WebSocket
   module Handshake
     module Handler
+      # Client handshake for the original hixie-75 draft, with no authentication challenge.
       class Client75 < Client
         # @see WebSocket::Handshake::Base#valid?
         def valid?

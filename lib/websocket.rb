@@ -36,11 +36,16 @@ module WebSocket
   def self.should_raise=(val)
     @should_raise = val
   end
+
+  # Attempt to load the optional `websocket-native` gem, which provides a native
+  # (C/Java) implementation of frame masking for extra speed. This is a no-op if
+  # the gem is not installed; any other LoadError is re-raised.
+  # @see https://github.com/imanel/websocket-ruby-native
+  def self.load_native_extension
+    require 'websocket-native'
+  rescue LoadError => e
+    raise unless e.message =~ /websocket-native/
+  end
 end
 
-# Try loading websocket-native if available
-begin
-  require 'websocket-native'
-rescue LoadError => e
-  raise unless e.message =~ /websocket-native/
-end
+WebSocket.load_native_extension

@@ -5,6 +5,8 @@ require 'digest/md5'
 module WebSocket
   module Handshake
     module Handler
+      # Client handshake for hybi drafts 01-03, which reuse the hixie-76 challenge/response
+      # but add a numeric Sec-WebSocket-Draft header.
       class Client01 < Client76
         private
 

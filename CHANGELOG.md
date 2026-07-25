@@ -2,6 +2,14 @@
 
 ## Edge
 
+- add Ruby 4.0 to the CI test matrix and verify the full suite passes on it
+- upgrade development dependencies to current, maintained versions (rspec, rubocop, rubocop-rspec, rake, webrick)
+- add bundler-audit and simplecov to the development toolchain
+- raise `required_ruby_version` to match the Ruby versions actually covered by CI
+- replace the abandoned, unpinned `cadwallion/publish-rubygems-action` in the release workflow with a plain `gem build`/`gem push` step
+- reach 100% line and branch test coverage
+- add YARD documentation to previously undocumented public classes and methods
+
 ## 1.2.11
 
 - remove unused base64 require that would cause issues in Ruby 3.4

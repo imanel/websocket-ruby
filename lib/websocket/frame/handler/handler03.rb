@@ -6,6 +6,9 @@ require 'securerandom'
 module WebSocket
   module Frame
     module Handler
+      # Frame encoder/decoder for hybi drafts 00-03 of the protocol.
+      # Introduces binary framing with opcodes, the "more" continuation bit,
+      # extended payload lengths and (unlike hixie) no payload masking.
       class Handler03 < Base
         # Hash of frame names and it's opcodes
         FRAME_TYPES = {
@@ -20,6 +23,7 @@ module WebSocket
         # Hash of frame opcodes and it's names
         FRAME_TYPES_INVERSE = FRAME_TYPES.invert.freeze
 
+        # @param frame [WebSocket::Frame::Base] Frame that owns this handler
         def initialize(frame)
           super
           @application_data_buffer = nil
@@ -58,13 +62,15 @@ module WebSocket
               return decode_finish_continuation_frame(application_data)
             else
               raise(WebSocket::Error::Frame::InvalidPayloadEncoding) if frame_type == :text && !application_data.valid_encoding?
+
               return @frame.class.new(version: @frame.version, type: frame_type, data: application_data, decoded: true)
             end
           end
           nil
         end
 
-        # Allow turning on or off masking
+        # Drafts 00-04 do not use payload masking.
+        # @return [Boolean] false
         def masking?
           false
         end
@@ -210,9 +216,11 @@ module WebSocket
 
         def decode_finish_continuation_frame(application_data)
           raise(WebSocket::Error::Frame::UnexpectedContinuationFrame) unless @frame_type
+
           @application_data_buffer << application_data
           # Test valid UTF-8 encoding
           raise(WebSocket::Error::Frame::InvalidPayloadEncoding) if @frame_type == :text && !@application_data_buffer.valid_encoding?
+
           message = @frame.class.new(version: @frame.version, type: @frame_type, data: @application_data_buffer, decoded: true)
           @application_data_buffer = nil
           @frame_type = nil

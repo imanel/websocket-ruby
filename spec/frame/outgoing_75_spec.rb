@@ -42,4 +42,13 @@ RSpec.describe 'Outgoing frame draft 75' do
 
     it_behaves_like 'valid_outgoing_frame'
   end
+
+  describe '#encode_frame (internal helper)' do
+    it 'raises for a frame type the handler does not know how to encode' do
+      handler = frame.instance_variable_get(:@handler)
+      frame.instance_variable_set(:@type, :ping)
+
+      expect { handler.encode_frame }.to raise_error(WebSocket::Error::Frame::UnknownFrameType)
+    end
+  end
 end

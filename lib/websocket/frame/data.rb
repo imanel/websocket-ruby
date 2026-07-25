@@ -20,6 +20,7 @@ module WebSocket
       # Extract mask from 4 first bytes according to spec
       def set_mask
         raise WebSocket::Error::Frame::MaskTooShort if bytesize < 4
+
         @masking_key = self[0..3].bytes.to_a
       end
 
@@ -38,6 +39,7 @@ module WebSocket
       # Mask whole payload using mask key
       def mask(payload, mask)
         return mask_native(payload, mask) if respond_to?(:mask_native)
+
         result = []
         payload.each_with_index do |byte, i|
           result[i] = byte ^ mask[i % 4]
