@@ -2,6 +2,7 @@
 
 ## Edge
 
+- fix `bundle install`/`rspec` on Ruby 2.1-3.1: gate `rubocop`, `rubocop-rspec` (require Ruby >= 2.7) and `simplecov` (requires Ruby >= 3.2) behind Ruby-version checks in the Gemfile, and make `spec_helper.rb` tolerate simplecov not being installed
 - add Ruby 4.0 to the CI test matrix and verify the full suite passes on it
 - upgrade development dependencies to current, maintained versions (rspec, rubocop, rubocop-rspec, rake, webrick)
 - add bundler-audit and simplecov to the development toolchain

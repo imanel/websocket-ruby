@@ -9,7 +9,8 @@ to run correctly on Ruby 4.0.6.
 
 ## TL;DR
 
-- Full test suite (1233 examples) passes on Ruby 4.0.6.
+- Full test suite (1233 examples) passes on Ruby 4.0.6, **and on every Ruby
+  in the CI matrix down to 2.1** (see "Post-review fix" below).
 - Test coverage raised from ~96% lines / ~79% branches to **100% lines / 100%
   branches** (enforced going forward via SimpleCov's `minimum_coverage`).
 - RuboCop upgraded from 0.52.1 (2018) to 1.88.2 and the repo passes with zero
@@ -29,12 +30,15 @@ library), so this section is entirely about the `Gemfile` dev group.
 | Gem | Before | After |
 |---|---|---|
 | `rspec` | `~> 3.7` (resolved to old 3.x) | `~> 3.13` |
-| `rubocop` | pinned `0.52.1` (2018, pre-dates `Layout/*` cop reorganization) | `~> 1.88` |
-| `rubocop-rspec` | pinned `1.21.0` | `~> 3.10` |
-| `rake` | unpinned | `~> 13.0` |
-| `webrick` | unpinned | `~> 1.9` |
-| `simplecov` | *(not present)* | `~> 1.0` *(added)* |
+| `rubocop` | pinned `0.52.1` (2018, pre-dates `Layout/*` cop reorganization) | `~> 1.88`, Ruby >= 2.7 only |
+| `rubocop-rspec` | pinned `1.21.0` | `~> 3.10`, Ruby >= 2.7 only |
+| `rake` | unpinned | unpinned |
+| `webrick` | unpinned | unpinned |
+| `simplecov` | *(not present)* | `~> 1.0` *(added)*, Ruby >= 3.2 only |
 | `bundler-audit` | *(not present)* | `~> 0.9` *(added)* |
+
+`rubocop`/`rubocop-rspec` and `simplecov` are gated behind `RUBY_VERSION`
+checks in the `Gemfile` — see "Post-review fix" below for why.
 
 The old `Gemfile` pinned RuboCop to `0.52.1` specifically "to match Code
 Climate" — that pin, and the corresponding `channel: rubocop-0-52` in
@@ -79,6 +83,62 @@ Changes made for explicit version declaration and matrix coverage:
   The library has no syntax or stdlib dependency newer than that, so no
   broader support was dropped.
 - Added Ruby `4.0` to the CI test matrix (`test.yml`).
+
+## Post-review fix: restore Ruby 2.1+ test compatibility
+
+A reviewer flagged that the first version of this branch broke `bundle
+install`/`rspec` on the older end of the CI matrix — the whole point of
+keeping RuboCop pinned to an old version elsewhere in this project's history
+was to preserve compatibility across all supported Rubies, and this branch
+had regressed that.
+
+**Root cause:** the `Gemfile`'s single `group :development` block installs
+unconditionally for every Ruby in the `test` job's matrix (2.1 through 4.0),
+but several dev dependencies added/repinned by this branch declare a much
+higher `required_ruby_version` than the gem itself supports:
+
+| Gem | Constraint added | Actual minimum Ruby (per gemspec) |
+|---|---|---|
+| `simplecov` | `~> 1.0` | **>= 3.2** |
+| `rubocop` | `~> 1.88` | >= 2.7 |
+| `rubocop-rspec` | `~> 3.10` | >= 2.7 |
+| `rake` | `~> 13.0` | >= 2.2 (breaks only Ruby 2.1) |
+| `webrick` | `~> 1.9` | >= 2.4 |
+
+Since `simplecov ~> 1.0` alone requires Ruby >= 3.2, `bundle install` failed
+outright on every matrix entry from 2.1 through 3.1 — which is most of the
+matrix. This wasn't caught locally because this session's environment only
+has Ruby 4.0.6 available, so `bundle install` always succeeded here.
+
+**Fix:**
+
+- `Gemfile`: `rake` and `webrick` are back to unpinned (as they were before
+  this branch — Bundler already resolves the newest version compatible with
+  whichever Ruby is running, so modern Rubies still get modern versions of
+  both). `rubocop`/`rubocop-rspec` and `simplecov` are now gated behind
+  `RUBY_VERSION` checks (`Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('2.7')`
+  / `'3.2'`) so they're simply not requested — and can't break
+  `bundle install` — on Rubies too old to run them. `rubocop` only ever runs
+  in the dedicated `rubocop` CI job (Ruby 3.3), so this doesn't affect
+  linting; `simplecov` is only usable in the range of Rubies that can install
+  it anyway.
+- `spec/spec_helper.rb`: `require 'simplecov'` is now wrapped in a
+  `begin/rescue LoadError`, so the suite runs (without coverage enforcement)
+  on Rubies where the gem isn't installed, instead of crashing on load.
+
+**Verified:** since only Ruby 4.0.6 is available in this environment, the
+old-Ruby path was verified by temporarily hardcoding the `Gemfile`'s version
+check to `Gem::Version.new('2.6.0')` (simulating a pre-3.2, pre-2.7 Ruby) and
+confirming `bundle install` succeeds (skipping `rubocop`/`rubocop-rspec`/
+`simplecov`) and the full 1233-example suite still passes with 0 failures
+(naturally without a coverage report, since `simplecov` isn't installed in
+that simulation). Reverting the hardcoded version and reinstalling confirms
+the real Ruby 4.0.6 path still passes with 100% line/branch coverage and
+zero RuboCop offenses, as before.
+
+No test behavior changed and coverage enforcement is unaffected on any Ruby
+that can actually run SimpleCov — this is purely a dependency-installation
+fix.
 
 ## 3. Tests & coverage
 

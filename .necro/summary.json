@@ -3,13 +3,21 @@
   "blocked_reason": null,
   "dependency_changes": [
     "rspec: ~> 3.7 -> ~> 3.13",
-    "rubocop: pinned 0.52.1 -> ~> 1.88",
-    "rubocop-rspec: pinned 1.21.0 -> ~> 3.10",
-    "rake: unpinned -> ~> 13.0",
-    "webrick: unpinned -> ~> 1.9",
-    "added simplecov ~> 1.0 for coverage measurement/enforcement",
+    "rubocop: pinned 0.52.1 -> ~> 1.88, now gated to Ruby >= 2.7 in the Gemfile (see review_fixes)",
+    "rubocop-rspec: pinned 1.21.0 -> ~> 3.10, now gated to Ruby >= 2.7 in the Gemfile (see review_fixes)",
+    "rake: unpinned -> unpinned (reverted a ~> 13.0 pin that broke Ruby 2.1, see review_fixes)",
+    "webrick: unpinned -> unpinned (reverted a ~> 1.9 pin that broke Ruby 2.1-2.3, see review_fixes)",
+    "added simplecov ~> 1.0 for coverage measurement/enforcement, gated to Ruby >= 3.2 in the Gemfile (see review_fixes)",
     "added bundler-audit ~> 0.9 for dependency vulnerability scanning",
     "replaced abandoned/unpinned cadwallion/publish-rubygems-action@master GitHub Action with a plain gem build/gem push step using only official actions"
+  ],
+  "review_fixes": [
+    {
+      "feedback": "Please fix the tests in Ruby 2.1+. One of the reasons why I'm using so old Rubocop is to maintain full compatibility across all versions.",
+      "root_cause": "The Gemfile's single development group installed simplecov (~> 1.0, requires Ruby >= 3.2), rubocop/rubocop-rspec (require Ruby >= 2.7), and pinned rake/webrick (require Ruby >= 2.2/2.4) unconditionally, so `bundle install` failed on every Ruby in the CI test matrix below 3.2 (2.1 through 3.1) -- most of the matrix.",
+      "fix": "Gated rubocop, rubocop-rspec, and simplecov behind RUBY_VERSION checks in the Gemfile so they are only requested on Rubies that actually support them; reverted the rake/webrick version pins to unpinned (as before this branch). spec/spec_helper.rb now tolerates simplecov not being installed (begin/rescue LoadError around the require), so the suite still runs -- without coverage enforcement -- on older Rubies.",
+      "verification": "Only Ruby 4.0.6 is available in this environment, so the old-Ruby path was verified by temporarily hardcoding the Gemfile's RUBY_VERSION check to a simulated 2.6.0: `bundle install` then succeeds while skipping rubocop/rubocop-rspec/simplecov, and the full 1233-example suite passes with 0 failures. Reverted the simulation and reran on the real Ruby 4.0.6: 1233 examples, 0 failures, 100% line/branch coverage, 0 RuboCop offenses -- unchanged from before this fix."
+    }
   ],
   "security_findings": [
     "No known vulnerabilities found by bundler-audit against the full dependency set (ruby-advisory-db, 1218 advisories synced at audit time)",

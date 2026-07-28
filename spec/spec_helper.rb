@@ -1,10 +1,15 @@
 # frozen_string_literal: true
 
-require 'simplecov'
-SimpleCov.start do
-  skip '/spec/'
-  enable_coverage :branch
-  minimum_coverage line: 100, branch: 100
+begin
+  require 'simplecov'
+  SimpleCov.start do
+    skip '/spec/'
+    enable_coverage :branch
+    minimum_coverage line: 100, branch: 100
+  end
+rescue LoadError
+  # simplecov requires Ruby >= 3.2 and isn't installed on older Rubies
+  # (see Gemfile) — the suite still runs, just without coverage enforcement.
 end
 
 require 'rspec'
