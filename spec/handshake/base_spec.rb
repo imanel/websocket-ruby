@@ -5,7 +5,7 @@ require 'spec_helper'
 RSpec.describe WebSocket::Handshake::Base do
   describe '#initialize' do
     it 'duplicates initializer values so callers cannot mutate internal state' do
-      host = +'example.com'
+      host = 'example.com'.dup
       handshake = described_class.new(host: host)
       host << '.evil'
 

@@ -18,8 +18,13 @@ group :development do
     gem 'rubocop-rspec', '~> 3.10', require: false
   end
 
-  # simplecov 1.0.x requires Ruby >= 3.2; gated for the same reason as above.
-  gem 'simplecov', '~> 1.0', require: false if running_ruby_version >= Gem::Version.new('3.2')
+  # simplecov 1.0.x requires Ruby >= 3.2. JRuby is excluded even when it
+  # reports a compatible RUBY_VERSION: JRuby's Coverage data is documented
+  # (by simplecov itself, and github.com/jruby/jruby#1196) to undercount
+  # unless JRuby's full-trace mode is explicitly enabled, which this CI
+  # config does not do -- so the 100% `minimum_coverage` gate below would
+  # spuriously fail there even though the suite itself passes.
+  gem 'simplecov', '~> 1.0', require: false if RUBY_ENGINE != 'jruby' && running_ruby_version >= Gem::Version.new('3.2')
 end
 
 gemspec

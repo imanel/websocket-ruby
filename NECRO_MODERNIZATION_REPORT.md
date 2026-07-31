@@ -10,7 +10,9 @@ to run correctly on Ruby 4.0.6.
 ## TL;DR
 
 - Full test suite (1233 examples) passes on Ruby 4.0.6, **and on every Ruby
-  in the CI matrix down to 2.1** (see "Post-review fix" below).
+  in the CI matrix down to 2.1** (see "Post-review fix" and "Second
+  post-review fix" below) — the latter verified against real Ruby 2.1.9 and
+  real JRuby 10.0.2.0 binaries, not simulated.
 - Test coverage raised from ~96% lines / ~79% branches to **100% lines / 100%
   branches** (enforced going forward via SimpleCov's `minimum_coverage`).
 - RuboCop upgraded from 0.52.1 (2018) to 1.88.2 and the repo passes with zero
@@ -139,6 +141,96 @@ zero RuboCop offenses, as before.
 No test behavior changed and coverage enforcement is unaffected on any Ruby
 that can actually run SimpleCov — this is purely a dependency-installation
 fix.
+
+## Second post-review fix: Ruby 2.1 and JRuby were still red
+
+A second round of reviewer feedback reported the CI checks "Ruby jruby" and
+"Ruby 2.1" were *still* failing after the fix above. That fix only addressed
+`bundle install` failing outright; it turned out two more, unrelated bugs
+were hiding behind it. Rather than repeat the previous round's mistake of
+reasoning about old Rubies from a machine that only has Ruby 4.0.6 installed,
+this round downloaded and ran the actual interpreters:
+
+- Ruby 2.1.9 (the exact version `ruby/setup-ruby`'s `2.1` matrix entry
+  resolves to) from `ruby/ruby-builder`'s `toolcache` release
+  (`ruby-2.1.9-ubuntu-24.04.tar.gz` — a real prebuilt binary for the current
+  `ubuntu-latest`, disproving an early hypothesis that Ruby 2.1 simply can't
+  be provisioned on modern Ubuntu runners anymore).
+- JRuby 10.0.2.0 (the version `ruby/setup-ruby`'s `jruby` alias currently
+  resolves to) from the same `toolcache` release, plus a Temurin 21 JDK
+  (JRuby has no JRE of its own).
+
+Both were unpacked, pointed at a real, unmodified checkout of this branch's
+`Gemfile`, and run through `bundle install` + `bundle exec rspec` for real —
+no `RUBY_VERSION`-check hardcoding this time.
+
+### Bug 1 — Ruby 2.1: `+'example.com'` in a spec
+
+Real Ruby 2.1.9 run of the suite:
+
+```
+NoMethodError:
+  undefined method `+@' for "example.com":String
+# ./spec/handshake/base_spec.rb:8:in `block (3 levels) in <top (required)>'
+```
+
+`spec/handshake/base_spec.rb` (added by this branch's first commit) used the
+unary string-freeze operator `+'example.com'` to get a mutable, unfrozen
+string despite the file's `# frozen_string_literal: true` magic comment.
+That operator doesn't exist before Ruby 2.3 — one of the exact syntax traps
+called out in this project's stated floor. This was missed the first time
+because the grep used to hunt for `+"..."`/`-"..."` literals only matched
+double-quoted strings; this one uses single quotes.
+
+**Fix:** `'example.com'.dup` — `String#dup` on a frozen literal has always
+returned an unfrozen copy, on every Ruby version this project supports.
+
+**Verified:** with this one-line fix, all 1233 examples pass on the real
+Ruby 2.1.9 binary (`bundle install` also resolves rspec-core 3.13.6 there
+without issue — its gemspec's `required_ruby_version` has stayed `>= 1.8.7`
+throughout the 3.x series, so no version pin change was needed or made).
+
+### Bug 2 — JRuby: SimpleCov's branch coverage silently undercounts
+
+Real JRuby 10.0.2.0 run of the suite, with `simplecov` installed (JRuby 10
+reports `RUBY_VERSION` "3.4.2", which satisfied the `>= 3.2` gate added in
+the first post-review fix):
+
+```
+/.../simplecov-1.0.3/lib/simplecov.rb:187: warning: branch coverage is not supported
+...
+1233 examples, 0 failures
+
+Line coverage: 868 / 875 (99.20%)
+Line coverage (99.20%) is below the expected minimum coverage (100.00%).
+SimpleCov failed with exit 2 due to a coverage related error
+```
+
+Every example passes, but SimpleCov's own coverage instrumentation
+undercounts on JRuby unless JRuby's full-trace mode is turned on (this is
+documented in simplecov's source, with links to
+`github.com/jruby/jruby#1196` and `simplecov-ruby/simplecov#420`/`#86`) —
+this CI config doesn't enable it, and enabling it repo-wide only to satisfy
+one CI job's coverage tool felt like the wrong trade-off. Since the earlier
+`RUBY_VERSION >= 3.2` gate goes by JRuby's *reported MRI-compatibility
+version* rather than which Ruby engine is actually running, JRuby slipped
+past the gate meant to keep SimpleCov off Rubies it doesn't fully work on.
+
+**Fix:** `Gemfile` now also excludes `simplecov` when `RUBY_ENGINE ==
+'jruby'`, regardless of which Ruby version JRuby reports compatibility
+with. `spec/spec_helper.rb` already tolerates `simplecov` not being
+installed (see the first post-review fix), so no other change was needed.
+
+**Verified:** with this fix, all 1233 examples pass on the real JRuby
+10.0.2.0 binary and `bundle install` no longer pulls in `simplecov` there at
+all (confirmed both by the dependency count in `bundle install`'s output and
+by the absence of the "branch coverage is not supported" warning). Reverting
+just this one Gemfile line and re-running against the same JRuby binary
+reproduces the exact failure above, confirming the fix (and not something
+else) is what makes JRuby pass.
+
+Ruby 4.0.6 was re-verified after both fixes: 1233 examples, 0 failures, 100%
+line/branch coverage, 0 RuboCop offenses — unchanged.
 
 ## 3. Tests & coverage
 
