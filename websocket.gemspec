@@ -19,4 +19,6 @@ Gem::Specification.new do |s|
   s.require_paths = ['lib']
 
   s.required_ruby_version = '>= 2.0'
+
+  s.metadata['changelog_uri'] = s.homepage + '/blob/master/CHANGELOG.md'
 end
