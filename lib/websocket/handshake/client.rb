@@ -123,7 +123,14 @@ module WebSocket
         line_parts = line.match(FIRST_LINE)
         raise WebSocket::Error::Handshake::InvalidHeader unless line_parts
         status = line_parts[1]
-        raise WebSocket::Error::Handshake::InvalidStatusCode unless status == '101'
+
+        # The signature for the error doesn't take the message as the first
+        # argument, but rather the status code. So this should use the
+        # initializer to create the error.
+        #
+        # rubocop:disable Style/RaiseArgs
+        raise WebSocket::Error::Handshake::InvalidStatusCode.new(status) unless status == '101'
+        # rubocop:enable Style/RaiseArgs
       end
     end
   end
