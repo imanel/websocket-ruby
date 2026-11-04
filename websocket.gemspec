@@ -14,8 +14,7 @@ Gem::Specification.new do |s|
   s.description = 'Universal Ruby library to handle WebSocket protocol'
   s.license     = 'MIT'
 
-  s.files         = `git ls-files`.split("\n").reject { |f| f.match(%r{^(spec/|\.)}) }
-  s.executables   = `git ls-files -- bin/*`.split("\n").map { |f| File.basename(f) }
+  s.files         = `git ls-files lib CHANGELOG.md README.md`.split("\n")
   s.require_paths = ['lib']
 
   s.required_ruby_version = '>= 2.0'
